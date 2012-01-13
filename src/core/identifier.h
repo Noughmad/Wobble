@@ -143,7 +143,8 @@ T* Identifier::findMember(const QString& name)
     return 0;
 }
 
-
 }
+
+QDebug& operator<<(QDebug& stream, Wobble::Identifier* id);
 
 #endif // WOBBLE_IDENTIFIER_H

@@ -23,6 +23,7 @@
 
 #include "src/core/input.h"
 #include "src/core/project.h"
+#include <core/output.h>
 
 using namespace Wobble;
 
@@ -34,12 +35,25 @@ int main(int argc, char** argv)
     Input* input = qobject_cast<Input*>(loader.instance());
     if (!input)
     {
-        qDebug() << "Unable to load plugin";
+        qDebug() << "Unable to load input plugin";
+        qDebug() << loader.errorString();
         return 0;
     }
     
     Project* project = new Project();
     input->read(project, QVariantMap());
+    
+    QPluginLoader oloader("/home/miha/Programiranje/Wobble/build/src/outputs/debug/libWobbleDebugOutput.so");
+    Output* output = qobject_cast< Output* >(oloader.instance());
+    
+    if (!output)
+    {
+        qDebug() << "Unable to load output plugin";
+        qDebug() << oloader.errorString();
+        return 0;
+    }
+    
+    output->write(project, QVariantMap());
     
     return 0;
 }

@@ -36,11 +36,7 @@ ClassPrivate::~ClassPrivate()
 
 Class::Class(const QString& name, Identifier* space, QObject* parent): Type(*new ClassPrivate(name, space), parent)
 {
-    qDebug() << "Created class " << name;
-    if (space)
-    {
-        qDebug() << "  in namespace " << space->name();
-    }
+
 }
 
 Class::Class(ClassPrivate& dd, QObject* parent): Type(dd, parent)
@@ -63,17 +59,6 @@ void Class::setSuperclasses(const QList< Class* >& superclasses)
 {
     Q_D(Class);
     d->superclasses = superclasses;
-    
-    qDebug() << "Adding superclasses:";
-    foreach (Class* c, superclasses)
-    {
-        if (c)
-            qDebug() << "  " << c->name();
-        else
-            qDebug() << "  Null superclass";
-    }
-    qDebug() << "To class " << name();
-    
 }
 
 Class::Features Class::features() const

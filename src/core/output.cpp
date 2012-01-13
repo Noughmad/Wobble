@@ -23,4 +23,13 @@
 using namespace Wobble;
 
 
+Output::Output(QObject* parent): QObject(parent)
+{
+
+}
+
+Output::~Output()
+{
+
+}
 

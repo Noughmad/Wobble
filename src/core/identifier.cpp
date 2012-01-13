@@ -40,7 +40,6 @@ Identifier::Identifier(const QString& name, Identifier* space, QObject* parent):
     {
         space->addMember(this);
     }
-    qDebug() << "Created " << metaObject()->className() << " with name " << name;
 }
 
 Identifier::Identifier(IdentifierPrivate& dd, QObject* parent): QObject(parent), d_ptr(&dd)
@@ -119,5 +118,9 @@ void Identifier::addMember(Identifier* identifier)
     d->members << identifier;
 }
 
+QDebug& operator<<(QDebug& stream, Identifier* id) {
+    stream << id->metaObject()->className() << " " << id->fullName("::");
+    return stream;
+}
 
 #include "identifier.moc"
