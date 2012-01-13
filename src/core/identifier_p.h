@@ -21,6 +21,7 @@
 #define WOBBLE_IDENTIFIER_P_H
 
 #include <QString>
+#include <QList>
 
 namespace Wobble {
     
@@ -31,11 +32,13 @@ class IdentifierPrivate
 
 public:
     IdentifierPrivate();
+    IdentifierPrivate(const QString& name, Identifier* space);
     virtual ~IdentifierPrivate();
     
     QString name;
     Identifier* space;
     QString documentation;
+    QList<Identifier*> members;
 };
 
 }

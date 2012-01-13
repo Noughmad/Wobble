@@ -17,24 +17,29 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef WOBBLE_TYPE_P_H
-#define WOBBLE_TYPE_P_H
+#include <QCoreApplication>
+#include <QPluginLoader>
+#include <QDebug>
 
-#include "identifier_p.h"
+#include "src/core/input.h"
+#include "src/core/project.h"
 
-namespace Wobble {
-    
-class Type;
+using namespace Wobble;
 
-class TypePrivate : public IdentifierPrivate
+int main(int argc, char** argv)
 {
-
-public:
-    TypePrivate(const QString& name, Identifier* space);
-    virtual ~TypePrivate();
+    QCoreApplication app(argc, argv);
     
-};
-
+    QPluginLoader loader("/home/miha/Programiranje/Wobble/build/src/inputs/yaml/libWobbleYamlInput.so");
+    Input* input = qobject_cast<Input*>(loader.instance());
+    if (!input)
+    {
+        qDebug() << "Unable to load plugin";
+        return 0;
+    }
+    
+    Project* project = new Project();
+    input->read(project, QVariantMap());
+    
+    return 0;
 }
-
-#endif // WOBBLE_TYPE_P_H

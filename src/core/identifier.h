@@ -24,6 +24,7 @@
 #include <QVariantMap>
 #include <QtCore/QString>
 
+#include <QDebug>
 
 /**
  * @brief Main namespace for all Wobble classes
@@ -114,8 +115,12 @@ public:
      * i.e. all identifiers with this as their namespace. 
      **/
     QList<Identifier*> members() const;
+    void addMember(Identifier* identifier);
     
-    virtual QVariantMap serialize() const;
+    template <class T>
+    T* findMember(const QString& name);
+    
+//    virtual QVariantMap serialize() const;
         
 protected:
     IdentifierPrivate* const d_ptr;
@@ -124,6 +129,20 @@ protected:
 private:
     Q_DECLARE_PRIVATE(Identifier)
 };
+
+template <class T>
+T* Identifier::findMember(const QString& name)
+{
+    foreach (Identifier* i, members())
+    {
+        if (i->name() == name)
+        {
+            return qobject_cast<T*>(i);
+        }
+    }
+    return 0;
+}
+
 
 }
 

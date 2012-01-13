@@ -1,0 +1,15 @@
+project: zoo
+
+classes:
+- name: animal
+
+- name: flying
+
+- name: mammal
+  super: animal
+
+- name: bat
+  super: [mammal, flying]
+
+- name: bird
+  super: animal

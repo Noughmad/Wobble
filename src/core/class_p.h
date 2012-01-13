@@ -3,15 +3,21 @@
 
 #include "type_p.h"
 
+#include <QList>
+
 
 namespace Wobble {
+    
+    class Class;
 
 class ClassPrivate : public TypePrivate
 {
 
 public:
-    ClassPrivate();
+    ClassPrivate(const QString& name, Identifier* space);
     virtual ~ClassPrivate();
+    QList< Class* > superclasses;
+    int features;
 };
 
 }

@@ -43,11 +43,13 @@ namespace Wobble {
     Q_ENUMS(Feature)
     Q_FLAGS(Features)
     
-    Q_PROPERTY(QList<Class> superclasses READ superclasses WRITE setSuperclasses)
+    Q_PROPERTY(QList<Class*> superclasses READ superclasses WRITE setSuperclasses)
     Q_PROPERTY(Features features READ features WRITE setFeatures)
 
-    Q_PROPERTY(QList<Variable> members READ members STORED false)
-    Q_PROPERTY(QList<Function> methods READ methods STORED false)
+    /*
+    Q_PROPERTY(QList<Variable*> members READ members STORED false)
+    Q_PROPERTY(QList<Function*> methods READ methods STORED false)
+    */
     
 public:
     enum Feature
@@ -67,7 +69,10 @@ public:
     static Class* find(const QString& name);
     
     QList<Class*> superclasses();
-    void setSuperclasses(const QList<Class*> superclasses);
+    void setSuperclasses(const QList<Class*>& superclasses);
+    
+    Features features() const;
+    void setFeatures(Features features);
     
 protected:
     Class(ClassPrivate& dd, QObject* parent = 0);

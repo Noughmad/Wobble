@@ -10,7 +10,7 @@ class Class;
 
 class Type : public Identifier
 {
-
+    Q_OBJECT
 public:
     enum StandardType
     {

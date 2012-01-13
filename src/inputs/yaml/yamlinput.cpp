@@ -31,7 +31,7 @@ using namespace std;
 
 YamlInput::YamlInput(QObject* parent): Input(parent)
 {
-
+   
 }
 
 YamlInput::~YamlInput()
@@ -47,7 +47,7 @@ QString YamlInput::name()
 bool YamlInput::read(Wobble::Project* project, QVariantMap options)
 {
     mProject = project;
-    ifstream stream(options["filename"].toByteArray());
+    ifstream stream("/home/miha/Programiranje/Wobble/test/zoo.yaml");
     YAML::Parser parser(stream);
     
     YAML::Node node;
@@ -60,7 +60,7 @@ bool YamlInput::read(Wobble::Project* project, QVariantMap options)
         string key;
         it.first() >> key;
         
-        if (key == "name")
+        if (key == "project")
         {
             project->setName(readString(it.second()));
         }
@@ -88,16 +88,20 @@ void YamlInput::readClasses(const YAML::Node& node)
             QList<Class*> superClasses;
             if (super->Type() == NodeType::Scalar)
             {
-                superClasses << Class::find(readString(*super));
+                superClasses << mProject->findMember<Class>(readString(*super));
             }
             else if (super->Type() == NodeType::Sequence)
             {
                 for (Iterator si = super->begin(); si != super->end(); ++si)
                 {
-                    superClasses << Class::find(readString(*si));
+                    superClasses << mProject->findMember<Class>(readString(*si));
                 }
             }
             c->setSuperclasses(superClasses);
         }
     }
 }
+
+Q_EXPORT_PLUGIN2(WobbleYamlInput, YamlInput)
+
+#include "yamlinput.moc"

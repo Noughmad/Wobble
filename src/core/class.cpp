@@ -20,11 +20,27 @@
 #include "class.h"
 #include "class_p.h"
 
+#include <QDebug>
+
 using namespace Wobble;
 
-Class::Class(const QString& name, Identifier* space, QObject* parent): Type(name, space, parent)
+ClassPrivate::ClassPrivate(const QString& name, Identifier* space) : TypePrivate(name, space)
 {
+    
+}
 
+ClassPrivate::~ClassPrivate()
+{
+    
+}
+
+Class::Class(const QString& name, Identifier* space, QObject* parent): Type(*new ClassPrivate(name, space), parent)
+{
+    qDebug() << "Created class " << name;
+    if (space)
+    {
+        qDebug() << "  in namespace " << space->name();
+    }
 }
 
 Class::Class(ClassPrivate& dd, QObject* parent): Type(dd, parent)
@@ -32,4 +48,51 @@ Class::Class(ClassPrivate& dd, QObject* parent): Type(dd, parent)
 
 }
 
+Class::~Class()
+{
 
+}
+
+QList< Class* > Class::superclasses()
+{
+    Q_D(const Class);
+    return d->superclasses;
+}
+
+void Class::setSuperclasses(const QList< Class* >& superclasses)
+{
+    Q_D(Class);
+    d->superclasses = superclasses;
+    
+    qDebug() << "Adding superclasses:";
+    foreach (Class* c, superclasses)
+    {
+        if (c)
+            qDebug() << "  " << c->name();
+        else
+            qDebug() << "  Null superclass";
+    }
+    qDebug() << "To class " << name();
+    
+}
+
+Class::Features Class::features() const
+{
+    Q_D(const Class);
+    return (Features)d->features;
+}
+
+void Class::setFeatures(Class::Features features)
+{
+    Q_D(Class);
+    d->features = features;
+}
+
+Class* Class::find(const QString& name)
+{
+    return 0;
+}
+
+
+
+#include "class.moc"

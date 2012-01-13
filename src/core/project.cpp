@@ -18,3 +18,35 @@
 */
 
 #include "project.h"
+#include "project_p.h"
+
+using namespace Wobble;
+
+Project::Project() : Identifier(QString())
+{
+
+}
+
+Project::Project(ProjectPrivate& dd, QObject* parent): Identifier(dd, parent)
+{
+
+}
+
+Project::~Project()
+{
+
+}
+
+Project::ProjectType Project::projectType() const
+{
+    Q_D(const Project);
+    return (ProjectType)d->type;
+}
+
+void Project::setProjectType(Project::ProjectType type)
+{
+    Q_D(Project);
+    d->type = type;
+}
+
+#include "project.moc"

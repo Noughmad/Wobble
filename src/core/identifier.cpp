@@ -20,11 +20,13 @@
 #include "identifier_p.h"
 #include "identifier.h"
 
+#include <QDebug>
+
 using namespace Wobble;
 
-IdentifierPrivate::IdentifierPrivate()
+IdentifierPrivate::IdentifierPrivate(const QString& name, Identifier* space) : name(name), space(space)
 {
-
+    
 }
 
 IdentifierPrivate::~IdentifierPrivate()
@@ -32,16 +34,22 @@ IdentifierPrivate::~IdentifierPrivate()
 
 }
 
-Identifier::Identifier(const QString& name, Identifier* space, QObject* parent): QObject(parent), d_ptr(new IdentifierPrivate)
+Identifier::Identifier(const QString& name, Identifier* space, QObject* parent): QObject(parent), d_ptr(new IdentifierPrivate(name, space))
 {
-    Q_D(Identifier);
-    d->name = name;
-    d->space = space;
+    if (space)
+    {
+        space->addMember(this);
+    }
+    qDebug() << "Created " << metaObject()->className() << " with name " << name;
 }
 
 Identifier::Identifier(IdentifierPrivate& dd, QObject* parent): QObject(parent), d_ptr(&dd)
 {
-
+    Q_D(Identifier);
+    if (d->space)
+    {
+        d->space->addMember(this);
+    }
 }
 
 Identifier::~Identifier()
@@ -99,9 +107,17 @@ QString Identifier::fullName(const QString& separator) const
     }
 }
 
+QList< Identifier* > Identifier::members() const
+{
+    Q_D(const Identifier);
+    return d->members;
+}
+
+void Identifier::addMember(Identifier* identifier)
+{
+    Q_D(Identifier);
+    d->members << identifier;
+}
 
 
-
-
-
-
+#include "identifier.moc"

@@ -17,24 +17,24 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef WOBBLE_TYPE_P_H
-#define WOBBLE_TYPE_P_H
+#ifndef WOBBLE_PROJECT_P_H
+#define WOBBLE_PROJECT_P_H
 
 #include "identifier_p.h"
 
 namespace Wobble {
     
-class Type;
+class Project;
 
-class TypePrivate : public IdentifierPrivate
+class ProjectPrivate : public IdentifierPrivate
 {
 
 public:
-    TypePrivate(const QString& name, Identifier* space);
-    virtual ~TypePrivate();
-    
+    ProjectPrivate();
+    virtual ~ProjectPrivate();
+    int type;
 };
 
 }
 
-#endif // WOBBLE_TYPE_P_H
+#endif // WOBBLE_PROJECT_P_H

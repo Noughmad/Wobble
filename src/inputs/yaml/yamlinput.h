@@ -22,6 +22,8 @@
 
 #include "src/core/input.h"
 
+#include <QtPlugin>
+
 namespace YAML
 {
     class Node;
@@ -30,7 +32,8 @@ namespace YAML
 
 class YamlInput : public Wobble::Input
 {
-
+    Q_OBJECT
+    Q_INTERFACES(Wobble::Input)
 public:
     explicit YamlInput(QObject* parent = 0);
     virtual ~YamlInput();

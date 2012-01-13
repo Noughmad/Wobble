@@ -22,5 +22,16 @@
 
 using namespace Wobble;
 
+Input::Input(QObject* parent): QObject(parent)
+{
+
+}
+
+Input::~Input()
+{
+
+}
+
+
 
 

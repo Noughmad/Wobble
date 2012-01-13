@@ -32,8 +32,8 @@ class Project : public Identifier
     Q_ENUMS(Component)
     Q_FLAGS(Components)
     Q_ENUMS(ProjectType)
-    Q_PROPERTY(Compoents components READ components WRITE setComponents)
-    Q_PROPERTY(ProjectType type READ type WRITE setType)
+ //   Q_PROPERTY(Compoents components READ components WRITE setComponents)
+    Q_PROPERTY(ProjectType projectType READ projectType WRITE setProjectType)
 
 public:
     enum Component
@@ -52,9 +52,11 @@ public:
     
     Project();
     virtual ~Project();
-
+    
+    ProjectType projectType() const;
+    void setProjectType(ProjectType type);
+    
 protected:
-    ProjectPrivate* const d_ptr;
     Project(ProjectPrivate& dd, QObject* parent = 0);
 
 private:
