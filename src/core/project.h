@@ -31,7 +31,9 @@ class Project : public Identifier
     Q_OBJECT
     Q_ENUMS(Component)
     Q_FLAGS(Components)
+    Q_ENUMS(ProjectType)
     Q_PROPERTY(Compoents components READ components WRITE setComponents)
+    Q_PROPERTY(ProjectType type READ type WRITE setType)
 
 public:
     enum Component
@@ -41,6 +43,12 @@ public:
         OpenGL = 0x04
     };
     Q_DECLARE_FLAGS(Components, Component)
+    
+    enum ProjectType
+    {
+        Application,
+        Library
+    };
     
     Project();
     virtual ~Project();
