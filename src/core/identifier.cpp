@@ -73,6 +73,19 @@ void Identifier::setSpace(Identifier* space)
     d->space = space;
 }
 
+QString Identifier::documentation() const
+{
+    Q_D(const Identifier);
+    return d->documentation;
+}
+
+void Identifier::setDocumentation(const QString& documentation)
+{
+    Q_D(Identifier);
+    d->documentation = documentation;
+}
+
+
 QString Identifier::fullName(const QString& separator) const
 {
     Q_D(const Identifier);

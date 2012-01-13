@@ -35,6 +35,7 @@ public:
     
     QString name;
     Identifier* space;
+    QString documentation;
 };
 
 }

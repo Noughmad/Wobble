@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QVariantMap>
+#include <QtCore/QString>
 
 
 /**
@@ -45,6 +46,7 @@ class Identifier : public QObject
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(Identifier* space READ space WRITE setSpace)
+    Q_PROPERTY(QString documentation READ documentation WRITE setDocumentation)
     
 public:
     /**
@@ -65,8 +67,6 @@ public:
      **/
     virtual ~Identifier();
     
-    QString fullName(const QString& separator) const;
-    
     /**
      * @property name
      * @brief The name of this identifier
@@ -83,6 +83,29 @@ public:
      **/
     Identifier* space() const;
     void setSpace(Identifier* space);
+    
+    /**
+     * @property documentation
+     * @brief A docstring for this identifier
+     *
+     **/
+    QString documentation() const;
+    void setDocumentation(const QString& documentation);
+    
+    /**
+     * @brief Returns the fully-qualified name of this identifier
+     *
+     * @param separator a string with which to separate namespaces, for example "::" or "."
+     * @return QString
+     **/
+    QString fullName(const QString& separator) const;
+    
+    /**
+     * @brief The top-level identifier
+     *
+     * @return :Identifier*
+     **/
+    Identifier* topLevel() const;
     
     /**
      * @brief Returns the list of members
