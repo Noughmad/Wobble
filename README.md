@@ -30,9 +30,12 @@ Modules (planned)
 * Database-backed persistent classes
 * Common user interfaces
 * OpenGL
+* Documentation
+* Translations
 
 Current State
 -------------
 
-So far, there is only one input plugin (YAML) and one output (C++/Qt). 
-Other outputs are planned, like Python/Django and Java. 
+So far, there is only one input plugin (YAML) and one output (C++/Qt), 
+none of which actually works. Other outputs are planned, 
+like Python/Django and Java. 
