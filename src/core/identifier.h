@@ -35,7 +35,7 @@ class IdentifierPrivate;
 /**
  * @brief Base class for all Wobble code objects
  * 
- * An Identifier represents the most basic object is all languages. 
+ * An Identifier represents the most basic object in all languages. 
  * It only requires a name and a parent identifier (a class, namespace or function). 
  * 
  * Every identifier requires a name, but can be given a null parent so that 
