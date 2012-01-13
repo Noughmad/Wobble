@@ -16,6 +16,7 @@ public:
     {
         Character,
         String,
+        Boolean,
         Integer,
         Float
     };
