@@ -17,19 +17,24 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include "class.h"
-#include "class_p.h"
+#ifndef WOBBLE_TYPE_P_H
+#define WOBBLE_TYPE_P_H
 
-using namespace Wobble;
+#include "identifier_p.h"
 
-Class::Class(const QString& name, Identifier* space, QObject* parent): Type(name, space, parent)
+namespace Wobble {
+    
+class Type;
+
+class TypePrivate : public IdentifierPrivate
 {
+
+public:
+    TypePrivate();
+    virtual ~TypePrivate();
+    
+};
 
 }
 
-Class::Class(ClassPrivate& dd, QObject* parent): Type(dd, parent)
-{
-
-}
-
-
+#endif // WOBBLE_TYPE_P_H

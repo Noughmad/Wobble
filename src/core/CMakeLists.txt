@@ -1,4 +1,4 @@
-set(Wobble_SRCS identifier.cpp class.cpp project.cpp input.cpp output.cpp)
+set(Wobble_SRCS type.cpp identifier.cpp class.cpp project.cpp input.cpp output.cpp)
 
 
 qt4_automoc(${Wobble_SRCS})

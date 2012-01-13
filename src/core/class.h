@@ -20,7 +20,7 @@
 #ifndef WOBBLE_CLASS_H
 #define WOBBLE_CLASS_H
 
-#include "identifier.h"
+#include "type.h"
 
 namespace Wobble {
     
@@ -30,18 +30,24 @@ namespace Wobble {
     
     class ClassPrivate;
 
-class Class : public Identifier
+    /**
+     * @brief Representation of class
+     * 
+     * This represents a custom object type (usually called "class"). 
+     * It supports inheritance, so each class can have any number of superclasses. 
+     **/
+    class Class : public Type
 {
     Q_OBJECT
     
     Q_ENUMS(Feature)
     Q_FLAGS(Features)
     
-    Q_PROPERTY(QList<Variable> members READ members WRITE setMembers)
-    Q_PROPERTY(QList<Function> methods READ methods WRITE setMethods)
     Q_PROPERTY(QList<Class> superclasses READ superclasses WRITE setSuperclasses)
     Q_PROPERTY(Features features READ features WRITE setFeatures)
-    
+
+    Q_PROPERTY(QList<Variable> members READ members STORED false)
+    Q_PROPERTY(QList<Function> methods READ methods STORED false)
     
 public:
     enum Feature
@@ -49,13 +55,22 @@ public:
         NoFeatures = 0,
         Persistent = 0x01,
         Serializable = 0x02,
-        Abstract = 0x04
+        Abstract = 0x04,
+        Shared = 0x08
     };
     
     Q_DECLARE_FLAGS(Features, Feature)
     
-    explicit Class(QObject* parent = 0);
+    Class(const QString& name, Identifier* space = 0, QObject* parent = 0);
     virtual ~Class();
+    
+    static Class* find(const QString& name);
+    
+    QList<Class*> superclasses();
+    void setSuperclasses(const QList<Class*> superclasses);
+    
+protected:
+    Class(ClassPrivate& dd, QObject* parent = 0);
     
 private:
     Q_DECLARE_PRIVATE(Class)
