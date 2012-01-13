@@ -24,10 +24,22 @@
 #include <QVariantMap>
 
 
+/**
+ * @brief Main namespace for all Wobble classes
+ **/
 namespace Wobble {
 
 class IdentifierPrivate;
 
+/**
+ * @brief Base class for all Wobble code objects
+ * 
+ * An Identifier represents the most basic object is all languages. 
+ * It only requires a name and a parent identifier (a class, namespace or function). 
+ * 
+ * Every identifier requires a name, but can be given a null parent so that 
+ * it is a top-level identifier. 
+ **/
 class Identifier : public QObject
 {
     Q_OBJECT
@@ -35,17 +47,49 @@ class Identifier : public QObject
     Q_PROPERTY(Identifier* space READ space WRITE setSpace)
     
 public:
+    /**
+     * @brief Default constructor
+     * 
+     * Constructs an Identifier with name @p name in namespace @p space. 
+     * 
+     * \sa name, space
+     *
+     * @param name the identifier name
+     * @param space the containing namespace. If 0 is given, this creates a top-level identifier. Defaults to 0.
+     * @param parent parent QObject.
+     **/
     Identifier(const QString& name, Identifier* space = 0, QObject* parent = 0);
+    /**
+     * @brief Default destructor
+     *
+     **/
     virtual ~Identifier();
     
     QString fullName(const QString& separator) const;
     
+    /**
+     * @property name
+     * @brief The name of this identifier
+     * 
+     * It does not have to be globally unique, only within the same namespace. 
+     * Wobble will enforce this limitation.
+     **/
     QString name() const;
     void setName(const QString& name);
     
+     /**
+     * @property space
+     * @brief The namespace of this identifier
+     **/
     Identifier* space() const;
     void setSpace(Identifier* space);
     
+    /**
+     * @brief Returns the list of members
+     * 
+     * Returns the list of all members of this identifier, 
+     * i.e. all identifiers with this as their namespace. 
+     **/
     QList<Identifier*> members() const;
     
     virtual QVariantMap serialize() const;
