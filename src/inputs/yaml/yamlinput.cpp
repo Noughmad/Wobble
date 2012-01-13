@@ -18,30 +18,16 @@
 */
 
 #include "yamlinput.h"
-#include <src/core/project.h>
+#include "src/core/project.h"
+#include "src/core/class.h"
 #include <fstream>
 
 #include "yaml-cpp/parser.h"
 #include "yaml-cpp/node.h"
 
-bool YamlInput::read(Wobble::Project* project, QVariantMap options)
-{
-    std::ifstream stream(options["filename"].toByteArray());
-    YAML::Parser parser(stream);
-    
-    YAML::Node node;
-    if (!parser.GetNextDocument(node))
-    {
-        return false;
-    }
-    
-    QString name = QString::fromStdString(node["name"].to<std::string>());
-}
-
-QString YamlInput::name()
-{
-    return "YAML";
-}
+using namespace Wobble;
+using namespace YAML;
+using namespace std;
 
 YamlInput::YamlInput(QObject* parent): Input(parent)
 {
@@ -53,3 +39,65 @@ YamlInput::~YamlInput()
 
 }
 
+QString YamlInput::name()
+{
+    return "YAML";
+}
+
+bool YamlInput::read(Wobble::Project* project, QVariantMap options)
+{
+    mProject = project;
+    ifstream stream(options["filename"].toByteArray());
+    YAML::Parser parser(stream);
+    
+    YAML::Node node;
+    if (!parser.GetNextDocument(node))
+    {
+        return false;
+    }
+    
+    for(YAML::Iterator it=node.begin();it!=node.end();++it) {
+        string key;
+        it.first() >> key;
+        
+        if (key == "name")
+        {
+            project->setName(readString(it.second()));
+        }
+        else if (key == "classes")
+        {
+            readClasses(it.second());
+        }
+    }
+}
+
+QString YamlInput::readString(const YAML::Node& node)
+{
+    string string;
+    node >> string;
+    return QString::fromStdString(string);
+}
+
+void YamlInput::readClasses(const YAML::Node& node)
+{
+    Class* c;
+    for(YAML::Iterator it=node.begin();it!=node.end();++it) {
+        c = new Class(readString((*it)["name"]), mProject);
+        if (const Node* super = it->FindValue("super"))
+        {
+            QList<Class*> superClasses;
+            if (super->Type() == NodeType::Scalar)
+            {
+                superClasses << Class::find(readString(*super));
+            }
+            else if (super->Type() == NodeType::Sequence)
+            {
+                for (Iterator si = super->begin(); si != super->end(); ++si)
+                {
+                    superClasses << Class::find(readString(*si));
+                }
+            }
+            c->setSuperclasses(superClasses);
+        }
+    }
+}

@@ -20,17 +20,29 @@
 #ifndef YAMLINPUT_H
 #define YAMLINPUT_H
 
-#include <../../home/miha/Programiranje/Wobble/src/core/input.h>
+#include "src/core/input.h"
+
+namespace YAML
+{
+    class Node;
+}
 
 
 class YamlInput : public Wobble::Input
 {
 
 public:
-    virtual bool read(Wobble::Project* project, QVariantMap options);
-    virtual QString name();
     explicit YamlInput(QObject* parent = 0);
     virtual ~YamlInput();
+
+    virtual bool read(Wobble::Project* project, QVariantMap options);
+    virtual QString name();
+    
+    QString readString(const YAML::Node& node);
+    
+private:
+    void readClasses(const YAML::Node& node);
+    Wobble::Project* mProject;
 };
 
 #endif // YAMLINPUT_H
