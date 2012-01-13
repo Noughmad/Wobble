@@ -6,12 +6,13 @@
 bool DebugOutput::write(Wobble::Project* project, QVariantMap options)
 {
     qDebug() << "Project: " << project->name();
-    foreach (Wobble::Identifier *id, project->members())
+    foreach (Wobble::Identifier* id, project->members())
     {
         qDebug() << id->metaObject()->className() << id->fullName("/");
         if (Wobble::Class* c = qobject_cast<Wobble::Class*>(id))
         {
-            qDebug() << " - Superclasses:" << c->superclasses();
+            if (!c->superclasses().isEmpty())
+                qDebug() << " - Superclasses:" << c->superclasses();
         }
     }
 }

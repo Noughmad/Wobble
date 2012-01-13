@@ -118,9 +118,9 @@ void Identifier::addMember(Identifier* identifier)
     d->members << identifier;
 }
 
-QDebug& operator<<(QDebug& stream, Identifier* id) {
-    stream << id->metaObject()->className() << " " << id->fullName("::");
-    return stream;
+QDebug& operator<<(QDebug& stream, Wobble::Identifier* id) {
+    stream << id->metaObject()->className() << " " << id->fullName("/");
+    return stream.maybeSpace();
 }
 
 #include "identifier.moc"
