@@ -2,8 +2,14 @@ project: zoo
 
 classes:
 - name: animal
+  properties:
+    species: string
+    legs: int
+    size: float
+  values:
+    legs: 4
 
-- name: flying
+- name: flying 
 
 - name: mammal
   super: animal
