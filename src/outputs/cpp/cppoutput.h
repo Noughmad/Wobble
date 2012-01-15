@@ -22,10 +22,14 @@
 
 #include "src/core/output.h"
 
+#include <QtPlugin>
+
 
 class CppOutput : public Wobble::Output
 {
-
+    Q_OBJECT
+    Q_INTERFACES(Wobble::Output)
+    
 public:
     virtual bool write(Wobble::Project* project, QVariantMap options);
     virtual QString name();

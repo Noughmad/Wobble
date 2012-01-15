@@ -19,9 +19,55 @@
 
 #include "cppoutput.h"
 
+#include "src/core/project.h"
+
+#include <grantlee/engine.h>
+
+#include <QtCore/QDir>
+
+using namespace Grantlee;
+using namespace Wobble;
+
+const char* TemplateDir = "/home/miha/Build/share/templates/cpp/";
+
 bool CppOutput::write(Wobble::Project* project, QVariantMap options)
 {
-
+    QString outDir = options["outputDirectory"].toString();
+    if (outDir.isEmpty())
+    {
+        return false;
+    }
+    
+    QDir dir(outDir);
+    if (!dir.exists())
+    {
+        dir.mkpath(outDir);
+    }
+    
+    Engine* engine = new Engine();
+    FileSystemTemplateLoader::Ptr loader = FileSystemTemplateLoader::Ptr( new FileSystemTemplateLoader() );
+    loader->setTemplateDirs( QStringList() << TemplateDir );
+    engine->addTemplateLoader( loader );
+    
+    // First, create the top-level CMakeLists.txt file
+    Context* c = new Context();
+    c->insert("project", project);
+    c->insert("name", QVariant(project->name()));
+        
+    Template topLevelCmlTemplate = engine->loadByName("CMakeLists.txt");
+    QFile topLevelCml(outDir + "CMakeLists.txt");
+    topLevelCml.open(QIODevice::WriteOnly);
+    topLevelCml.write(topLevelCmlTemplate->render(c).toLatin1());
+    topLevelCml.close();
+    
+    if (project->projectType() == Project::Application)
+    {
+        Template mainTemplate = engine->loadByName("main.cpp");
+        QFile mainFile(outDir + "main.cpp");
+        mainFile.open(QIODevice::WriteOnly);
+        mainFile.write(mainTemplate->render(c).toLatin1());
+        mainFile.close();
+    }
 }
 
 QString CppOutput::name()
@@ -39,3 +85,6 @@ CppOutput::~CppOutput()
 
 }
 
+Q_EXPORT_PLUGIN2(WobbleCppOutput, CppOutput)
+
+#include "cppoutput.moc"

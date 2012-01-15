@@ -1,14 +1,12 @@
-project(Wobble)
+project({{ name }})
 cmake_minimum_required(VERSION 2.6)
+
 find_package(Qt4 REQUIRED)
-find_package(Doxygen)
+{% for dep in dependencies %}
+find_package({{ dep.cmakeName }})
+{% endfor %}
 
-set (CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
-
-find_package(YAML)
-find_package(Grantlee)
-
-include_directories(${QT_INCLUDES} ${Grantlee_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} )
+include_directories(${QT_INCLUDES} {% for dep in dependencies %}dep.includes {% endfor %}${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} )
 
 macro(wobble_add_executable _target_NAME)
     include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -22,7 +20,5 @@ macro(wobble_add_library _target_NAME)
     add_library(${_target_NAME} SHARED ${ARGN} )
 endmacro(wobble_add_library)
 
-# add a target to generate API documentation with Doxygen
-
 add_subdirectory(src)
-add_subdirectory(test)
+

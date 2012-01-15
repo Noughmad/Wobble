@@ -55,5 +55,20 @@ int main(int argc, char** argv)
     
     output->write(project, QVariantMap());
     
+    
+    QPluginLoader cloader("/home/miha/Programiranje/Wobble/build/src/outputs/cpp/libWobbleCppOutput.so");
+    Output* coutput = qobject_cast< Output* >(cloader.instance());
+    
+    if (!coutput)
+    {
+        qDebug() << "Unable to load output plugin";
+        qDebug() << cloader.errorString();
+        return 0;
+    }
+    
+    QVariantMap options;
+    options["outputDirectory"] = "/home/miha/Build/test/";
+    coutput->write(project, options);
+    
     return 0;
 }
