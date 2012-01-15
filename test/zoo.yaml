@@ -9,13 +9,18 @@ classes:
   values:
     legs: 4
 
-- name: flying 
+- name: flying
+  values:
+    legs: 2
 
 - name: mammal
   super: animal
+  values:
+    legs: 4
 
 - name: bat
   super: [mammal, flying]
 
 - name: bird
-  super: animal
+  super: [animal, flying]
+
