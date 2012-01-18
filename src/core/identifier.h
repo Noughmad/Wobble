@@ -45,11 +45,23 @@ class IdentifierPrivate;
 class Identifier : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(AccessType)
     Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(Identifier* space READ space WRITE setSpace)
     Q_PROPERTY(QString documentation READ documentation WRITE setDocumentation)
+    Q_PROPERTY(AccessType accessType READ accessType WRITE setAccessType)
     
 public:
+    /**
+     * Describes the access type (private, protected or public) of this identifier
+     */
+    enum AccessType
+    {
+        Public, /**< This identifier is only accessible directly from its parent class */
+        Protected, /**< This identifier is accessible from the parent class and all its subclasses */
+        Private /**< This identifier is accessible from anywhere */
+    };
+    
     /**
      * @brief Default constructor
      * 
@@ -92,6 +104,15 @@ public:
      **/
     QString documentation() const;
     void setDocumentation(const QString& documentation);
+    
+    /** 
+     * @property accessType
+     * 
+     * The access type of this identifier 
+     * By default, all identifiers are public
+     */
+    AccessType accessType() const;
+    void setAccessType(AccessType accessType);
     
     /**
      * @brief Returns the fully-qualified name of this identifier

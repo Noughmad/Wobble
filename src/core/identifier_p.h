@@ -39,6 +39,7 @@ public:
     Identifier* space;
     QString documentation;
     QList<Identifier*> members;
+    int accessType;
 };
 
 }

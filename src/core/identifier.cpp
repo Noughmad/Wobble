@@ -92,6 +92,17 @@ void Identifier::setDocumentation(const QString& documentation)
     d->documentation = documentation;
 }
 
+Identifier::AccessType Identifier::accessType() const
+{
+    Q_D(const Identifier);
+    return (AccessType)d->accessType;
+}
+
+void Identifier::setAccessType(Identifier::AccessType accessType)
+{
+    Q_D(Identifier);
+    d->accessType = accessType;
+}
 
 QString Identifier::fullName(const QString& separator) const
 {
