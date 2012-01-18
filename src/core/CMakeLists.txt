@@ -3,6 +3,7 @@ set(Wobble_SRCS common.cpp
     identifier.cpp
     class.cpp
     view.cpp 
+    variable.cpp
     project.cpp
     input.cpp
     output.cpp
