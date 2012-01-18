@@ -10,6 +10,8 @@ classes:
     legs: 4
 
 - name: flying
+  properties:
+    wings: int
   values:
     legs: 2
 
@@ -20,6 +22,8 @@ classes:
 
 - name: bat
   super: [mammal, flying]
+  values:
+    wings: 4
 
 - name: bird
   super: [animal, flying]
