@@ -24,6 +24,7 @@
 #include <grantlee/filter.h>
 
 #include <QtPlugin>
+#include <QtDebug>
 
 class PropertyDeclarationFilter : public Grantlee::Filter
 {
@@ -46,11 +47,13 @@ public:
     {
         m_filters["property_decl"] = new PropertyDeclarationFilter();
         m_filters["property_def"] = new PropertyDefinitionFilter();
+        qDebug() << "Creating a CppLibrary";
     };
     virtual ~CppLibrary() {}
 
     virtual QHash< QString, Grantlee::Filter* > filters(const QString& name = QString())
     {
+        qDebug() << "Filter library is loaded, asking for filters";
         return m_filters;
     }
     
