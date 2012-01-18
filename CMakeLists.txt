@@ -7,6 +7,8 @@ set (CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 find_package(YAML)
 find_package(Grantlee)
+set(FILTER_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/filters)
+set(TEMPLATE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/templates)
 
 include_directories(${QT_INCLUDES} ${Grantlee_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} )
 

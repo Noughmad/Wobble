@@ -11,7 +11,7 @@ class ViewPrivate : public ClassPrivate
 {
 
 public:
-    ViewPrivate(const QString& name, Identifier* space);
+    ViewPrivate(const QString& name);
     virtual ~ViewPrivate();
 };
 

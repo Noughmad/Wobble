@@ -30,7 +30,7 @@ class TypePrivate : public IdentifierPrivate
 {
 
 public:
-    TypePrivate(const QString& name, Identifier* space);
+    TypePrivate(const QString& name);
     virtual ~TypePrivate();
     
     int source;

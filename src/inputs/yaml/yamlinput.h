@@ -42,6 +42,7 @@ public:
     virtual QString name();
     
     QString readString(const YAML::Node& node);
+    QString readString(const YAML::Node* node);
     
 private:
     void readClasses(const YAML::Node& node);

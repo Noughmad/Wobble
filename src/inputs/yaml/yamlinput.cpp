@@ -20,6 +20,7 @@
 #include "yamlinput.h"
 #include "src/core/project.h"
 #include "src/core/class.h"
+#include "src/core/variable.h"
 #include <fstream>
 
 #include "yaml-cpp/parser.h"
@@ -56,6 +57,8 @@ bool YamlInput::read(Wobble::Project* project, QVariantMap options)
         return false;
     }
     
+    qDebug() << "Reading node of size " << node.size();
+    
     for(YAML::Iterator it=node.begin();it!=node.end();++it) {
         string key;
         it.first() >> key;
@@ -78,26 +81,51 @@ QString YamlInput::readString(const YAML::Node& node)
     return QString::fromStdString(string);
 }
 
+QString YamlInput::readString(const Node* node)
+{
+    if (!node)
+    {
+        return QString();
+    }
+    return readString(*node);
+}
+
+
 void YamlInput::readClasses(const YAML::Node& node)
 {
     Class* c;
     for(YAML::Iterator it=node.begin();it!=node.end();++it) {
-        c = new Class(readString((*it)["name"]), mProject);
+        const QString name = readString((*it)["name"]);
+        qDebug() << "Reading class " << name;
+        c = new Class(name, mProject);
         if (const Node* super = it->FindValue("super"))
         {
-            QList<Class*> superClasses;
+            ClassList superClasses;
             if (super->Type() == NodeType::Scalar)
             {
-                superClasses << mProject->findMember<Class>(readString(*super));
+                superClasses << mProject->findChild<Class*>(readString(*super));
             }
             else if (super->Type() == NodeType::Sequence)
             {
                 for (Iterator si = super->begin(); si != super->end(); ++si)
                 {
-                    superClasses << mProject->findMember<Class>(readString(*si));
+                    superClasses << mProject->findChild<Class*>(readString(*si));
                 }
             }
             c->setSuperclasses(superClasses);
+        }
+        qDebug() << "Superclasses done, now reading properties";
+        if (const Node* properties = it->FindValue("properties"))
+        {
+            for (Iterator pi = properties->begin(); pi != properties->end(); ++pi)
+            {
+                QString name = readString(pi->FindValue("name"));
+                QString type = readString(pi->FindValue("type"));
+                QString value = readString(pi->FindValue("value"));
+                qDebug() << "Adding property" << name << "of type" << type << "to class " << c->name();
+                Variable* property = new Variable(name, mProject->findOrCreateMember<Type>(type), c);
+                qDebug() << "Added property" << property->name() << "of type" << property->type()->name() << "to class " << c->name();
+            }
         }
     }
 }

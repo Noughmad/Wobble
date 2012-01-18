@@ -24,7 +24,7 @@
 
 using namespace Wobble;
 
-ClassPrivate::ClassPrivate(const QString& name, Identifier* space) : TypePrivate(name, space)
+ClassPrivate::ClassPrivate(const QString& name) : TypePrivate(name)
 {
     
 }
@@ -34,7 +34,7 @@ ClassPrivate::~ClassPrivate()
     
 }
 
-Class::Class(const QString& name, Identifier* space, QObject* parent): Type(*new ClassPrivate(name, space), parent)
+Class::Class(const QString& name, Identifier* parent): Type(*new ClassPrivate(name), parent)
 {
 
 }
@@ -49,13 +49,13 @@ Class::~Class()
 
 }
 
-QList< Class* > Class::superclasses()
+Class::ClassList Class::superclasses()
 {
     Q_D(const Class);
     return d->superclasses;
 }
 
-void Class::setSuperclasses(const QList< Class* >& superclasses)
+void Class::setSuperclasses(const ClassList& superclasses)
 {
     Q_D(Class);
     d->superclasses = superclasses;

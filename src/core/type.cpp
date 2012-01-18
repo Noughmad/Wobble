@@ -3,7 +3,7 @@
 
 using namespace Wobble;
 
-TypePrivate::TypePrivate(const QString& name, Identifier* space) : IdentifierPrivate(name, space)
+TypePrivate::TypePrivate(const QString& name) : IdentifierPrivate(name)
 {
 
 }
@@ -13,7 +13,7 @@ Wobble::TypePrivate::~TypePrivate()
 
 }
 
-Type::Type(const QString& name, Wobble::Identifier* space, QObject* parent): Identifier(*new TypePrivate(name, space), parent)
+Type::Type(const QString& name, Wobble::Identifier* parent): Identifier(*new TypePrivate(name), parent)
 {
     
 }
@@ -40,6 +40,9 @@ void Type::setSource(Type::Source source)
     d->source = source;
 }
 
-
+Type* Type::findByName(const QString& name)
+{
+    return new Type(name);
+}
 
 #include "type.moc"

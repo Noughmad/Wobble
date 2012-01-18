@@ -8,15 +8,15 @@
 
 namespace Wobble {
     
-    class Class;
+    W_FORWARD(Class)
 
 class ClassPrivate : public TypePrivate
 {
 
 public:
-    ClassPrivate(const QString& name, Identifier* space);
+    ClassPrivate(const QString& name);
     virtual ~ClassPrivate();
-    QList< Class* > superclasses;
+    ClassList superclasses;
     int features;
 };
 

@@ -22,20 +22,21 @@
 
 #include "identifier_p.h"
 
+#include "global.h"
+
 namespace Wobble {
     
 class Variable;
-typedef QSharedPointer<class Type> TypePtr;
+W_FORWARD(Type)
 
 class VariablePrivate : public IdentifierPrivate
 {
 
 public:
-    VariablePrivate(const QString& name, Wobble::TypePtr type, Wobble::Identifier* space);
+    VariablePrivate(const QString& name, Type* type);
     virtual ~VariablePrivate();
     
-    TypePtr type;
-    
+    Type* type;
 };
 
 }

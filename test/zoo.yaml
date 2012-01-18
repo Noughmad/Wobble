@@ -3,28 +3,24 @@ project: zoo
 classes:
 - name: animal
   properties:
-    species: string
-    legs: int
-    size: float
-  values:
-    legs: 4
+  - name: species
+    type: string
+  - name: legs
+    type: int
+    value: 4
+  - name: size
+    type: float
 
 - name: flying
   properties:
-    wings: int
-  values:
-    legs: 2
+  - name: wings
+    type: bool
 
 - name: mammal
   super: animal
-  values:
-    legs: 4
 
 - name: bat
   super: [mammal, flying]
-  values:
-    wings: 4
 
 - name: bird
   super: [animal, flying]
-

@@ -46,12 +46,13 @@ public:
         MultiHash
     };
     
-    Type(const QString& name, Identifier* space = 0, QObject* parent = 0);
+    Type(const QString& name, Identifier* parent = 0);
     virtual ~Type();
     
     static Type* standardType(StandardType type);
     static Type* list(Type* values, ListType = DefaultList);
     static Type* map(Type* keys, Type* values, MapType = DefaultMap);
+    static Type* findByName(const QString& name);
     
     Source source() const;
     void setSource(Source source);

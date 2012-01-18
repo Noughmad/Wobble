@@ -2,17 +2,24 @@
 #include <QDebug>
 #include "src/core/project.h"
 #include "src/core/class.h"
+#include "src/core/variable.h"
+#include "src/core/type.h"
+
+using namespace Wobble;
 
 bool DebugOutput::write(Wobble::Project* project, QVariantMap options)
 {
     qDebug() << "Project: " << project->name();
-    foreach (Wobble::Identifier* id, project->members())
+    foreach (Wobble::Class* c, project->findChildren<Wobble::Class*>())
     {
-        qDebug() << id->metaObject()->className() << id->fullName("/");
-        if (Wobble::Class* c = qobject_cast<Wobble::Class*>(id))
+        qDebug() << "Class " << c->name();
+        if (!c->superclasses().isEmpty())
         {
-            if (!c->superclasses().isEmpty())
-                qDebug() << " - Superclasses:" << c->superclasses();
+            qDebug() << " - Superclasses:" << c->superclasses();
+        }
+        foreach (Wobble::Variable* property, c->findChildren<Wobble::Variable*>())
+        {
+            qDebug() << " - Property: " << property->type()->name() << " " << property->name();
         }
     }
 }

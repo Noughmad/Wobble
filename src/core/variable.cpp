@@ -3,7 +3,7 @@
 
 using namespace Wobble;
 
-VariablePrivate::VariablePrivate(const QString& name, TypePtr type, Identifier* space) : IdentifierPrivate(name, space)
+VariablePrivate::VariablePrivate(const QString& name, Type* type) : IdentifierPrivate(name)
 {
     this->type = type;
 }
@@ -13,7 +13,7 @@ Wobble::VariablePrivate::~VariablePrivate()
 
 }
 
-Variable::Variable(const QString& name, TypePtr type, Identifier* space, QObject* parent): Identifier(*new VariablePrivate(name, type, space), parent)
+Variable::Variable(const QString& name, Type* type, Identifier* parent): Identifier(*new VariablePrivate(name, type), parent)
 {
     
 }
@@ -28,13 +28,13 @@ Variable::~Variable()
 
 }
 
-void Variable::setType(TypePtr type)
+void Variable::setType(Type* type)
 {
     Q_D(Variable);
     d->type = type;
 }
 
-TypePtr Variable::type() const
+Type* Variable::type() const
 {
     Q_D(const Variable);
     return d->type;

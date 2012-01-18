@@ -24,7 +24,7 @@
 
 using namespace Wobble;
 
-IdentifierPrivate::IdentifierPrivate(const QString& name, Identifier* space) : name(name), space(space)
+IdentifierPrivate::IdentifierPrivate(const QString& name) : name(name)
 {
     
 }
@@ -34,21 +34,15 @@ IdentifierPrivate::~IdentifierPrivate()
 
 }
 
-Identifier::Identifier(const QString& name, Identifier* space, QObject* parent): QObject(parent), d_ptr(new IdentifierPrivate(name, space))
+Identifier::Identifier(const QString& name, Identifier* parent): QObject(parent), d_ptr(new IdentifierPrivate(name))
 {
-    if (space)
-    {
-        space->addMember(this);
-    }
+    setObjectName(name);
 }
 
 Identifier::Identifier(IdentifierPrivate& dd, QObject* parent): QObject(parent), d_ptr(&dd)
 {
     Q_D(Identifier);
-    if (d->space)
-    {
-        d->space->addMember(this);
-    }
+    setObjectName(d->name);
 }
 
 Identifier::~Identifier()
@@ -58,27 +52,26 @@ Identifier::~Identifier()
 
 QString Identifier::name() const
 {
-    Q_D(const Identifier);
-    return d->name;
+    return objectName();
 }
 
 void Identifier::setName(const QString& name)
 {
     Q_D(Identifier);
     d->name = name;
+    setObjectName(name);
 }
 
 Identifier* Identifier::space() const
 {
-    Q_D(const Identifier);
-    return d->space;
+    return qobject_cast<Identifier*>(parent());
 }
 
 void Identifier::setSpace(Identifier* space)
 {
-    Q_D(Identifier);
-    d->space = space;
+    setParent(space);
 }
+
 
 QString Identifier::documentation() const
 {
@@ -107,9 +100,9 @@ void Identifier::setAccessType(Identifier::AccessType accessType)
 QString Identifier::fullName(const QString& separator) const
 {
     Q_D(const Identifier);
-    if (d->space)
+    if (space())
     {
-        return d->space->fullName(separator) + separator + d->name;
+        return space()->fullName(separator) + separator + d->name;
     }
     else
     {
@@ -117,16 +110,9 @@ QString Identifier::fullName(const QString& separator) const
     }
 }
 
-QList< Identifier* > Identifier::members() const
+IdentifierList Identifier::members() const
 {
-    Q_D(const Identifier);
-    return d->members;
-}
-
-void Identifier::addMember(Identifier* identifier)
-{
-    Q_D(Identifier);
-    d->members << identifier;
+    return findChildren<Identifier*>();
 }
 
 QDebug& operator<<(QDebug& stream, Wobble::Identifier* id) {

@@ -51,6 +51,8 @@ namespace Wobble {
     Q_PROPERTY(QList<Function*> methods READ methods STORED false)
     */
     
+    W_DECLARE_POINTER(Class)
+    
 public:
     enum Feature
     {
@@ -63,13 +65,13 @@ public:
     
     Q_DECLARE_FLAGS(Features, Feature)
     
-    Class(const QString& name, Identifier* space = 0, QObject* parent = 0);
+    Class(const QString& name, Wobble::Identifier* parent = 0);
     virtual ~Class();
     
     static Class* find(const QString& name);
     
-    QList<Class*> superclasses();
-    void setSuperclasses(const QList<Class*>& superclasses);
+    ClassList superclasses();
+    void setSuperclasses(const ClassList& superclasses);
     
     Features features() const;
     void setFeatures(Features features);

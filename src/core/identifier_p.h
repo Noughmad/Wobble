@@ -23,22 +23,22 @@
 #include <QString>
 #include <QList>
 
+#include "global.h"
+
 namespace Wobble {
     
-class Identifier;
+W_FORWARD(Identifier)
 
 class IdentifierPrivate
 {
 
 public:
     IdentifierPrivate();
-    IdentifierPrivate(const QString& name, Identifier* space);
+    IdentifierPrivate(const QString& name);
     virtual ~IdentifierPrivate();
     
     QString name;
-    Identifier* space;
     QString documentation;
-    QList<Identifier*> members;
     int accessType;
 };
 

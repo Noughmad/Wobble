@@ -27,7 +27,7 @@ class WOBBLE_EXPORT View : public Wobble::Class
     Q_OBJECT
 
 public:
-    View(const QString& name, Wobble::Identifier* space = 0, QObject* parent = 0);
+    View(const QString& name, Wobble::Identifier* parent = 0);
     virtual ~View();
     
     W_DECLARE_PRIVATE(View)

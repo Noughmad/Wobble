@@ -28,7 +28,7 @@ using namespace Wobble;
 
 QVariant PropertyDeclarationFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const
 {
-    VariablePtr property = input.value<VariablePtr>();
+    Variable* property = input.value<Variable*>();
     if (!property->type())
     {
         qDebug() << "Every property needs a type in C++";

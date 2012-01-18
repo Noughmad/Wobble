@@ -49,7 +49,7 @@ class WOBBLE_EXPORT Identifier : public QObject
     Q_OBJECT
     Q_ENUMS(AccessType)
     Q_PROPERTY(QString name READ name WRITE setName)
-    Q_PROPERTY(Identifier* space READ space WRITE setSpace)
+    Q_PROPERTY(Identifier* space READ space WRITE setSpace STORED false)
     Q_PROPERTY(QString documentation READ documentation WRITE setDocumentation)
     Q_PROPERTY(AccessType accessType READ accessType WRITE setAccessType)
     
@@ -75,7 +75,7 @@ public:
      * @param space the containing namespace. If 0 is given, this creates a top-level identifier. Defaults to 0.
      * @param parent parent QObject.
      **/
-    Identifier(const QString& name, Identifier* space = 0, QObject* parent = 0);
+    Identifier(const QString& name, Identifier* parent = 0);
     /**
      * @brief Default destructor
      *
@@ -97,7 +97,7 @@ public:
      * @brief The namespace of this identifier
      **/
     Identifier* space() const;
-    void setSpace(Identifier* space);
+    void setSpace(Wobble::Identifier* space);
     
     /**
      * @property documentation
@@ -138,11 +138,10 @@ public:
      * i.e. all identifiers with this as their namespace. 
      **/
     QList<Identifier*> members() const;
-    void addMember(Identifier* identifier);
     
-    template <class T>
-    T* findMember(const QString& name);
-    
+    template < class T>
+    T* findOrCreateMember(const QString& name);
+        
 //    virtual QVariantMap serialize() const;
         
 protected:
@@ -150,17 +149,16 @@ protected:
     W_DECLARE_PRIVATE(Identifier)
 };
 
-template <class T>
-T* Identifier::findMember(const QString& name)
+template < class T>
+T* Identifier::findOrCreateMember(const QString& name)
 {
-    foreach (Identifier* i, members())
+    T* ret = findChild<T*>(name);
+    if (ret)
     {
-        if (i->name() == name)
-        {
-            return qobject_cast<T*>(i);
-        }
+        return ret;
     }
-    return 0;
+    
+    return new T(name, this);
 }
 
 W_DECLARE_POINTER(Identifier)
@@ -168,6 +166,7 @@ W_DECLARE_POINTER(Identifier)
 }
 
 W_DECLARE_METATYPE(Identifier)
+    
 
 WOBBLE_EXPORT QDebug& operator<<(QDebug& stream, Wobble::Identifier* id);
 

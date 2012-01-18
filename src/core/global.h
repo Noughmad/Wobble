@@ -1,5 +1,4 @@
 #include <QtCore/QtGlobal>
-#include <QtCore/QSharedPointer>
 
 #if defined(MAKE_WOBBLE_LIBRARY)
 #  define WOBBLE_EXPORT Q_DECL_EXPORT
@@ -19,15 +18,14 @@
 #       define W_TYPE(Type) Type
 #endif
 
-#define W_FORWARD(Name) typedef QSharedPointer<class Name> Name##Ptr;
+#define W_FORWARD(Name) typedef QList<class Name*> Name##List;
 
 #define W_DECLARE_POINTER(Name)                 \
-typedef QSharedPointer<Name> Name##Ptr;         \
-typedef QList<Name##Ptr> Name##PtrList;
+typedef QList<Name*> Name##List;
 
 #define W_DECLARE_METATYPE(Name)                \
-Q_DECLARE_METATYPE(Wobble::Name##Ptr)           \
-Q_DECLARE_METATYPE(Wobble::Name##PtrList)
+Q_DECLARE_METATYPE(Wobble::Name*)           \
+Q_DECLARE_METATYPE(Wobble::Name##List)
 
 #define W_BEGIN_CLASS(Name, Super)      \
 W_BEGIN_NAMESPACE                       \
