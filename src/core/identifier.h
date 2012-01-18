@@ -24,6 +24,8 @@
 #include <QVariantMap>
 #include <QtCore/QString>
 
+#include "global.h"
+
 #include <QDebug>
 
 /**
@@ -42,7 +44,7 @@ class IdentifierPrivate;
  * Every identifier requires a name, but can be given a null parent so that 
  * it is a top-level identifier. 
  **/
-class Identifier : public QObject
+class WOBBLE_EXPORT Identifier : public QObject
 {
     Q_OBJECT
     Q_ENUMS(AccessType)
@@ -145,10 +147,7 @@ public:
         
 protected:
     IdentifierPrivate* const d_ptr;
-    Identifier(IdentifierPrivate& dd, QObject* parent = 0);
-    
-private:
-    Q_DECLARE_PRIVATE(Identifier)
+    W_DECLARE_PRIVATE(Identifier)
 };
 
 template <class T>
@@ -164,8 +163,12 @@ T* Identifier::findMember(const QString& name)
     return 0;
 }
 
+W_DECLARE_POINTER(Identifier)
+
 }
 
-QDebug& operator<<(QDebug& stream, Wobble::Identifier* id);
+W_DECLARE_METATYPE(Identifier)
+
+WOBBLE_EXPORT QDebug& operator<<(QDebug& stream, Wobble::Identifier* id);
 
 #endif // WOBBLE_IDENTIFIER_H

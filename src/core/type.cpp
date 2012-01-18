@@ -28,4 +28,18 @@ Type::~Type()
 
 }
 
+Type::Source Type::source() const
+{
+    Q_D(const Type);
+    return (Source)d->source;
+}
+
+void Type::setSource(Type::Source source)
+{
+    Q_D(Type);
+    d->source = source;
+}
+
+
+
 #include "type.moc"

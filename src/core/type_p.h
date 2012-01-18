@@ -33,6 +33,7 @@ public:
     TypePrivate(const QString& name, Identifier* space);
     virtual ~TypePrivate();
     
+    int source;
 };
 
 }

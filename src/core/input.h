@@ -24,11 +24,13 @@
 #include <QtCore/QObject>
 #include <QtCore/QVariantMap>
 
+#include "global.h"
+
 namespace Wobble {
 
 class Project;
 
-class Input : public QObject
+class WOBBLE_EXPORT Input : public QObject
 {
 public:
     explicit Input(QObject* parent = 0);

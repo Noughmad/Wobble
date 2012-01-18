@@ -24,9 +24,9 @@
 
 namespace Wobble {
     
-    class Variable;
-    class Function;
-    class Connection;
+    W_FORWARD(Variable)
+    W_FORWARD(Function)
+    W_FORWARD(Connection)
     
     class ClassPrivate;
 
@@ -36,7 +36,7 @@ namespace Wobble {
      * This represents a custom object type (usually called "class"). 
      * It supports inheritance, so each class can have any number of superclasses. 
      **/
-    class Class : public Type
+    class WOBBLE_EXPORT Class : public Type
 {
     Q_OBJECT
     
@@ -73,14 +73,13 @@ public:
     
     Features features() const;
     void setFeatures(Features features);
-    
-protected:
-    Class(ClassPrivate& dd, QObject* parent = 0);
-    
-private:
-    Q_DECLARE_PRIVATE(Class)
+    W_DECLARE_PRIVATE(Class)
 };
 
+W_DECLARE_POINTER(Class)
+
 }
+
+W_DECLARE_METATYPE(Class)
 
 #endif // WOBBLE_CLASS_H

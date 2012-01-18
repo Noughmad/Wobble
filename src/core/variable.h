@@ -3,28 +3,33 @@
 
 #include "identifier.h"
 
+#include <QtCore/QSharedPointer>
+
 namespace Wobble {
     
 class VariablePrivate;
-class Class;
-class Type;
 
-class Variable : public Identifier
+W_FORWARD(Type)
+
+class WOBBLE_EXPORT Variable : public Identifier
 {
     Q_OBJECT
-    Q_PROPERTY(Type type READ type WRITE setType)
+    Q_PROPERTY(TypePtr type READ type WRITE setType)
     
 public:
-    Variable(const QString& name, Type* type, Identifier* space = 0, QObject* parent = 0);
-    Variable(Class* cls);
-
-protected:
-    Variable(VariablePrivate& dd, QObject* parent = 0);
-
-public:
+    Variable(const QString& name, TypePtr type, Identifier* space = 0, QObject* parent = 0);
     virtual ~Variable();
+    
+    TypePtr type() const;
+    void setType(TypePtr type);
+    
+    W_DECLARE_PRIVATE(Variable)
 };
 
+W_DECLARE_POINTER(Variable)
+
 }
+
+W_DECLARE_METATYPE(Variable)
 
 #endif // WOBBLE_VARIABLE_H

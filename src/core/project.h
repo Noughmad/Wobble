@@ -26,7 +26,7 @@ namespace Wobble {
 
 class ProjectPrivate;
 
-class Project : public Identifier
+class WOBBLE_EXPORT Project : public Identifier
 {
     Q_OBJECT
     Q_ENUMS(Component)
@@ -56,13 +56,13 @@ public:
     ProjectType projectType() const;
     void setProjectType(ProjectType type);
     
-protected:
-    Project(ProjectPrivate& dd, QObject* parent = 0);
-
-private:
-    Q_DECLARE_PRIVATE(Project)
+    W_DECLARE_PRIVATE(Project)
 };
 
+W_DECLARE_POINTER(Project)
+
 }
+
+W_DECLARE_METATYPE(Project)
 
 #endif // WOBBLE_IDENTIFIER_H

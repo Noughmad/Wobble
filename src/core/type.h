@@ -6,12 +6,21 @@
 namespace Wobble {
     
 class TypePrivate;
-class Class;
 
-class Type : public Identifier
+class WOBBLE_EXPORT Type : public Identifier
 {
     Q_OBJECT
+    Q_ENUMS(Source)
+    Q_PROPERTY(Source source READ source WRITE setSource)
+    
 public:
+    enum Source
+    {
+        BuiltIn,
+        External,
+        Project
+    };
+    
     enum StandardType
     {
         Character,
@@ -38,19 +47,22 @@ public:
     };
     
     Type(const QString& name, Identifier* space = 0, QObject* parent = 0);
-    Type(Class* cls);
+    virtual ~Type();
     
     static Type* standardType(StandardType type);
     static Type* list(Type* values, ListType = DefaultList);
     static Type* map(Type* keys, Type* values, MapType = DefaultMap);
-
-protected:
-    Type(TypePrivate& dd, QObject* parent = 0);
-
-public:
-    virtual ~Type();
+    
+    Source source() const;
+    void setSource(Source source);
+    
+    W_DECLARE_PRIVATE(Type)
 };
 
+W_DECLARE_POINTER(Type)
+
 }
+
+W_DECLARE_METATYPE(Type)
 
 #endif // WOBBLE_TYPE_H

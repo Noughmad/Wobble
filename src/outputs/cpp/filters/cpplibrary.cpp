@@ -17,27 +17,33 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef WOBBLE_VARIABLE_P_H
-#define WOBBLE_VARIABLE_P_H
+#include "cpplibrary.h"
 
-#include "identifier_p.h"
+#include "src/core/variable.h"
+#include "src/core/type.h"
 
-namespace Wobble {
-    
-class Variable;
-typedef QSharedPointer<class Type> TypePtr;
+#include <QDebug>
 
-class VariablePrivate : public IdentifierPrivate
+using namespace Wobble;
+
+QVariant PropertyDeclarationFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const
 {
-
-public:
-    VariablePrivate(const QString& name, Wobble::TypePtr type, Wobble::Identifier* space);
-    virtual ~VariablePrivate();
+    VariablePtr property = input.value<VariablePtr>();
+    if (!property->type())
+    {
+        qDebug() << "Every property needs a type in C++";
+        return QVariant();
+    }
     
-    TypePtr type;
+    QString type = property->type()->name();
     
-};
-
+    return QVariant();
 }
 
-#endif // WOBBLE_VARIABLE_P_H
+QVariant PropertyDefinitionFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const
+{
+    return QVariant();
+}
+
+Q_EXPORT_PLUGIN2(WobbleCppFilters, CppLibrary)
+

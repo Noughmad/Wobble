@@ -9,5 +9,7 @@ set(Wobble_SRCS common.cpp
     output.cpp
 )
 
+add_definitions(-DMAKE_WOBBLE_LIBRARY)
+
 wobble_add_library(WobbleCore ${Wobble_SRCS})
 target_link_libraries(WobbleCore ${QT_QTCORE_LIBRARY})

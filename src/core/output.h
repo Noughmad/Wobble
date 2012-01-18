@@ -24,13 +24,15 @@
 #include <QtCore/QObject>
 #include <QtCore/QVariantMap>
 
+#include "global.h"
+
 namespace Wobble {
 
 class Project;
 
 class Class;
 
-class Output : public QObject
+class WOBBLE_EXPORT Output : public QObject
 {
 public:
     explicit Output(QObject* parent = 0);

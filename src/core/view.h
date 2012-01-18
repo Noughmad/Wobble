@@ -22,20 +22,21 @@ class ViewPrivate;
  * default views, including pre-made combinations of list-detail
  * 
  */
-class View : public Wobble::Class
+class WOBBLE_EXPORT View : public Wobble::Class
 {
+    Q_OBJECT
 
 public:
     View(const QString& name, Wobble::Identifier* space = 0, QObject* parent = 0);
     virtual ~View();
-
-protected:
-    View(Wobble::ViewPrivate& dd, QObject* parent = 0);
-
-private:
-    Q_DECLARE_PRIVATE(View)
+    
+    W_DECLARE_PRIVATE(View)
 };
 
+W_DECLARE_POINTER(View)
+
 }
+
+W_DECLARE_METATYPE(View)
 
 #endif // WOBBLE_VIEW_H
