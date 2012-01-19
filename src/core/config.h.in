@@ -1,2 +1,3 @@
 const char* PluginDir = "@PLUGIN_INSTALL_DIR@";
 const char* TemplateFilterDir = "@FILTER_INSTALL_DIR@";
+const char* TemplateDir = "@TEMPLATE_INSTALL_DIR@";

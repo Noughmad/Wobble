@@ -22,7 +22,8 @@ if (BUILD_CPP_OUTPUT OR BUILD_DJANGO_OUTPUT)
 endif()
 
 if (Grantlee_FOUND)
-    set(FILTER_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/filters)
+    set(Grantlee_DIR "grantlee/${Grantlee_VERSION_MAJOR}.${Grantlee_VERSION_MINOR}")
+    set(FILTER_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/lib/${Grantlee_DIR})
     set(TEMPLATE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/templates)
     include(${Grantlee_USE_FILE})
 else (Grantlee_FOUND)
@@ -52,7 +53,6 @@ set(BIN_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/bin")
 set(LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib")
 
 set(PLUGIN_INSTALL_DIR "${LIB_INSTALL_DIR}/wobble")
-set(FILTER_INSTALL_DIR "${LIB_INSTALL_DIR}/${Grantlee_DIR}")
 
 
 set(INSTALL_TARGETS_DEFAULT_ARGS  RUNTIME DESTINATION "${BIN_INSTALL_DIR}"
@@ -62,8 +62,6 @@ set(INSTALL_TARGETS_DEFAULT_ARGS  RUNTIME DESTINATION "${BIN_INSTALL_DIR}"
 set(INSTALL_PLUGINS_DEFAULT_ARGS  RUNTIME DESTINATION "${BIN_INSTALL_DIR}/wobble"
                                   LIBRARY DESTINATION "${LIB_INSTALL_DIR}/wobble"
                                   ARCHIVE DESTINATION "${LIB_INSTALL_DIR}/wobble" COMPONENT Devel )
-
-set(Grantlee_DIR "grantlee/${Grantlee_VERSION_MAJOR}.${Grantlee_VERSION_MINOR}")
 
 set(INSTALL_FILTERS_DEFAULT_ARGS  RUNTIME DESTINATION "${BIN_INSTALL_DIR}/${Grantlee_DIR}"
                                   LIBRARY DESTINATION "${LIB_INSTALL_DIR}/${Grantlee_DIR}"

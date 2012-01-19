@@ -21,6 +21,9 @@
 
 #include "../core/config.h"
 
+#include <grantlee/templateloader.h>
+#include <grantlee/engine.h>
+
 using namespace Wobble;
 
 class TemplatesPrivate
@@ -38,6 +41,10 @@ TemplatesPrivate::TemplatesPrivate()
 {
     engine = new Grantlee::Engine();
     engine->addPluginPath(TemplateFilterDir);
+    
+    Grantlee::FileSystemTemplateLoader::Ptr loader = Grantlee::FileSystemTemplateLoader::Ptr( new Grantlee::FileSystemTemplateLoader() );
+    loader->setTemplateDirs( QStringList() << TemplateDir );
+    engine->addTemplateLoader( loader );
 }
 
 TemplatesPrivate::~TemplatesPrivate()
