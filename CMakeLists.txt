@@ -6,6 +6,7 @@ find_package(Doxygen)
 set (CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 option (BUILD_CORE "Build the core Wobble library" TRUE)
+option (BUILD_UTILS "Build the Wobble utilities library" TRUE)
 option (BUILD_YAML_INPUT "Build the YAML input plugin" TRUE)
 option (BUILD_CPP_OUTPUT "Build the C++/Qt output plugin" TRUE)
 option (BUILD_DJANGO_OUTPUT "Build the Python/Django output plugin" TRUE)
@@ -49,6 +50,9 @@ endmacro(wobble_add_library)
 
 set(BIN_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/bin")
 set(LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib")
+
+set(PLUGIN_INSTALL_DIR "${LIB_INSTALL_DIR}/wobble")
+set(FILTER_INSTALL_DIR "${LIB_INSTALL_DIR}/${Grantlee_DIR}")
 
 
 set(INSTALL_TARGETS_DEFAULT_ARGS  RUNTIME DESTINATION "${BIN_INSTALL_DIR}"

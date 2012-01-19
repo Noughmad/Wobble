@@ -6,6 +6,10 @@ if (BUILD_EXE)
     add_subdirectory(app)
 endif()
 
+if (BUILD_UTILS)
+    add_subdirectory(utils)
+endif()
+
 add_subdirectory(inputs)
 add_subdirectory(outputs)
 
