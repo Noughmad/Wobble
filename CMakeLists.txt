@@ -5,13 +5,32 @@ find_package(Doxygen)
 
 set (CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
-find_package(YAML)
-find_package(Grantlee)
+option (BUILD_CORE "Build the core Wobble library" TRUE)
+option (BUILD_YAML_INPUT "Build the YAML input plugin" TRUE)
+option (BUILD_CPP_OUTPUT "Build the C++/Qt output plugin" TRUE)
+option (BUILD_DJANGO_OUTPUT "Build the Python/Django output plugin" TRUE)
+option (BUILD_DEBUG_OUTPUT "Build the debug output plugin" FALSE)
+option (BUILD_EXE "Build the Wobble executable" TRUE)
+
+if (BUILD_YAML_INPUT)
+    find_package(YAML)
+endif()
+
+if (BUILD_CPP_OUTPUT OR BUILD_DJANGO_OUTPUT)
+    find_package(Grantlee)
+endif()
 
 if (Grantlee_FOUND)
     set(FILTER_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/filters)
     set(TEMPLATE_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/templates)
     include(${Grantlee_USE_FILE})
+else (Grantlee_FOUND)
+    set(BUILD_CPP_OUTPUT FALSE)
+    set(BUILD_DJANGO_OUTPUT FALSE)
+endif(Grantlee_FOUND)
+
+if (NOT YAML_FOUND)
+    set(BUILD_YAML_INPUT FALSE)
 endif()
 
 include_directories(${QT_INCLUDES} ${Grantlee_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} )
