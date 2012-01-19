@@ -20,19 +20,21 @@
 #include "djangooutput.h"
 
 #include "src/core/project.h"
+#include "src/core/class.h"
 
 #include <grantlee/engine.h>
 
 #include <QtCore/QDir>
+#include <QProcess>
 
 using namespace Grantlee;
 using namespace Wobble;
 
 const char* TemplateDir = "/home/miha/Build/share/templates/django/";
 
-bool DjangoOutput::write(Wobble::Project* project, QVariantMap options)
+bool DjangoOutput::write(const Project* project, QVariantMap options)
 {
-    QString outDir = options["outputDirectory"].toString();
+    const QString outDir = options["outputDirectory"].toString();
     if (outDir.isEmpty())
     {
         return false;
@@ -44,6 +46,47 @@ bool DjangoOutput::write(Wobble::Project* project, QVariantMap options)
         dir.mkpath(outDir);
     }
     
+    QProcess process;
+    process.setWorkingDirectory(dir.absolutePath());
+    QStringList args;
+    
+    if (project->projectType() == Project::Application)
+    {
+        args << "startproject";
+        const QString projectFolder = project->name() + "site";
+        args << projectFolder;
+        process.start("django-admin", args);
+        
+        if (!process.waitForStarted())
+        {
+            process.start("django-admin.py", args);
+        }
+        
+        if (!process.waitForStarted())
+        {
+            // TODO: Warn the user that he/she has to install Django
+            return false;
+        }
+        
+        if (!process.waitForFinished())
+        {
+            return false;
+        }
+        
+        dir.cd(projectFolder);
+        process.setWorkingDirectory(dir.absolutePath());
+        args.clear();
+    }
+    
+    args << "manage.py" << "startapp" << project->name().toLower();
+    const QString pythonExe = options.value("pythonExecutable", QVariant("python")).toString();
+    process.start(pythonExe, args);
+    
+    if (!process.waitForFinished())
+    {
+        return false;
+    }
+    
     Engine* engine = new Engine();
     FileSystemTemplateLoader::Ptr loader = FileSystemTemplateLoader::Ptr( new FileSystemTemplateLoader() );
     loader->setTemplateDirs( QStringList() << TemplateDir );
@@ -53,6 +96,16 @@ bool DjangoOutput::write(Wobble::Project* project, QVariantMap options)
     Context* c = new Context();
     c->insert("project", project);
     c->insert("name", QVariant(project->name()));
+    
+    ClassList classes;
+    foreach (Class* c, project->findChildren<Class*>())
+    {
+        if (c->features() & Class::Persistent)
+        {
+            classes << c;
+        }
+    }
+    c->insert("classes", QVariant::fromValue<ClassList>(classes));
         
     Template modelsTemplate = engine->loadByName("models.py");
     QFile modelsFile(outDir + "models.py");
