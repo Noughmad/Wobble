@@ -24,6 +24,7 @@
 #include "src/core/input.h"
 #include "src/core/project.h"
 #include "src/core/output.h"
+#include <QDir>
 
 using namespace Wobble;
 
@@ -41,34 +42,22 @@ int main(int argc, char** argv)
     }
     
     Project* project = new Project();
+    project->setProjectType(Project::Application);
     input->read(project, QVariantMap());
-    
-    QPluginLoader oloader("/home/miha/Programiranje/Wobble/build/src/outputs/debug/libWobbleDebugOutput.so");
-    Output* output = qobject_cast< Output* >(oloader.instance());
-    
-    if (!output)
-    {
-        qDebug() << "Unable to load output plugin";
-        qDebug() << oloader.errorString();
-        return 0;
-    }
-    
-    output->write(project, QVariantMap());
-    
-    
-    QPluginLoader cloader("/home/miha/Programiranje/Wobble/build/src/outputs/cpp/libWobbleCppOutput.so");
-    Output* coutput = qobject_cast< Output* >(cloader.instance());
-    
-    if (!coutput)
-    {
-        qDebug() << "Unable to load output plugin";
-        qDebug() << cloader.errorString();
-        return 0;
-    }
     
     QVariantMap options;
     options["outputDirectory"] = "/home/miha/Build/test/";
-    coutput->write(project, options);
+    foreach (const QFileInfo& plugin, QDir("/home/miha/Build/lib/wobble").entryInfoList(QDir::Files))
+    {
+        QPluginLoader l(plugin.absoluteFilePath());
+        Output* output = qobject_cast< Output* >(l.instance());
+        
+        if (output)
+        {
+            qDebug() << "Loaded output " << plugin.absoluteFilePath();
+            output->write(project, options);
+        }
+    }
     
     return 0;
 }
