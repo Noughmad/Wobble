@@ -40,7 +40,7 @@ protected:
     {{ name }} ({{ name }}Private& dd, QObject* parent = 0);
 
 private:
-    Q_DECLARE_PRIVATE({{ class.name }})
+    Q_DECLARE_PRIVATE({{ name }})
 {% templatetag closebrace %};
 {% if nameSpace %}
 {% templatetag closebrace %}
