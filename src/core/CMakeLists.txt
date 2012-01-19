@@ -10,6 +10,7 @@ set(Wobble_SRCS common.cpp
 )
 
 add_definitions(-DMAKE_WOBBLE_LIBRARY)
+configure_file(config.h.in "${CMAKE_CURRENT_BINARY_DIR}/config.h")
 
 wobble_add_library(WobbleCore ${Wobble_SRCS})
 target_link_libraries(WobbleCore ${QT_QTCORE_LIBRARY})
