@@ -11,7 +11,7 @@ class DebugOutput : public Wobble::Output
     Q_INTERFACES(Wobble::Output)
     
 public:
-    virtual bool write(Wobble::Project* project, QVariantMap options);
+    virtual bool write(const Wobble::Project* project, QVariantMap options);
     virtual QString name();
     explicit DebugOutput(QObject* parent = 0);
     virtual ~DebugOutput();

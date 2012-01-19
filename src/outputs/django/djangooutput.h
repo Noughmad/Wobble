@@ -31,7 +31,7 @@ class DjangoOutput : public Wobble::Output
     Q_INTERFACES(Wobble::Output)
     
 public:
-    virtual bool write(Wobble::Project* project, QVariantMap options);
+    virtual bool write(const Wobble::Project* project, QVariantMap options);
     virtual QString name();
     explicit DjangoOutput(QObject* parent = 0);
     virtual ~DjangoOutput();

@@ -32,7 +32,7 @@ using namespace Wobble;
 
 const char* TemplateDir = "/home/miha/Build/share/templates/cpp/";
 
-bool CppOutput::write(Wobble::Project* project, QVariantMap options)
+bool CppOutput::write(const Project* project, QVariantMap options)
 {
     QString outDir = options["outputDirectory"].toString();
     if (outDir.isEmpty())

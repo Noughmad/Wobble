@@ -31,7 +31,7 @@ class CppOutput : public Wobble::Output
     Q_INTERFACES(Wobble::Output)
     
 public:
-    virtual bool write(Wobble::Project* project, QVariantMap options);
+    virtual bool write(const Wobble::Project* project, QVariantMap options);
     virtual QString name();
     explicit CppOutput(QObject* parent = 0);
     virtual ~CppOutput();

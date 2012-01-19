@@ -39,7 +39,9 @@ public:
     virtual ~Output();
     
     virtual QString name() = 0;
-    virtual bool write(Project* project, QVariantMap options) = 0;
+    virtual bool write(const Project* project, QVariantMap options) = 0;
+    
+    void setProgress(int done, int total, const QString& status);
 };
 
 }

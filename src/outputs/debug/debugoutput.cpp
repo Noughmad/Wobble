@@ -7,7 +7,7 @@
 
 using namespace Wobble;
 
-bool DebugOutput::write(Wobble::Project* project, QVariantMap options)
+bool DebugOutput::write(const Project* project, QVariantMap options)
 {
     qDebug() << "Project: " << project->name();
     foreach (Wobble::Class* c, project->findChildren<Wobble::Class*>())
