@@ -131,7 +131,7 @@ public:
      *
      * @return :Identifier*
      **/
-    Identifier* topLevel() const;
+    Identifier* topLevel();
     
     /**
      * @brief Returns the list of members

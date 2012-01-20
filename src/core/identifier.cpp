@@ -115,6 +115,18 @@ IdentifierList Identifier::members() const
     return findChildren<Identifier*>();
 }
 
+Identifier* Identifier::topLevel()
+{
+    if (space())
+    {
+        return space()->topLevel();
+    }
+    else
+    {
+        return this;
+    }
+}
+
 QDebug& operator<<(QDebug& stream, Wobble::Identifier* id) {
     stream << id->metaObject()->className() << " " << id->fullName("/");
     return stream.maybeSpace();
