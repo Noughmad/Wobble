@@ -36,6 +36,8 @@ public:
     int source;
     bool pod;
     bool object;
+    Type* keyType;
+    Type* valueType;
 };
 
 }

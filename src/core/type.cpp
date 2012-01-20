@@ -3,9 +3,14 @@
 
 using namespace Wobble;
 
+typedef QMap<Type::StandardType, Type*> TypeMap;
+
+Q_GLOBAL_STATIC(TypeMap, stdTypes)
+
 TypePrivate::TypePrivate(const QString& name) : IdentifierPrivate(name)
 {
-
+    valueType = 0;
+    keyType = 0;
 }
 
 Wobble::TypePrivate::~TypePrivate()
@@ -64,6 +69,30 @@ void Type::setObject(bool object)
     d->object = object;
 }
 
+void Type::setKeyType(Type* keyType)
+{
+    Q_D(Type);
+    d->keyType = keyType;
+}
+
+Type* Type::keyType() const
+{
+    Q_D(const Type);
+    return d->keyType;
+}
+
+void Type::setValueType(Type* valueType)
+{
+    Q_D(Type);
+    d->valueType = valueType;
+}
+
+Type* Type::valueType() const
+{
+    Q_D(const Type);
+    return d->valueType;
+}
+
 
 Type* Type::findByName(const QString& name)
 {
@@ -72,5 +101,47 @@ Type* Type::findByName(const QString& name)
     t->setPod(name != "string");
     return t;
 }
+
+Type* Type::standardType(Type::StandardType type)
+{
+    if (!stdTypes()->contains(type))
+    {
+        Type* t = new Type(standardTypeName(type));
+        stdTypes()->insert(type, t);
+    }
+    return stdTypes()->value(type);
+}
+
+QString Type::standardTypeName(Type::StandardType type)
+{
+    switch (type)
+    {
+        case Boolean:
+            return "bool";
+            
+        case Integer:
+            return "int";
+            
+        case Character:
+            return "char";
+            
+        case Float:
+            return "float";
+            
+        case String:
+            return "string";
+            
+        case File:
+            return "file";
+            
+        case DateTime:
+            return "time";
+            
+        default:
+            qWarning() << "standardTypeName called with a non-standard type" << type;
+            return QString();
+    }
+}
+
 
 #include "type.moc"

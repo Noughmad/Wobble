@@ -19,6 +19,8 @@ class WOBBLE_EXPORT Type : public Identifier
     Q_PROPERTY(Source source READ source WRITE setSource)
     Q_PROPERTY(bool pod READ isPod WRITE setPod)
     Q_PROPERTY(bool object READ isObject WRITE setObject)
+    Q_PROPERTY(Type* valueType READ valueType WRITE setValueType)
+    Q_PROPERTY(Type* keyType READ keyType WRITE setKeyType)
     
 public:
     enum Source
@@ -47,22 +49,8 @@ public:
         Float, /**< The floating point number type */
         DateTime, /**< A type holding a point in time */
         File, /**< A file */
-    };
-    
-    enum ListType
-    {
-        DefaultList,
-        Array,
-        LinkedList
-    };
-    
-    enum MapType
-    {
-        DefaultMap,
-        SingleMap,
-        MultiMap,
-        SingleHash,
-        MultiHash
+        List, /**< A list of values. Must have valueType set */
+        Map /**< A map or dictionary of keys and values. Must have valueType and keyType set */
     };
     
     /**
@@ -87,14 +75,30 @@ public:
      * Different languages have different methods for these type, so
      * it is the Input's task to convert them to StandardType, and
      * the Output's task to give the appropriate name. 
+     * 
+     * Standard types are always created as top-level identifiers, 
+     * so they have no parent and can't be accessed by
+     * traversing the identifier tree. However, they are owned
+     * by Wobble, so never delete the objects returned by these functions. 
+     * 
+     * @note Don't use this function to create list or map types, 
+     * instead use list() or map(), respectively. 
      *
      * @sa StandardType
      * @return Type*
      **/
     static Type* standardType(StandardType type);
-    static Type* list(Type* values, ListType = DefaultList);
-    static Type* map(Type* keys, Type* values, MapType = DefaultMap);
+    static Type* list(Type* values);
+    static Type* map(Type* keys, Type* values);
     static Type* findByName(const QString& name);
+    
+    /**
+     * Returns a common name associated with the standard @p type. 
+     * 
+     * In most cases, the names are taken from the C type, as
+     * those are often the shortest and universally recognised. 
+     **/
+    static QString standardTypeName(StandardType type);
     
     Source source() const;
     void setSource(Source source);
@@ -125,6 +129,35 @@ public:
      **/
     bool isPod() const;
     void setPod(bool pod);
+    
+    /**
+     * @property valueType
+     *
+     * If this is a list type, this property holds the type 
+     * of each element in the list. 
+     * 
+     * If this is a map type, this property holds the type
+     * of map values. 
+     * 
+     * Otherwise, valueType is 0. 
+     * 
+     **/
+    Type* valueType() const;
+    void setValueType(Type* valueType);
+    
+    /**
+     * @property keyType
+     *
+     * If this is a map type, this property holds the type
+     * of map key. Note that while Wobble allows you to use 
+     * any type as keyType, languages may impose additional
+     * restraints. 
+     * 
+     * If this is not a map, keyType is 0. 
+     * 
+     **/
+    Type* keyType() const;
+    void setKeyType(Type* keyType);
     
     W_DECLARE_PRIVATE(Type)
 };
