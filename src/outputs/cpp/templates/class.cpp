@@ -8,6 +8,7 @@
 
 {% if nameSpace %}using namespace nameSpace;{% endif %}
 
+{% if dpointer %}
 {{ name }}Private::{{ name }}Private()
 {
     
@@ -17,6 +18,8 @@
 {
     
 }
+
+{% endif dpointer %}
 
 {{ name }}::{{ name }}(QObject* parent = 0) : QObject(parent)
 {
