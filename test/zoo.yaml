@@ -34,8 +34,8 @@ queries:
   filters:
   - flying == true
 
-- name: smallBirds
-  type: Bird
+- name: smallAnimals
+  type: Animal
   filters:
   - size < 10
 
@@ -52,5 +52,6 @@ views:
 - name: AnimalDetail
   type: composite
   queries:
-  - type: Animal
+  - name: getOneAnimal
+    type: Animal
     result: getOne

@@ -27,6 +27,7 @@
 #include "yaml-cpp/parser.h"
 #include "yaml-cpp/node.h"
 #include <QStringList>
+#include "src/core/view.h"
 
 using namespace Wobble;
 using namespace YAML;
@@ -80,6 +81,13 @@ bool YamlInput::read(Wobble::Project* project, QVariantMap options)
                 readQuery(*qi);
             }
         }
+        else if (key == "views")
+        {
+            for(YAML::Iterator vi = it.second().begin(); vi != it.second().end(); ++vi)
+            {
+                readView(*vi);
+            }
+        }
     }
     
     return true;
@@ -114,7 +122,7 @@ void YamlInput::readQuery(const Node& node)
     qDebug() << "Adding query" << name;
     Query* query = new Query(name, type, mProject);
     
-    if (const YAML::Node* queryType = node.FindValue("queryType"))
+    if (const YAML::Node* queryType = node.FindValue("result"))
     {
         // TODO: Map from string to appropriate values
         query->setQueryType(Query::GetMany);
@@ -187,6 +195,40 @@ void YamlInput::readClasses(const YAML::Node& node)
                 qDebug() << "Adding property" << name << "of type" << type << "to class " << c->name();
                 Variable* property = new Variable(name, Type::findByName(type), c);
                 qDebug() << "Added property" << property->name() << "of type" << property->type()->name() << "to class " << c->name();
+            }
+        }
+    }
+}
+
+void YamlInput::readView(const YAML::Node& node)
+{
+    QString name = readString(node["name"]);
+    View* v = new View(name, mProject);
+    QString type = readString(node["type"]);
+    if (type == "list")
+    {
+        v->setViewType(View::ListView);
+        v->setListItem(mProject->findChild<View*>(readString(node["item"])));
+    }
+    else
+    {
+        // TODO: Expand the switch to other standard types
+        v->setViewType(View::LineView);
+    }
+    if (const YAML::Node* queries = node.FindValue("queries"))
+    {
+        for (YAML::Iterator it = queries->begin(); it != queries->end(); ++it)
+        {
+            if ((*it).Type() == NodeType::Scalar)
+            {
+                qDebug() << "Adding existing query" << readString(*it) << "to view" << name;
+                v->addQuery(mProject->findChild<Query*>(readString(*it)));
+            }
+            else
+            {
+                qDebug() << "Adding new query" << readString((*it)["name"]) << "to view" << name;
+                readQuery(*it);
+                v->addQuery(mProject->findChild<Query*>(readString((*it)["name"])));
             }
         }
     }

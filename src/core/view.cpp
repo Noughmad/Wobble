@@ -13,7 +13,7 @@ ViewPrivate::~ViewPrivate()
 
 }
 
-View::View(const QString& name, Identifier* parent): Class(name, parent)
+View::View(const QString& name, Identifier* parent): Class(*new ViewPrivate(name), parent)
 {
 
 }
