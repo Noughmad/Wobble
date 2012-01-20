@@ -37,6 +37,7 @@ public:
     virtual ~VariablePrivate();
     
     Type* type;
+    bool constant;
 };
 
 }

@@ -1,1 +1,4 @@
-INPUTS=core
+PROJECT_NAME            = Wobble
+INPUT                   = @CMAKE_CURRENT_SOURCE_DIR@/core
+TAGFILES                = qt.tag
+EXCLUDE_PATTERNS        = *_p.h *.moc

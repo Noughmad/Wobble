@@ -26,18 +26,75 @@
 
 using namespace Wobble;
 
+QString functionCase(const QString str)
+{
+    return str[0].toUpper() + str.mid(1);
+}
+
+QString getterName(Variable* var)
+{
+    QString name = var->name();
+    if (var->type()->name() == "bool")
+    {
+        name = "is" + functionCase(name);
+    }
+    return name;
+}
+
+QString setterName(Variable* var)
+{
+    return "set" + functionCase(var->name());
+}
+
+QVariant GetterNameFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const
+{
+    Variable* property = input.value<Variable*>();
+    return getterName(property);
+}
+
+QVariant SetterNameFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const
+{
+    Variable* property = input.value<Variable*>();
+    return setterName(property);
+}
+
+
 QVariant PropertyDeclarationFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const
 {
     Variable* property = input.value<Variable*>();
-    if (!property->type())
+    Type* type = property->type();
+    
+    if (!type)
     {
         qDebug() << "Every property needs a type in C++";
         return QVariant();
     }
     
-    QString type = property->type()->name();
+    QString name = property->name();
+    QString setterArg, getterValue;
+    qDebug() << type->name() << type->isObject() << type->isPod();
+    if (type->isObject())
+    {
+        getterValue = type->name() + '*';
+        setterArg = getterValue;
+    }
+    else 
+    {
+        getterValue = type->name();
+        if (!type->isPod())
+        {
+            setterArg = "const " + getterValue + '&';
+        }
+        else
+        {
+            setterArg = getterValue;
+        }
+    }
     
-    return QVariant();
+    const QString getter = QString("%1 %2() const;").arg(getterValue).arg(getterName(property));
+    const QString setter = QString("void %1(%2 %3);").arg(setterName(property)).arg(setterArg).arg(name);
+        
+    return QVariant(getter + '\n' + setter + '\n');
 }
 
 QVariant PropertyDefinitionFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const

@@ -34,6 +34,8 @@ public:
     virtual ~TypePrivate();
     
     int source;
+    bool pod;
+    bool object;
 };
 
 }

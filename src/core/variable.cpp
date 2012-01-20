@@ -40,5 +40,16 @@ Type* Variable::type() const
     return d->type;
 }
 
+bool Variable::isConstant() const
+{
+    Q_D(const Variable);
+    return d->constant;
+}
+
+void Variable::setConstant(bool constant)
+{
+    Q_D(Variable);
+    d->constant = constant;
+}
 
 #include "variable.moc"

@@ -27,6 +27,8 @@ namespace Wobble {
     namespace Templates {
         Grantlee::Template getTemplate(const QString& name);
         Grantlee::Engine* engine();
+        
+        void registerTypes();
     }
 }
 

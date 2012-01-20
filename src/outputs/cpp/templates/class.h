@@ -21,16 +21,16 @@ class {{ name }}Private;
 class {{ name }} {% if class.superclasses %}:{% endif %} {% for super in class.superclasses %} super{% if not forloop.last %}, {% endif %}{% endfor %}
 {% templatetag openbrace %}
     Q_OBJECT
-    {% for p in class.properties %}
-    Q_PROPERTY({{ p.type }} {{ p.name }} {% if p.getter %}READ {{ p.getter }} {% endif %}{% if p.setter %}WRITE {{ p.setter }} {% endif %})
+    {% for p in properties %}
+    Q_PROPERTY({{ p.type.name }} {{ p.name }} READ {{ p|getter_name }} {% if not p.isConstant %} WRITE {{ p|setter_name }} {% endif %})
     {% endfor %}
     
 public:
     {{ name }}(QObject* parent = 0);
     virtual ~{{ name }}();
     
-    {% for p in class.properties %}
-    {{ p|property_decl }}
+    {% for p in properties %}
+    {{ p|property_declaration }}
     {% endfor %}
     
 protected:

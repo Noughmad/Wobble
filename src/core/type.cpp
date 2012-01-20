@@ -40,9 +40,37 @@ void Type::setSource(Type::Source source)
     d->source = source;
 }
 
+bool Type::isPod() const
+{
+    Q_D(const Type);
+    return d->pod;
+}
+
+void Type::setPod(bool pod)
+{
+    Q_D(Type);
+    d->pod = pod;
+}
+
+bool Type::isObject() const
+{
+    Q_D(const Type);
+    return d->object;
+}
+
+void Type::setObject(bool object)
+{
+    Q_D(Type);
+    d->object = object;
+}
+
+
 Type* Type::findByName(const QString& name)
 {
-    return new Type(name);
+    Type* t = new Type(name);
+    t->setObject(false);
+    t->setPod(name != "string");
+    return t;
 }
 
 #include "type.moc"

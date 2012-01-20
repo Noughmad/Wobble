@@ -22,6 +22,7 @@
 #include "src/core/project.h"
 #include "src/core/class.h"
 #include "src/core/variable.h"
+#include "src/utils/templates.h"
 
 #include <grantlee/engine.h>
 
@@ -46,22 +47,14 @@ bool CppOutput::write(const Project* project, QVariantMap options)
         dir.mkpath(outDir);
     }
     
-    Engine* engine = new Engine();
-    
-    engine->addPluginPath("/home/miha/Build/lib");
-    qDebug() << engine->pluginPaths();
-    engine->loadByName("grantlee_cppfilters");
-    
-    FileSystemTemplateLoader::Ptr loader = FileSystemTemplateLoader::Ptr( new FileSystemTemplateLoader() );
-    loader->setTemplateDirs( QStringList() << TemplateDir );
-    engine->addTemplateLoader( loader );
+    Templates::engine()->loadByName("grantlee_cppfilters");
     
     // First, create the top-level CMakeLists.txt file
     Context* c = new Context();
     c->insert("project", project);
     c->insert("name", QVariant(project->name()));
         
-    Template topLevelCmlTemplate = engine->loadByName("CMakeLists.top");
+    Template topLevelCmlTemplate = Templates::getTemplate("CMakeLists.top");
     QFile topLevelCml(outDir + "CMakeLists.txt");
     topLevelCml.open(QIODevice::WriteOnly);
     topLevelCml.write(topLevelCmlTemplate->render(c).toLatin1());
@@ -69,14 +62,14 @@ bool CppOutput::write(const Project* project, QVariantMap options)
     
     if (project->projectType() == Project::Application)
     {
-        Template mainTemplate = engine->loadByName("main.cpp");
+        Template mainTemplate = Templates::getTemplate("main.cpp");
         QFile mainFile(outDir + "main.cpp");
         mainFile.open(QIODevice::WriteOnly);
         mainFile.write(mainTemplate->render(c).toLatin1());
         mainFile.close();
     }
     
-    Template classTemplate = engine->loadByName("class.h");
+    Template classTemplate = Templates::getTemplate("class.h");
     dir.mkpath(outDir + "src");
     
     qDebug() << classTemplate->errorString();
@@ -94,7 +87,7 @@ bool CppOutput::write(const Project* project, QVariantMap options)
         context->insert("name", c->name());
         context->insert("license", "This is License");
         context->insert("nameSpace", project->name());
-        context->insert("properties", QVariant::fromValue(c->findChildren<Wobble::Variable*>()));
+        context->insert("properties", QVariant::fromValue<QList<Wobble::Variable*> >(c->findChildren<Wobble::Variable*>()));
         
         file.write(classTemplate->render(context).toLatin1());
         file.close();

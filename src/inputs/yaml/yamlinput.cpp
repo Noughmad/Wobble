@@ -123,7 +123,7 @@ void YamlInput::readClasses(const YAML::Node& node)
                 QString type = readString(pi->FindValue("type"));
                 QString value = readString(pi->FindValue("value"));
                 qDebug() << "Adding property" << name << "of type" << type << "to class " << c->name();
-                Variable* property = new Variable(name, mProject->findOrCreateMember<Type>(type), c);
+                Variable* property = new Variable(name, Type::findByName(type), c);
                 qDebug() << "Added property" << property->name() << "of type" << property->type()->name() << "to class " << c->name();
             }
         }

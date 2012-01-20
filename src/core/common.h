@@ -14,6 +14,13 @@ namespace Common
     WOBBLE_EXPORT View* detailView();
     
     WOBBLE_EXPORT View* listDetailView();
+    
+    /**
+     * Register all Wobble identifier types with the Qt metatype system
+     * 
+     * @sa qRegisterMetaType
+     **/
+    WOBBLE_EXPORT void registerTypes();
 };
 
 }

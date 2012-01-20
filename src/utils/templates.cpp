@@ -19,10 +19,18 @@
 
 #include "templates.h"
 
+#include "../core/type.h"
+#include "../core/class.h"
+#include "../core/identifier.h"
+#include "../core/variable.h"
+#include "../core/project.h"
+#include "../core/common.h"
+
 #include "../core/config.h"
 
 #include <grantlee/templateloader.h>
 #include <grantlee/engine.h>
+#include <grantlee/metatype.h>
 
 using namespace Wobble;
 
@@ -40,11 +48,16 @@ Q_GLOBAL_STATIC(TemplatesPrivate, self)
 TemplatesPrivate::TemplatesPrivate()
 {
     engine = new Grantlee::Engine();
-    engine->addPluginPath(TemplateFilterDir);
+    engine->addPluginPath(TemplateFilterBaseDir);
     
     Grantlee::FileSystemTemplateLoader::Ptr loader = Grantlee::FileSystemTemplateLoader::Ptr( new Grantlee::FileSystemTemplateLoader() );
     loader->setTemplateDirs( QStringList() << TemplateDir );
     engine->addTemplateLoader( loader );
+    
+    Common::registerTypes();
+    
+    Grantlee::registerMetaType<Variable*>();
+    Grantlee::registerMetaType<Type*>();
 }
 
 TemplatesPrivate::~TemplatesPrivate()

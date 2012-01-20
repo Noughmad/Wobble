@@ -33,6 +33,7 @@
  **/
 namespace Wobble {
 
+/// @internal
 class IdentifierPrivate;
 
 /**
@@ -72,8 +73,7 @@ public:
      * \sa name, space
      *
      * @param name the identifier name
-     * @param space the containing namespace. If 0 is given, this creates a top-level identifier. Defaults to 0.
-     * @param parent parent QObject.
+     * @param parent the containing namespace.
      **/
     Identifier(const QString& name, Identifier* parent = 0);
     /**
@@ -94,7 +94,7 @@ public:
     
      /**
      * @property space
-     * @brief The namespace of this identifier
+     * @brief The parent namespace of this identifier
      **/
     Identifier* space() const;
     void setSpace(Wobble::Identifier* space);
@@ -110,8 +110,10 @@ public:
     /** 
      * @property accessType
      * 
-     * The access type of this identifier 
-     * By default, all identifiers are public
+     * The access type of this identifier. 
+     * By default, all identifiers are public. 
+     * 
+     * @sa AccessType
      */
     AccessType accessType() const;
     void setAccessType(AccessType accessType);
@@ -139,6 +141,15 @@ public:
      **/
     QList<Identifier*> members() const;
     
+    /**
+     * Tries to find a member of type @p T with name @p name. 
+     * If no such member is found, a new one is created. 
+     *
+     * @param T The type of the member to look for or create, 
+     * should inherit Identifier
+     * @param name The member name
+     * @return T*
+     **/
     template < class T>
     T* findOrCreateMember(const QString& name);
         

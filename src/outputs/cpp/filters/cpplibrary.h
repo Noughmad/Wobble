@@ -29,9 +29,20 @@
 class PropertyDeclarationFilter : public Grantlee::Filter
 {
     virtual QVariant doFilter(const QVariant& input, const QVariant& argument = QVariant(), bool autoescape = false) const;
+    virtual bool isSafe() const {return true; }
 };
 
 class PropertyDefinitionFilter : public Grantlee::Filter
+{
+    virtual QVariant doFilter(const QVariant& input, const QVariant& argument = QVariant(), bool autoescape = false) const;
+};
+
+class GetterNameFilter : public Grantlee::Filter
+{
+    virtual QVariant doFilter(const QVariant& input, const QVariant& argument = QVariant(), bool autoescape = false) const;
+};
+
+class SetterNameFilter : public Grantlee::Filter
 {
     virtual QVariant doFilter(const QVariant& input, const QVariant& argument = QVariant(), bool autoescape = false) const;
 };
@@ -45,8 +56,10 @@ public:
     CppLibrary(QObject* parent = 0) 
     : QObject(parent)
     {
-        m_filters["property_decl"] = new PropertyDeclarationFilter();
-        m_filters["property_def"] = new PropertyDefinitionFilter();
+        m_filters["property_declaration"] = new PropertyDeclarationFilter();
+        m_filters["property_definition"] = new PropertyDefinitionFilter();
+        m_filters["setter_name"] = new SetterNameFilter();
+        m_filters["getter_name"] = new GetterNameFilter();
         qDebug() << "Creating a CppLibrary";
     };
     virtual ~CppLibrary() {}
