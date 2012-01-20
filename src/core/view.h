@@ -2,6 +2,7 @@
 #define WOBBLE_VIEW_H
 
 #include <src/core/class.h>
+#include "query.h"
 
 
 namespace Wobble {
@@ -22,13 +23,38 @@ class ViewPrivate;
  * default views, including pre-made combinations of list-detail
  * 
  */
-class WOBBLE_EXPORT View : public Wobble::Class
+class WOBBLE_EXPORT View : public Class
 {
     Q_OBJECT
+    Q_PROPERTY(bool editable READ isEditable WRITE setEditable)
+    Q_PROPERTY(StandardView viewType READ viewType WRITE setViewType)
+    Q_PROPERTY(QueryList queries READ queries)
+    Q_PROPERTY(QList<View*> subViews READ subViews)
 
 public:
-    View(const QString& name, Wobble::Identifier* parent = 0);
+    enum StandardView
+    {
+        LineView,
+        TextView,
+        ImageView,
+        ClockView,
+        ListView,
+        Custom
+    };
+    View(const QString& name, Identifier* parent = 0);
     virtual ~View();
+    
+    bool isEditable() const;
+    void setEditable(bool editable);
+    
+    StandardView viewType() const;
+    void setViewType(StandardView viewType);
+    
+    QueryList queries() const;
+    void addQuery(Query* query);
+    
+    QList<View*> subViews() const;
+    void addSubView(View* view);
     
     W_DECLARE_PRIVATE(View)
 };
