@@ -10,7 +10,11 @@
 #define {{ name|upper }}_H
 {% endif %}
 
-// TODO: Includes from superclasses
+{% for inc in internalIncludes %}
+#include "{{ inc }}"{% endfor %}
+
+{% for inc in externalIncludes %}
+#include <{{ inc }}>{% endfor %}
 
 {% if nameSpace %}
 namespace {{ nameSpace }} {% templatetag openbrace %}
@@ -18,7 +22,7 @@ namespace {{ nameSpace }} {% templatetag openbrace %}
 
 class {{ name }}Private;
 
-class {{ name }} {% if class.superclasses %}:{% endif %} {% for super in class.superclasses %} super{% if not forloop.last %}, {% endif %}{% endfor %}
+class {{ name }} :{% for super in superclasses %} public {{ super }}{% if not forloop.last %},{% endif %}{% endfor %}
 {% templatetag openbrace %}
     Q_OBJECT
     {% for p in properties %}

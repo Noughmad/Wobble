@@ -93,6 +93,26 @@ bool CppOutput::write(const Project* project, QVariantMap options)
         map.insert("properties", QVariant::fromValue<QList<Wobble::Variable*> >(c->findChildren<Wobble::Variable*>()));
         map.insert("dpointer", createDPointers);
         
+        QStringList superclasses;
+        foreach (Class* super, c->superclasses())
+        {
+            superclasses << super->name();
+        }
+        
+        if (superclasses.isEmpty())
+        {
+            if (c->features() & Class::Persistent)
+            {
+                superclasses << "QDjangoModel";
+            }
+            else
+            {
+                superclasses << "QObject";
+            }
+        }
+        
+        map.insert("superclasses", superclasses);
+        
         QFile file(outDir + "src/" + c->name().toLower() + ".h");
         if (!file.open(QIODevice::WriteOnly))
         {
