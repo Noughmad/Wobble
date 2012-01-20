@@ -1,4 +1,5 @@
 PROJECT_NAME            = Wobble
 INPUT                   = @CMAKE_CURRENT_SOURCE_DIR@/core
-TAGFILES                = qt.tag
+TAGFILES                = @QT_DOC_DIR@/html/qt.tags
 EXCLUDE_PATTERNS        = *_p.h *.moc
+GENERATE_TAGFILE        = wobble.tag

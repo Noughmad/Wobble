@@ -26,6 +26,16 @@ namespace Wobble {
 
 class ProjectPrivate;
 
+/**
+ * @brief A complete top-level project
+ * 
+ * This class represents a programming project. It contains global options, 
+ * such as the project type, external dependencies and use Wobble components. 
+ * 
+ * All identifiers within the project can be accessed via members()
+ * 
+ * @sa Input::read, Output::write, Identifier::members()
+ **/
 class WOBBLE_EXPORT Project : public Identifier
 {
     Q_OBJECT
@@ -44,15 +54,26 @@ public:
     };
     Q_DECLARE_FLAGS(Components, Component)
     
+    /**
+     * Enumerates different project types
+     **/
     enum ProjectType
     {
-        Application,
-        Library
+        Application, /**< A program or a website, capable of running on its own */
+        Library /**< A library with a public API that can be used to build other programs */
     };
     
     Project();
     virtual ~Project();
     
+    /**
+     * @property projectType
+     * @brief The type of this project
+     * 
+     * @sa ProjectType
+     *
+     * @return :Project::ProjectType
+     **/
     ProjectType projectType() const;
     void setProjectType(ProjectType type);
     

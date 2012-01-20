@@ -32,6 +32,16 @@ class Project;
 
 class Class;
 
+/**
+ * @brief Interface class for all code outputs
+ * 
+ * Wobble uses a plugin architecture for reading and generating code. 
+ * This is the base class for all code genetators. 
+ * 
+ * Every subclass must implement the name and write methods. 
+ * 
+ * @sa write
+ **/
 class WOBBLE_EXPORT Output : public QObject
 {
 public:
@@ -39,9 +49,30 @@ public:
     virtual ~Output();
     
     virtual QString name() = 0;
+    /**
+     * @brief Write out the @p project
+     * 
+     * The main method an output has to implement. The output should
+     * write out the entire project structure, which is available via
+     * calls to Project::members() and Project::findMember()
+     *
+     * @param project The project to write
+     * @param options Plugin-specific options
+     * @return true if the project code was generater successfully, false otherwise
+     **/
     virtual bool write(const Project* project, QVariantMap options) = 0;
     
-    void setProgress(int done, int total, const QString& status);
+    /**
+     * @brief Report the current progress status to Wobble
+     * 
+     * Using this function in not necessary, but it is recommended as 
+     * it give the application user useful information. 
+     *
+     * @param done the number of units processed so far
+     * @param total an estimated total number of units required
+     * @param status on optional descriptive status of the output
+     **/
+    void setProgress(int done, int total, const QString& status = QString());
 };
 
 }
