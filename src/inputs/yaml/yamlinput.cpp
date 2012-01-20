@@ -111,6 +111,7 @@ void YamlInput::readQuery(const Node& node)
         return;
     }
     
+    qDebug() << "Adding query" << name;
     Query* query = new Query(name, type, mProject);
     
     if (const YAML::Node* queryType = node.FindValue("queryType"))
