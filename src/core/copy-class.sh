@@ -1,5 +1,7 @@
-OLD=Type
-NEW=Variable
+OLD=$1
+NEW=$2
+
+echo "Copying ${OLD} to ${NEW}"
 
 OLD_L=`echo ${OLD} | tr [A-Z] [a-z]`
 OLD_U=`echo ${OLD} | tr [a-z] [A-Z]`
