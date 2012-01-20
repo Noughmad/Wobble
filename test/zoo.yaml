@@ -38,3 +38,19 @@ queries:
   type: Bird
   filters:
   - size < 10
+
+views:
+- name: AnimalName
+  type: line
+
+- name: AnimalListView
+  type: list
+  item: AnimalName
+  queries:
+  - allAnimals
+
+- name: AnimalDetail
+  type: composite
+  queries:
+  - type: Animal
+    result: getOne
