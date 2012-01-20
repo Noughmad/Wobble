@@ -76,12 +76,16 @@ void View::addSubView(View* view)
     d->subViews << view;
 }
 
+View* View::listItem() const
+{
+    Q_D(const View);
+    return d->listItem;
+}
 
-
-
-
-
-
-
+void View::setListItem(View* listItem)
+{
+    Q_D(View);
+    d->listItem = listItem;
+}
 
 #include "view.moc"
