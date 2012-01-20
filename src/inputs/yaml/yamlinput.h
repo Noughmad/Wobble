@@ -46,6 +46,7 @@ public:
     
 private:
     void readClasses(const YAML::Node& node);
+    void readQuery(const YAML::Node& node);
     Wobble::Project* mProject;
 };
 

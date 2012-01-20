@@ -1,7 +1,7 @@
 project: zoo
 
 classes:
-- name: animal
+- name: Animal
   properties:
   - name: species
     type: string
@@ -11,16 +11,30 @@ classes:
   - name: size
     type: float
 
-- name: flying
+- name: Bird
+  super: Animal
   properties:
   - name: wings
     type: bool
+  - name: flying
+    type: bool
 
-- name: mammal
-  super: animal
+- name: Mammal
+  super: Animal
 
-- name: bat
-  super: [mammal, flying]
+- name: Mouse
+  super: Mammal
 
-- name: bird
-  super: [animal, flying]
+queries:
+- name: allAnimals
+  type: Animal
+
+- name: flyingBirds
+  type: Bird
+  filters:
+  - flying == true
+
+- name: smallBirds
+  type: Bird
+  filters:
+  - size < 10

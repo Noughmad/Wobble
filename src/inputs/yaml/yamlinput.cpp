@@ -21,10 +21,12 @@
 #include "src/core/project.h"
 #include "src/core/class.h"
 #include "src/core/variable.h"
+#include "src/core/query.h"
 #include <fstream>
 
 #include "yaml-cpp/parser.h"
 #include "yaml-cpp/node.h"
+#include <QStringList>
 
 using namespace Wobble;
 using namespace YAML;
@@ -71,6 +73,13 @@ bool YamlInput::read(Wobble::Project* project, QVariantMap options)
         {
             readClasses(it.second());
         }
+        else if (key == "queries")
+        {
+            for(YAML::Iterator qi = it.second().begin(); qi != it.second().end(); ++qi)
+            {
+                readQuery(*qi);
+            }
+        }
     }
     
     return true;
@@ -92,6 +101,56 @@ QString YamlInput::readString(const Node* node)
     return readString(*node);
 }
 
+void YamlInput::readQuery(const Node& node)
+{
+    QString name = readString(node["name"]);
+    Class* type = mProject->findChild<Class*>(readString(node["type"]));
+    if (!type)
+    {
+        qWarning() << "Query type is not a class type";
+        return;
+    }
+    
+    Query* query = new Query(name, type, mProject);
+    
+    if (const YAML::Node* queryType = node.FindValue("queryType"))
+    {
+        // TODO: Map from string to appropriate values
+        query->setQueryType(Query::GetMany);
+    }
+    else
+    {
+        query->setQueryType(Query::GetMany);
+    }
+    
+    if (const YAML::Node* filters = node.FindValue("filters"))
+    {
+        for (YAML::Iterator it = filters->begin(); it != filters->end(); ++it)
+        {
+            QStringList list = readString(*it).split(" ");
+            if (list.size() != 3)
+            {
+                qWarning() << "Bad filter line" << list;
+                continue;
+            }
+            Variable* var = type->findChild<Variable*>(list.first());
+            if (!var)
+            {
+                qWarning() << "Type" << type->name() << "has no property named" << list.first();
+                continue;
+            }
+            
+            Query::Filter f;
+            f.var = var;
+            f.value = list.last();
+            
+            // TODO: Map from operation symbols to Query::FilterType enum
+            f.operation = Query::Equals;
+            
+            query->addFilter(f);
+        }
+    }
+}
 
 void YamlInput::readClasses(const YAML::Node& node)
 {
