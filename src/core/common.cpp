@@ -35,6 +35,11 @@ void Common::registerTypes()
 
 View* Common::classView(Class* c, bool editable)
 {
+    /*
+     * TODO: This may be unnecessary, or at least move to Outputs. 
+     * For example, Django has a ModelForm, maybe other tookits
+     * have similar functionality. 
+     */
     View* view = new View(c->name() + "View", c->topLevel());
     foreach (Variable* var, c->findChildren<Variable*>())
     {
