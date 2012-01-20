@@ -1,5 +1,7 @@
 {% load grantlee_cppfilters %}
-{{ license }}
+/*
+    {{ license }}
+ */
 
 #include "{{ name|lower }}.h"
 {% if dpointer %}

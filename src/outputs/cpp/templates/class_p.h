@@ -1,6 +1,7 @@
 {% load grantlee_cppfilters %}
-
-{{ license }}
+/*
+    {{ license }}
+ */
 
 {% if nameSpace %}
 #ifndef {{ nameSpace|upper }}_{{ name|upper }}_P_H
