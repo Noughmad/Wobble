@@ -112,6 +112,8 @@ bool DjangoOutput::write(const Project* project, QVariantMap options)
     modelsFile.open(QIODevice::WriteOnly);
     modelsFile.write(modelsTemplate->render(c).toLatin1());
     modelsFile.close();
+    
+    return true;
 }
 
 QString DjangoOutput::name()

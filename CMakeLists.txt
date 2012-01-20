@@ -69,8 +69,10 @@ set(INSTALL_FILTERS_DEFAULT_ARGS  RUNTIME DESTINATION "${BIN_INSTALL_DIR}/${Gran
 
 set(CMAKE_INSTALL_RPATH "${LIB_INSTALL_DIR}")
 
-
-# add a target to generate API documentation with Doxygen
+if (${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
+    set( CMAKE_CXX_FLAGS_DEBUG "-O2 -Wall -g -pedantic" )
+    set( CMAKE_CXX_FLAGS_RELEASE "-Os -Wall" )
+endif()
 
 add_subdirectory(src)
 add_subdirectory(test)

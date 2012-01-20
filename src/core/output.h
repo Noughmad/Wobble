@@ -77,6 +77,6 @@ public:
 
 }
 
-Q_DECLARE_INTERFACE(Wobble::Output, "eu.Noughmad.Wobble.Output/1.0");
+Q_DECLARE_INTERFACE(Wobble::Output, "eu.Noughmad.Wobble.Output/1.0")
 
 #endif // WOBBLE_OUTPUT_H

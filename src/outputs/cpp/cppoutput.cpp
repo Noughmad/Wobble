@@ -136,6 +136,8 @@ bool CppOutput::write(const Project* project, QVariantMap options)
         cppFile.write(cppTemplate->render(new Context(map)).toLatin1());
         cppFile.close();
     }
+    
+    return true;
 }
 
 QString CppOutput::name()

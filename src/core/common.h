@@ -21,7 +21,7 @@ namespace Common
      * @sa qRegisterMetaType
      **/
     WOBBLE_EXPORT void registerTypes();
-};
+}
 
 }
 

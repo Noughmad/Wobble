@@ -42,6 +42,6 @@ public:
 
 }
 
-Q_DECLARE_INTERFACE(Wobble::Input, "eu.Noughmad.Wobble.Input/1.0");
+Q_DECLARE_INTERFACE(Wobble::Input, "eu.Noughmad.Wobble.Input/1.0")
 
 #endif // WOBBLE_INPUT_H

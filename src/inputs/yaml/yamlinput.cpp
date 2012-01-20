@@ -72,6 +72,8 @@ bool YamlInput::read(Wobble::Project* project, QVariantMap options)
             readClasses(it.second());
         }
     }
+    
+    return true;
 }
 
 QString YamlInput::readString(const YAML::Node& node)
