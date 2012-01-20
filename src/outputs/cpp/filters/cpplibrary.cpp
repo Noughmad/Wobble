@@ -46,17 +46,63 @@ QString setterName(Variable* var)
     return "set" + functionCase(var->name());
 }
 
+QString returnArgType(Type* t)
+{
+    if (t->isObject())
+    {
+        return t->name() + '*';
+    }
+    else 
+    {
+        return t->name();
+    }
+}
+
+QString passArgType(Type* t)
+{
+    if (t->isObject())
+    {
+        return t->name() + '*';
+    }
+    else if (!t->isPod())
+    {
+        return QString("const ") + t->name() + '&';
+    }
+    else
+    {
+        return t->name();
+    }
+}
+
 QVariant GetterNameFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const
 {
     Variable* property = input.value<Variable*>();
+    Q_CHECK_PTR(property);
     return getterName(property);
 }
 
 QVariant SetterNameFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const
 {
     Variable* property = input.value<Variable*>();
+    Q_CHECK_PTR(property);
     return setterName(property);
 }
+
+QVariant ReturnArgFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const
+{
+    Type* type = input.value<Type*>();
+    Q_CHECK_PTR(type);
+    return returnArgType(type);
+}
+
+QVariant PassArgFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const
+{
+    Type* type = input.value<Type*>();
+    Q_CHECK_PTR(type);
+    return passArgType(type);
+}
+
+
 
 
 QVariant PropertyDeclarationFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const

@@ -47,6 +47,7 @@ Q_GLOBAL_STATIC(TemplatesPrivate, self)
 
 TemplatesPrivate::TemplatesPrivate()
 {
+    qDebug() << "Creating the template engine";
     engine = new Grantlee::Engine();
     engine->addPluginPath(TemplateFilterBaseDir);
     
@@ -62,6 +63,7 @@ TemplatesPrivate::TemplatesPrivate()
 
 TemplatesPrivate::~TemplatesPrivate()
 {
+    qDebug() << "Deleting the templat engine";
     delete engine;
 }
 
@@ -72,7 +74,9 @@ Grantlee::Engine* Templates::engine()
 
 Grantlee::Template Templates::getTemplate(const QString& name)
 {
-    return self()->engine->loadByName(name);
+    Grantlee::Template t = self()->engine->loadByName(name);
+    qDebug() << t->nodeList().size();
+    return t;
 }
 
 

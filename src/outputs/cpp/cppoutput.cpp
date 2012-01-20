@@ -70,27 +70,37 @@ bool CppOutput::write(const Project* project, QVariantMap options)
     }
     
     Template classTemplate = Templates::getTemplate("class.h");
+    Template phTemplate = Templates::getTemplate("class_p.h");
+    Template cppTemplate = Templates::getTemplate("class.cpp");
     dir.mkpath(outDir + "src");
-    
-    qDebug() << classTemplate->errorString();
-    
+        
     foreach (Class* c, project->findChildren<Class*>())
     {
+        QVariantHash map;
+        map.insert("name", c->name());
+        map.insert("license", "This is License");
+        map.insert("nameSpace", project->name());
+        map.insert("properties", QVariant::fromValue<QList<Wobble::Variable*> >(c->findChildren<Wobble::Variable*>()));
+        
         QFile file(outDir + "src/" + c->name().toLower() + ".h");
         if (!file.open(QIODevice::WriteOnly))
         {
             qDebug() << "Couln't open class file";
             continue;
         }
-        
-        Context* context = new Context();
-        context->insert("name", c->name());
-        context->insert("license", "This is License");
-        context->insert("nameSpace", project->name());
-        context->insert("properties", QVariant::fromValue<QList<Wobble::Variable*> >(c->findChildren<Wobble::Variable*>()));
-        
-        file.write(classTemplate->render(context).toLatin1());
+
+        file.write(classTemplate->render(new Context(map)).toLatin1());
         file.close();
+        
+        QFile phFile(outDir + "src/" + c->name().toLower() + "_p.h");
+        phFile.open(QIODevice::WriteOnly);
+        phFile.write(phTemplate->render(new Context(map)).toLatin1());
+        phFile.close();
+        
+        QFile cppFile(outDir + "src/" + c->name().toLower() + ".cpp");
+        cppFile.open(QIODevice::WriteOnly);
+        cppFile.write(cppTemplate->render(new Context(map)).toLatin1());
+        cppFile.close();
     }
 }
 

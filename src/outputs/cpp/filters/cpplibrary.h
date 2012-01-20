@@ -29,10 +29,19 @@
 class PropertyDeclarationFilter : public Grantlee::Filter
 {
     virtual QVariant doFilter(const QVariant& input, const QVariant& argument = QVariant(), bool autoescape = false) const;
-    virtual bool isSafe() const {return true; }
 };
 
 class PropertyDefinitionFilter : public Grantlee::Filter
+{
+    virtual QVariant doFilter(const QVariant& input, const QVariant& argument = QVariant(), bool autoescape = false) const;
+};
+
+class ReturnArgFilter : public Grantlee::Filter
+{
+    virtual QVariant doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const;
+};
+
+class PassArgFilter : public Grantlee::Filter
 {
     virtual QVariant doFilter(const QVariant& input, const QVariant& argument = QVariant(), bool autoescape = false) const;
 };
@@ -56,22 +65,23 @@ public:
     CppLibrary(QObject* parent = 0) 
     : QObject(parent)
     {
-        m_filters["property_declaration"] = new PropertyDeclarationFilter();
-        m_filters["property_definition"] = new PropertyDefinitionFilter();
-        m_filters["setter_name"] = new SetterNameFilter();
-        m_filters["getter_name"] = new GetterNameFilter();
-        qDebug() << "Creating a CppLibrary";
+        
     };
     virtual ~CppLibrary() {}
 
     virtual QHash< QString, Grantlee::Filter* > filters(const QString& name = QString())
     {
-        qDebug() << "Filter library is loaded, asking for filters";
-        return m_filters;
+        QHash<QString, Grantlee::Filter*> filters;
+
+        filters["property_declaration"] = new PropertyDeclarationFilter();
+        filters["property_definition"] = new PropertyDefinitionFilter();
+        filters["setter_name"] = new SetterNameFilter();
+        filters["getter_name"] = new GetterNameFilter();
+        filters["return_arg"] = new ReturnArgFilter();
+        filters["pass_arg"] = new PassArgFilter();
+        
+        return filters;
     }
-    
-private:
-    QHash<QString, Grantlee::Filter*> m_filters; 
 };
 
 #endif // CPPLIBRARY_H

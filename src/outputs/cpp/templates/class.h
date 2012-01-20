@@ -10,7 +10,7 @@
 #define {{ name|upper }}_H
 {% endif %}
 
-// Includes from superclasses
+// TODO: Includes from superclasses
 
 {% if nameSpace %}
 namespace {{ nameSpace }} {% templatetag openbrace %}
@@ -30,7 +30,8 @@ public:
     virtual ~{{ name }}();
     
     {% for p in properties %}
-    {{ p|property_declaration }}
+    {{ p.type|return_arg }} {{ p|getter_name }}();
+    void {{ p|setter_name }}({{ p.type|pass_arg }} {{ p.name }});
     {% endfor %}
     
 protected:
