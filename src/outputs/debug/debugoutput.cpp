@@ -5,6 +5,7 @@
 #include "src/core/variable.h"
 #include "src/core/type.h"
 #include "src/core/query.h"
+#include "src/core/view.h"
 
 using namespace Wobble;
 
@@ -23,13 +24,22 @@ bool DebugOutput::write(const Project* project, QVariantMap options)
             qDebug() << " - Property:" << property->type()->name() << property->name();
         }
     }
-    foreach (Wobble::Query* q, project->findChildren<Wobble::Query*>())
+    foreach (Wobble::View* v, project->findChildren<Wobble::View*>())
     {
-        qDebug() << "Query" << q->name();
-        qDebug() << " - Type" << q->type()->name();
-        foreach (const Wobble::Query::Filter& f, q->filters())
+        qDebug() << "View" << v->name();
+        qDebug() << " - Editable" << v->isEditable();
+        if (v->viewType() == View::ListView)
         {
-            qDebug() << " - Filter:" << f.var->name() << f.value;
+            qDebug() << " - List item" << v->listItem()->name();
+        }
+        foreach (Wobble::Query* q, v->queries())
+        {
+            qDebug() << " - Query" << q->name();
+            qDebug() << "   - Type" << q->type()->name();
+            foreach (const Wobble::Query::Filter& f, q->filters())
+            {
+                qDebug() << "   - Filter:" << f.var->name() << f.value;
+            }
         }
     }
     
