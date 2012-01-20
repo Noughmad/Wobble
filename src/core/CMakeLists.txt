@@ -4,6 +4,7 @@ set(Wobble_SRCS common.cpp
     class.cpp
     view.cpp 
     variable.cpp
+    query.cpp
     project.cpp
     input.cpp
     output.cpp
