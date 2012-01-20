@@ -37,7 +37,6 @@ public:
     virtual ~QueryPrivate();
     
     Type* type;
-    bool constant;
     int queryType;
     int limit;
     QList< Wobble::Query::Filter > filters;
