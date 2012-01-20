@@ -2,7 +2,9 @@
 {{ license }}
 
 #include "{{ name|lower }}.h"
+{% if dpointer %}
 #include "{{ name|lower }}_p.h"
+{% endif %}
 
 {% if nameSpace %}using namespace nameSpace;{% endif %}
 

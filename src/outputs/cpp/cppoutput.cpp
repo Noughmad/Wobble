@@ -47,6 +47,16 @@ bool CppOutput::write(const Project* project, QVariantMap options)
         dir.mkpath(outDir);
     }
     
+    bool createDPointers;
+    if (options.contains("d-pointers"))
+    {
+        createDPointers = options["d-pointers"].toBool();
+    }
+    else
+    {
+        createDPointers = (project->projectType() != Project::Application);
+    }
+    
     Templates::engine()->loadByName("grantlee_cppfilters");
     
     // First, create the top-level CMakeLists.txt file
@@ -81,6 +91,7 @@ bool CppOutput::write(const Project* project, QVariantMap options)
         map.insert("license", "This is License");
         map.insert("nameSpace", project->name());
         map.insert("properties", QVariant::fromValue<QList<Wobble::Variable*> >(c->findChildren<Wobble::Variable*>()));
+        map.insert("dpointer", createDPointers);
         
         QFile file(outDir + "src/" + c->name().toLower() + ".h");
         if (!file.open(QIODevice::WriteOnly))
@@ -92,10 +103,13 @@ bool CppOutput::write(const Project* project, QVariantMap options)
         file.write(classTemplate->render(new Context(map)).toLatin1());
         file.close();
         
-        QFile phFile(outDir + "src/" + c->name().toLower() + "_p.h");
-        phFile.open(QIODevice::WriteOnly);
-        phFile.write(phTemplate->render(new Context(map)).toLatin1());
-        phFile.close();
+        if (createDPointers)
+        {
+            QFile phFile(outDir + "src/" + c->name().toLower() + "_p.h");
+            phFile.open(QIODevice::WriteOnly);
+            phFile.write(phTemplate->render(new Context(map)).toLatin1());
+            phFile.close();
+        }
         
         QFile cppFile(outDir + "src/" + c->name().toLower() + ".cpp");
         cppFile.open(QIODevice::WriteOnly);

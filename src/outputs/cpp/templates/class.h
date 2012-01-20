@@ -34,6 +34,7 @@ public:
     void {{ p|setter_name }}({{ p.type|pass_arg }} {{ p.name }});
     {% endfor %}
     
+{% if dpointer %}
 protected:
 {% if not class.superclasses %}
     {{ name }}Private* const d_ptr;
@@ -42,6 +43,13 @@ protected:
 
 private:
     Q_DECLARE_PRIVATE({{ name }})
+{% else %}
+private:
+{% for p in properties %}
+    {{ p.type|return_arg }} m_{{ p.name }};
+{% endfor %}
+
+{% endif %}
 {% templatetag closebrace %};
 {% if nameSpace %}
 {% templatetag closebrace %}
