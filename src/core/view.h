@@ -1,13 +1,14 @@
 #ifndef WOBBLE_VIEW_H
 #define WOBBLE_VIEW_H
 
-#include <src/core/class.h>
+#include "identifier.h"
 #include "query.h"
 
 
 namespace Wobble {
 
 class ViewPrivate;
+W_FORWARD(View)
 
 /**
  * @brief A represents a single user interface element
@@ -23,13 +24,13 @@ class ViewPrivate;
  * default views, including pre-made combinations of list-detail
  * 
  */
-class WOBBLE_EXPORT View : public Class
+class WOBBLE_EXPORT View : public Identifier
 {
     Q_OBJECT
     Q_PROPERTY(bool editable READ isEditable WRITE setEditable)
     Q_PROPERTY(StandardView viewType READ viewType WRITE setViewType)
     Q_PROPERTY(QueryList queries READ queries)
-    Q_PROPERTY(QList<View*> subViews READ subViews)
+    Q_PROPERTY(ViewList subViews READ subViews)
     Q_PROPERTY(View* listItem READ listItem WRITE setListItem)
 
 public:
@@ -85,7 +86,7 @@ public:
      * it contains. 
      *
      **/
-    QList<View*> subViews() const;
+    ViewList subViews() const;
     void addSubView(View* view);
     
     /**

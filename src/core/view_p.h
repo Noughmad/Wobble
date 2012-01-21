@@ -4,19 +4,18 @@
 #include "class_p.h"
 
 namespace Wobble {
-    
-class View;
 
 W_FORWARD(Query)
+W_FORWARD(View)
 
-class ViewPrivate : public ClassPrivate
+class ViewPrivate : public IdentifierPrivate
 {
 
 public:
     ViewPrivate(const QString& name);
     virtual ~ViewPrivate();
     
-    QList<View*> subViews;
+    ViewList subViews;
     QueryList queries;
     bool editable;
     int viewType;

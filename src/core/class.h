@@ -43,8 +43,9 @@ namespace Wobble {
     Q_ENUMS(Feature)
     Q_FLAGS(Features)
     
-    Q_PROPERTY(QList<Class*> superclasses READ superclasses WRITE setSuperclasses)
+    Q_PROPERTY(ClassList superclasses READ superclasses WRITE setSuperclasses)
     Q_PROPERTY(Features features READ features WRITE setFeatures)
+    Q_PROPERTY(VariableList properties READ properties)
 
     /*
     Q_PROPERTY(QList<Variable*> members READ members STORED false)
@@ -75,6 +76,9 @@ public:
     
     Features features() const;
     void setFeatures(Features features);
+    
+    VariableList properties() const;
+    
     W_DECLARE_PRIVATE(Class)
 };
 

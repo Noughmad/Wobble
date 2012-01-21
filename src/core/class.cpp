@@ -20,13 +20,15 @@
 #include "class.h"
 #include "class_p.h"
 
+#include "variable.h"
+
 #include <QDebug>
 
 using namespace Wobble;
 
 ClassPrivate::ClassPrivate(const QString& name) : TypePrivate(name)
 {
-    
+    features = Class::Persistent;
 }
 
 ClassPrivate::~ClassPrivate()
@@ -77,6 +79,12 @@ Class* Class::find(const QString& name)
 {
     return 0;
 }
+
+VariableList Class::properties() const
+{
+    return findChildren<Variable*>();
+}
+
 
 
 

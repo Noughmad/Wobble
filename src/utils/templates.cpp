@@ -24,6 +24,7 @@
 #include "../core/identifier.h"
 #include "../core/variable.h"
 #include "../core/project.h"
+#include "../core/view.h"
 #include "../core/common.h"
 
 #include "../core/config.h"
@@ -59,11 +60,14 @@ TemplatesPrivate::TemplatesPrivate()
     
     Grantlee::registerMetaType<Variable*>();
     Grantlee::registerMetaType<Type*>();
+    Grantlee::registerMetaType<Class*>();
+    Grantlee::registerMetaType<View*>();
+    Grantlee::registerMetaType<Query*>();
 }
 
 TemplatesPrivate::~TemplatesPrivate()
 {
-    qDebug() << "Deleting the templat engine";
+    qDebug() << "Deleting the template engine";
     delete engine;
 }
 
@@ -75,7 +79,11 @@ Grantlee::Engine* Templates::engine()
 Grantlee::Template Templates::getTemplate(const QString& name)
 {
     Grantlee::Template t = self()->engine->loadByName(name);
-    qDebug() << t->nodeList().size();
+    qDebug() << name << t->nodeList().size();
+    if (t->error() != Grantlee::NoError)
+    {
+        qDebug() << t->errorString();
+    }
     return t;
 }
 

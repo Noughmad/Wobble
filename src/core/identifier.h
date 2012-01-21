@@ -36,6 +36,8 @@ namespace Wobble {
 /// @internal
 class IdentifierPrivate;
 
+W_FORWARD(Identifier)
+
 /**
  * @brief Base class for all Wobble code objects
  * 
@@ -53,6 +55,7 @@ class WOBBLE_EXPORT Identifier : public QObject
     Q_PROPERTY(Identifier* space READ space WRITE setSpace STORED false)
     Q_PROPERTY(QString documentation READ documentation WRITE setDocumentation)
     Q_PROPERTY(AccessType accessType READ accessType WRITE setAccessType)
+    Q_PROPERTY(IdentifierList members READ members)
     
 public:
     /**
@@ -139,7 +142,7 @@ public:
      * Returns the list of all members of this identifier, 
      * i.e. all identifiers with this as their namespace. 
      **/
-    QList<Identifier*> members() const;
+    IdentifierList members() const;
     
     /**
      * Tries to find a member of type @p T with name @p name. 

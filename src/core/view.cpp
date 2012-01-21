@@ -3,7 +3,7 @@
 
 using namespace Wobble;
 
-ViewPrivate::ViewPrivate(const QString& name) : ClassPrivate(name)
+ViewPrivate::ViewPrivate(const QString& name) : IdentifierPrivate(name)
 {
 
 }
@@ -13,12 +13,12 @@ ViewPrivate::~ViewPrivate()
 
 }
 
-View::View(const QString& name, Identifier* parent): Class(*new ViewPrivate(name), parent)
+View::View(const QString& name, Identifier* parent): Identifier(*new ViewPrivate(name), parent)
 {
 
 }
 
-View::View(Wobble::ViewPrivate& dd, QObject* parent): Class(dd, parent)
+View::View(Wobble::ViewPrivate& dd, QObject* parent): Identifier(dd, parent)
 {
 
 }

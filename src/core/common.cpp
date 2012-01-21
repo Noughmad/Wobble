@@ -8,8 +8,6 @@
 
 #include <QMetaType>
 
-
-
 using namespace Wobble;
 
 View* Common::detailView()
@@ -31,6 +29,13 @@ void Common::registerTypes()
 {
     qRegisterMetaType<Identifier*>("Identifier*");
     qRegisterMetaType<Type*>("Type*");
+    qRegisterMetaType<View*>("View*");
+    qRegisterMetaType<Class*>("Class*");
+    qRegisterMetaType<ClassList>("ClassList");
+    qRegisterMetaType<Variable*>("Variable*");
+    qRegisterMetaType<VariableList>("VariableList");
+    qRegisterMetaType<Query*>("Query*");
+    qRegisterMetaType<QueryList>("QueryList");
 }
 
 View* Common::classView(Class* c, bool editable)

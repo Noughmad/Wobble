@@ -28,13 +28,15 @@
 #include <QtCore/QDir>
 #include <QProcess>
 
+#include "src/utils/templates.h"
+
 using namespace Grantlee;
 using namespace Wobble;
 
 const char* TemplateDir = "/home/miha/Build/share/templates/django/";
 
 bool DjangoOutput::write(const Project* project, QVariantMap options)
-{
+{ 
     const QString outDir = options["outputDirectory"].toString();
     if (outDir.isEmpty())
     {
@@ -88,12 +90,8 @@ bool DjangoOutput::write(const Project* project, QVariantMap options)
         return false;
     }
     
-    Engine* engine = new Engine();
-    FileSystemTemplateLoader::Ptr loader = FileSystemTemplateLoader::Ptr( new FileSystemTemplateLoader() );
-    loader->setTemplateDirs( QStringList() << TemplateDir );
-    engine->addTemplateLoader( loader );
-    
-    // First, create the top-level CMakeLists.txt file
+    Templates::engine()->loadLibrary("grantlee_djangofilters");
+     
     Context* context = new Context();
     context->insert("project", project);
     context->insert("name", QVariant(project->name()));
@@ -108,7 +106,7 @@ bool DjangoOutput::write(const Project* project, QVariantMap options)
     }
     context->insert("classes", QVariant::fromValue<ClassList>(classes));
         
-    Template modelsTemplate = engine->loadByName("models.py");
+    Template modelsTemplate = Templates::getTemplate("models.py");
     QFile modelsFile(outDir + "models.py");
     modelsFile.open(QIODevice::WriteOnly);
     modelsFile.write(modelsTemplate->render(context).toLatin1());
@@ -117,7 +115,7 @@ bool DjangoOutput::write(const Project* project, QVariantMap options)
     ViewList views = project->findChildren<View*>();
     context->insert("views", QVariant::fromValue(views));
     
-    Template viewsTemplate = engine->loadByName("views.py");
+    Template viewsTemplate = Templates::getTemplate("views.py");
     QFile viewsFile(outDir + "views.py");
     viewsFile.open(QIODevice::WriteOnly);
     viewsFile.write(viewsTemplate->render(context).toLatin1());
