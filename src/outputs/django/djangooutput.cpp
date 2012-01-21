@@ -21,6 +21,7 @@
 
 #include "src/core/project.h"
 #include "src/core/class.h"
+#include "src/core/view.h"
 
 #include <grantlee/engine.h>
 
@@ -93,9 +94,9 @@ bool DjangoOutput::write(const Project* project, QVariantMap options)
     engine->addTemplateLoader( loader );
     
     // First, create the top-level CMakeLists.txt file
-    Context* c = new Context();
-    c->insert("project", project);
-    c->insert("name", QVariant(project->name()));
+    Context* context = new Context();
+    context->insert("project", project);
+    context->insert("name", QVariant(project->name()));
     
     ClassList classes;
     foreach (Class* c, project->findChildren<Class*>())
@@ -105,13 +106,22 @@ bool DjangoOutput::write(const Project* project, QVariantMap options)
             classes << c;
         }
     }
-    c->insert("classes", QVariant::fromValue<ClassList>(classes));
+    context->insert("classes", QVariant::fromValue<ClassList>(classes));
         
     Template modelsTemplate = engine->loadByName("models.py");
     QFile modelsFile(outDir + "models.py");
     modelsFile.open(QIODevice::WriteOnly);
-    modelsFile.write(modelsTemplate->render(c).toLatin1());
+    modelsFile.write(modelsTemplate->render(context).toLatin1());
     modelsFile.close();
+    
+    ViewList views = project->findChildren<View*>();
+    context->insert("views", QVariant::fromValue(views));
+    
+    Template viewsTemplate = engine->loadByName("views.py");
+    QFile viewsFile(outDir + "views.py");
+    viewsFile.open(QIODevice::WriteOnly);
+    viewsFile.write(viewsTemplate->render(context).toLatin1());
+    viewsFile.close();
     
     return true;
 }
