@@ -52,6 +52,9 @@ TemplatesPrivate::TemplatesPrivate()
     engine = new Grantlee::Engine();
     engine->addPluginPath(TemplateFilterBaseDir);
     
+    // Trims extra whitespace, allowing for more readable templates
+    engine->setSmartTrimEnabled(true);
+    
     Grantlee::FileSystemTemplateLoader::Ptr loader = Grantlee::FileSystemTemplateLoader::Ptr( new Grantlee::FileSystemTemplateLoader() );
     loader->setTemplateDirs( QStringList() << TemplateDir );
     engine->addTemplateLoader( loader );
