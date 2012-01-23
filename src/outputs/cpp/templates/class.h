@@ -27,7 +27,8 @@ class {{ name }} :{% for super in superclasses %} public {{ super }}{% if not fo
 {% templatetag openbrace %}
     Q_OBJECT
     {% for p in properties %}
-    Q_PROPERTY({{ p.type.name }} {{ p.name }} READ {{ p|getter_name }} {% if not p.isConstant %} WRITE {{ p|setter_name }} {% endif %}){% endfor %}
+    Q_PROPERTY({{ p.type.name }} {{ p.name }} READ {{ p|getter_name }} {% if not p.isConstant %} WRITE {{ p|setter_name }} {% endif %})
+    {% endfor %}
     
 public:
     {{ name }}(QObject* parent = 0);
@@ -49,11 +50,15 @@ private:
     Q_DECLARE_PRIVATE({{ name }})
 {% else %}
 private:
-{% for p in properties %}    {{ p.type|return_arg }} m_{{ p.name }};
+{% for p in properties %}
+    {{ p.type|return_arg }} m_{{ p.name }};
 {% endfor %}
-
 {% endif %}
+
 {% templatetag closebrace %};
+
+typedef QList<{{ name }}*> {{ name }}List;
+
 {% if nameSpace %}
 {% templatetag closebrace %}
 {% endif %}
