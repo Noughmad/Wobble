@@ -1,0 +1,36 @@
+Of course, actually implement them in code. 
+Preferably in yaml, or maybe even in utils
+
+Identifiers:
+- project
+- classes
+- views
+- queries
+- types
+
+Types:
+- string
+- int, integer
+- bool, boolean
+- float
+- datetime
+- list-of-x
+- map-of-x-y
+- file
+
+Views:
+- tree
+- list
+- table
+- form
+- calendar
+- browse
+
+- textarea
+- textedit
+- label
+- clock
+- button
+- checkbox
+- gruopbox
+- layout
