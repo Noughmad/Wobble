@@ -82,13 +82,24 @@ QVariant FieldDeclarationFilter::doFilter(const QVariant& input, const QVariant&
     // TODO: Check for other types
     else if (type == var->space()->name())
     {
-        line = "ForeignKeyProperty('self', blank=True, null=True";
+        line = "ForeignKeyProperty('self', blank=True, null=True,";
     }
     else
     {
         line = "ForeignKeyProperty(" + type;
     }
-    // TODO: Consider other parameters to model fields, such as default value
+
+    if (var->defaultValue().isValid())
+    {
+        line += "default = ";
+        line += var->formatValue();
+        line += ", ";
+    }
+
+    if (line.endsWith(", "))
+    {
+        line.chop(2);
+    }
 
     return line + ')';
 }

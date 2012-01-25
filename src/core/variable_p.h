@@ -38,6 +38,7 @@ public:
     
     Type* type;
     bool constant;
+    QVariant defaultValue;
 };
 
 }
