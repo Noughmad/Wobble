@@ -55,10 +55,42 @@ QVariant FieldDeclarationFilter::doFilter(const QVariant& input, const QVariant&
 {
     Variable* var = input.value<Variable*>();
     Q_CHECK_PTR(var);
-    
-    // TODO: Map from Wobble type to Django field namespace
+
+    QString line;
+
+    QString type = var->type()->name();
+    if (type == Type::standardTypeName(Type::Integer))
+    {
+        line = "IntegerProperty(";
+    }
+    else if (type == Type::standardTypeName(Type::Boolean))
+    {
+        line = "BooleanProperty(";
+    }
+    else if (type == Type::standardTypeName(Type::Float))
+    {
+        line = "FloatProperty(";
+    }
+    else if (type == Type::standardTypeName(Type::String))
+    {
+        line = "TextProperty(";
+    }
+    else if (type == Type::standardTypeName(Type::DateTime))
+    {
+        line = "DateTimeProperty(";
+    }
+    // TODO: Check for other types
+    else if (type == var->space()->name())
+    {
+        line = "ForeignKeyProperty('self', blank=True, null=True";
+    }
+    else
+    {
+        line = "ForeignKeyProperty(" + type;
+    }
     // TODO: Consider other parameters to model fields, such as default value
-    return var->type()->name();
+
+    return line + ')';
 }
 
 Q_EXPORT_PLUGIN2(WobbleDjangoFilters, DjangoFilters)
