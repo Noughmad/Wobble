@@ -8,6 +8,7 @@ set(Wobble_SRCS
     variable.cpp
     query.cpp
     project.cpp
+    resource.cpp
     input.cpp
     output.cpp
 )
