@@ -88,6 +88,10 @@ bool YamlInput::read(Wobble::Project* project, QVariantMap options)
                 readView(*vi);
             }
         }
+        else if (key == "license")
+        {
+            project->setLicense(readString(it.second()));
+        }
     }
     
     return true;
@@ -95,9 +99,9 @@ bool YamlInput::read(Wobble::Project* project, QVariantMap options)
 
 QString YamlInput::readString(const YAML::Node& node)
 {
-    string string;
-    node >> string;
-    return QString::fromStdString(string);
+    string str;
+    node >> str;
+    return QString::fromStdString(str);
 }
 
 QString YamlInput::readString(const Node* node)

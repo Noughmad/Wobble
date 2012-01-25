@@ -33,7 +33,6 @@ class IdentifierPrivate
 {
 
 public:
-    IdentifierPrivate();
     IdentifierPrivate(const QString& name);
     virtual ~IdentifierPrivate();
     

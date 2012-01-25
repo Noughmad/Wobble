@@ -88,7 +88,7 @@ bool CppOutput::write(const Project* project, QVariantMap options)
     {
         QVariantHash map;
         map.insert("name", c->name());
-        map.insert("license", "This is License");
+        map.insert("license", project->license());
         map.insert("nameSpace", project->name());
         map.insert("properties", QVariant::fromValue<QList<Wobble::Variable*> >(c->findChildren<Wobble::Variable*>()));
         map.insert("dpointer", createDPointers);

@@ -1,5 +1,6 @@
 {% load grantlee_djangofilters %}
 """
+
     {{ license }}
 """
 

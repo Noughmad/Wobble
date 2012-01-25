@@ -1,4 +1,5 @@
 project: zoo
+license: This project is licensed under the terms of GPL
 
 classes:
 - name: Animal

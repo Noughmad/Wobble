@@ -97,7 +97,8 @@ bool DjangoOutput::write(const Project* project, QVariantMap options)
      
     Context* context = new Context();
     context->insert("project", project);
-    context->insert("name", QVariant(project->name()));
+    context->insert("name", project->name());
+    context->insert("license", project->license());
     
     ClassList classes;
     foreach (Class* c, project->findChildren<Class*>())
