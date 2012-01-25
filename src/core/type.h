@@ -17,6 +17,8 @@ class WOBBLE_EXPORT Type : public Identifier
     Q_OBJECT
     Q_ENUMS(Source)
     Q_PROPERTY(Source source READ source WRITE setSource)
+    Q_ENUMS(StandardType)
+    Q_PROPERTY(StandardType standardType READ standardType WRITE setStandardType)
     Q_PROPERTY(bool pod READ isPod WRITE setPod)
     Q_PROPERTY(bool object READ isObject WRITE setObject)
     Q_PROPERTY(Type* valueType READ valueType WRITE setValueType)
@@ -50,7 +52,8 @@ public:
         DateTime, /**< A type holding a point in time */
         File, /**< A file */
         List, /**< A list of values. Must have valueType set */
-        Map /**< A map or dictionary of keys and values. Must have valueType and keyType set */
+        Map, /**< A map or dictionary of keys and values. Must have valueType and keyType set */
+        Custom /**< None of the above, a non-standard type */
     };
     
     /**
@@ -87,7 +90,7 @@ public:
      * @sa StandardType
      * @return Type*
      **/
-    static Type* standardType(StandardType type);
+    static Type* fromStandardType(StandardType type);
     static Type* list(Type* values);
     static Type* map(Type* keys, Type* values);
     static Type* findByName(const QString& name);
@@ -158,6 +161,15 @@ public:
      **/
     Type* keyType() const;
     void setKeyType(Type* keyType);
+
+    /**
+     * @property standardType
+     *
+     * @sa StandardType
+     * 
+     **/
+    StandardType standardType() const;
+    void setStandardType(StandardType type);
 
     W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Type)
