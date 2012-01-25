@@ -112,7 +112,15 @@ QString Identifier::fullName(const QString& separator) const
 
 IdentifierList Identifier::members() const
 {
-    return findChildren<Identifier*>();
+    IdentifierList ret;
+    foreach (QObject* child, children())
+    {
+        if (Identifier* id = qobject_cast<Identifier*>(child))
+        {
+            ret << id;
+        }
+    }
+    return ret;
 }
 
 Identifier* Identifier::topLevel()
