@@ -31,7 +31,7 @@ class Parser
 public:
     virtual ~Parser();
 
-    virtual QVariant parseValue(const QString& string) = 0;
+    virtual QVariant parseValue(const QString& string, Type* type) = 0;
     virtual Type* parseType(const QString& string) = 0;
 };
 
