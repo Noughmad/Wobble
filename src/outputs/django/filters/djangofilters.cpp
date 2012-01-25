@@ -91,7 +91,7 @@ QVariant FieldDeclarationFilter::doFilter(const QVariant& input, const QVariant&
 
     if (var->defaultValue().isValid())
     {
-        line += "default = ";
+        line += "default=";
         line += var->formatValue();
         line += ", ";
     }

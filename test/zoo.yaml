@@ -17,6 +17,7 @@ classes:
   properties:
   - name: wings
     type: bool
+    value: true
   - name: flying
     type: bool
 
