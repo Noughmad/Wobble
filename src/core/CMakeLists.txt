@@ -18,4 +18,4 @@ configure_file(config.h.in "${CMAKE_CURRENT_BINARY_DIR}/config.h")
 
 wobble_add_library(WobbleCore ${Wobble_SRCS})
 target_link_libraries(WobbleCore ${QT_QTCORE_LIBRARY})
-install(TARGETS WobbleCore ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS WobbleCore EXPORT WobbleLibraryDepends ${INSTALL_TARGETS_DEFAULT_ARGS})
