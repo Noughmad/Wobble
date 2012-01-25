@@ -37,7 +37,7 @@ const char* TemplateDir = "/home/miha/Build/share/templates/django/";
 
 bool DjangoOutput::write(const Project* project, QVariantMap options)
 { 
-    const QString outDir = options["outputDirectory"].toString();
+    QString outDir = options["outputDirectory"].toString();
     if (outDir.isEmpty())
     {
         return false;
@@ -89,12 +89,16 @@ bool DjangoOutput::write(const Project* project, QVariantMap options)
     {
         return false;
     }
+
+    dir.cd(project->name().toLower());
+    outDir = dir.absolutePath() + '/';
     
     Templates::engine()->loadLibrary("grantlee_djangofilters");
      
     Context* context = new Context();
     context->insert("project", project);
-    context->insert("name", QVariant(project->name()));
+    context->insert("name", project->name());
+    context->insert("license", project->license());
     
     ClassList classes;
     foreach (Class* c, project->findChildren<Class*>())

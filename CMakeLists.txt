@@ -3,6 +3,12 @@ cmake_minimum_required(VERSION 2.6)
 find_package(Qt4 REQUIRED)
 find_package(Doxygen)
 
+set(Wobble_MAJOR_VERSION 0)
+set(Wobble_MINOR_VERSION 1)
+set(Wobble_PATCH_VERSION 0)
+set(Wobble_VERSION
+  ${Wobble_MAJOR_VERSION}.${Wobble_MINOR_VERSION}.${Wobble_PATCH_VERSION})
+
 set (CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 option (BUILD_CORE "Build the core Wobble library" TRUE)
@@ -53,6 +59,8 @@ set(BIN_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/bin")
 set(LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib")
 
 set(PLUGIN_INSTALL_DIR "${LIB_INSTALL_DIR}/wobble")
+set(INSTALL_CMAKE_DIR "${LIB_INSTALL_DIR}/cmake/Wobble")
+set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/include/Wobble")
 
 
 set(INSTALL_TARGETS_DEFAULT_ARGS  RUNTIME DESTINATION "${BIN_INSTALL_DIR}"
@@ -76,3 +84,28 @@ endif()
 
 add_subdirectory(src)
 add_subdirectory(test)
+
+export(TARGETS WobbleCore WobbleUtils wobble
+  FILE "${PROJECT_BINARY_DIR}/WobbleLibraryDepends.cmake")
+
+export(PACKAGE Wobble)
+
+# Create the WobbleConfig.cmake and WobbleConfigVersion files
+file(RELATIVE_PATH CONF_REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}"
+   "${INCLUDE_INSTALL_DIR}")
+
+configure_file(WobbleConfig.cmake.in
+  "${PROJECT_BINARY_DIR}/WobbleConfig.cmake" @ONLY)
+configure_file(WobbleConfigVersion.cmake.in
+  "${PROJECT_BINARY_DIR}/WobbleConfigVersion.cmake" @ONLY)
+
+# Install the export set for use with the install-tree
+install(EXPORT WobbleLibraryDepends
+    DESTINATION "${INSTALL_CMAKE_DIR}"
+    COMPONENT dev)
+
+install(FILES
+  "${PROJECT_BINARY_DIR}/WobbleConfig.cmake"
+  "${PROJECT_BINARY_DIR}/WobbleConfigVersion.cmake"
+  DESTINATION "${INSTALL_CMAKE_DIR}"
+)

@@ -17,30 +17,24 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef WOBBLE_IDENTIFIER_P_H
-#define WOBBLE_IDENTIFIER_P_H
+#ifndef WOBBLE_PARSER_H
+#define WOBBLE_PARSER_H
 
-#include <QString>
-#include <QList>
-
-#include "global.h"
+#include <QVariant>
+#include "src/core/type.h"
 
 namespace Wobble {
-    
-W_FORWARD(Identifier)
 
-class IdentifierPrivate
+class Parser
 {
 
 public:
-    IdentifierPrivate(const QString& name);
-    virtual ~IdentifierPrivate();
-    
-    QString name;
-    QString documentation;
-    int accessType;
+    virtual ~Parser();
+
+    virtual QVariant parseValue(const QString& string, Type* type) = 0;
+    virtual Type* parseType(const QString& string) = 0;
 };
 
 }
 
-#endif // WOBBLE_IDENTIFIER_P_H
+#endif // WOBBLE_PARSER_H

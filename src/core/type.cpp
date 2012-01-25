@@ -11,6 +11,7 @@ TypePrivate::TypePrivate(const QString& name) : IdentifierPrivate(name)
 {
     valueType = 0;
     keyType = 0;
+    standardType = Type::Custom;
 }
 
 Wobble::TypePrivate::~TypePrivate()
@@ -102,11 +103,12 @@ Type* Type::findByName(const QString& name)
     return t;
 }
 
-Type* Type::standardType(Type::StandardType type)
+Type* Type::fromStandardType(Type::StandardType type)
 {
     if (!stdTypes()->contains(type))
     {
         Type* t = new Type(standardTypeName(type));
+        t->setStandardType(type);
         stdTypes()->insert(type, t);
     }
     return stdTypes()->value(type);
@@ -142,6 +144,19 @@ QString Type::standardTypeName(Type::StandardType type)
             return QString();
     }
 }
+
+Type::StandardType Type::standardType() const
+{
+    Q_D(const Type);
+    return (StandardType)d->standardType;
+}
+
+void Type::setStandardType(Type::StandardType type)
+{
+    Q_D(Type);
+    d->standardType = (int)type;
+}
+
 
 
 #include "type.moc"

@@ -32,7 +32,9 @@ class ProjectPrivate : public IdentifierPrivate
 public:
     ProjectPrivate();
     virtual ~ProjectPrivate();
+    
     int type;
+    QString license;
 };
 
 }

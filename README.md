@@ -23,7 +23,6 @@ and Wobble would create projects for a desktop application, a web
 application, and a mobile application. All these applications would use
 native widgets, but would look and function very similar. 
 
-
 Modules (planned)
 -----------------
 
@@ -33,9 +32,14 @@ Modules (planned)
 * Documentation
 * Translations
 
-Current State
--------------
+Inputs
+------
 
-So far, there is only one input plugin (YAML) and one output (C++/Qt), 
-none of which actually works. Other outputs are planned, 
-like Python/Django and Java. 
+Currently only YAML
+
+Outputs
+-------
+
+* C++ with Qt and QDjango
+* Python with Django
+* a debug output that just prints out the information

@@ -22,7 +22,18 @@
 
 using namespace Wobble;
 
-Project::Project() : Identifier(QString())
+ProjectPrivate::ProjectPrivate() : IdentifierPrivate(QString())
+{
+    
+}
+
+ProjectPrivate::~ProjectPrivate()
+{
+    
+}
+
+
+Project::Project() : Identifier(*new ProjectPrivate, 0)
 {
 
 }
@@ -47,6 +58,18 @@ void Project::setProjectType(Project::ProjectType type)
 {
     Q_D(Project);
     d->type = type;
+}
+
+QString Project::license() const
+{
+    Q_D(const Project);
+    return d->license;
+}
+
+void Project::setLicense(const QString& license)
+{
+    Q_D(Project);
+    d->license = license;
 }
 
 #include "project.moc"

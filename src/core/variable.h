@@ -14,6 +14,7 @@ class WOBBLE_EXPORT Variable : public Identifier
     Q_OBJECT
     Q_PROPERTY(Type* type READ type WRITE setType)
     Q_PROPERTY(bool constant READ isConstant WRITE setConstant)
+    Q_PROPERTY(QVariant defaultValue READ defaultValue WRITE setDefaultValue)
     
 public:
     Variable(const QString& name, Type* type, Identifier* parent = 0);
@@ -41,7 +42,30 @@ public:
      **/
     bool isConstant() const;
     void setConstant(bool constant);
-    
+
+    /**
+     * @property defaultValue
+     *
+     * Holds the defualt value of this variable,
+     * or a null variant if no default should be set
+     *
+     * It can be a constant value (1, "Dog", 3.2) or
+     * a pointer to another variable
+     * 
+     **/
+    QVariant defaultValue() const;
+    void setDefaultValue(const QVariant& value);
+
+    /**
+     * @brief Returns the default value, formatted for direct use in source files
+     *
+     * 
+     *
+     * @return QString
+     **/
+    QString formatValue() const;
+
+    W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Variable)
 };
 

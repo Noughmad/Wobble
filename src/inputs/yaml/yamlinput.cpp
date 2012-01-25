@@ -88,6 +88,10 @@ bool YamlInput::read(Wobble::Project* project, QVariantMap options)
                 readView(*vi);
             }
         }
+        else if (key == "license")
+        {
+            project->setLicense(readString(it.second()));
+        }
     }
     
     return true;
@@ -95,9 +99,9 @@ bool YamlInput::read(Wobble::Project* project, QVariantMap options)
 
 QString YamlInput::readString(const YAML::Node& node)
 {
-    string string;
-    node >> string;
-    return QString::fromStdString(string);
+    string str;
+    node >> str;
+    return QString::fromStdString(str);
 }
 
 QString YamlInput::readString(const Node* node)
@@ -192,9 +196,11 @@ void YamlInput::readClasses(const YAML::Node& node)
                 QString name = readString(pi->FindValue("name"));
                 QString type = readString(pi->FindValue("type"));
                 QString value = readString(pi->FindValue("value"));
-                qDebug() << "Adding property" << name << "of type" << type << "to class " << c->name();
                 Variable* property = new Variable(name, Type::findByName(type), c);
-                qDebug() << "Added property" << property->name() << "of type" << property->type()->name() << "to class " << c->name();
+                if (!value.isEmpty())
+                {
+                    property->setDefaultValue(value);
+                }
             }
         }
     }

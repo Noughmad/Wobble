@@ -1,4 +1,5 @@
 project: zoo
+license: This project is licensed under the terms of GPL
 
 classes:
 - name: Animal
@@ -16,6 +17,7 @@ classes:
   properties:
   - name: wings
     type: bool
+    value: true
   - name: flying
     type: bool
 

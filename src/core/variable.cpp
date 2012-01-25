@@ -52,4 +52,39 @@ void Variable::setConstant(bool constant)
     d->constant = constant;
 }
 
+QVariant Variable::defaultValue() const
+{
+    Q_D(const Variable);
+    return d->defaultValue;
+}
+
+void Variable::setDefaultValue(const QVariant& value)
+{
+    Q_D(Variable);
+    d->defaultValue = value;
+}
+
+QString Variable::formatValue() const
+{
+    Q_D(const Variable);
+    QVariant val = d->defaultValue;
+    if (val.isNull())
+    {
+        return QString();
+    }
+    else if (val.type() == QVariant::String)
+    {
+        return '"' + val.toString() + '"';
+    }
+    else if (val.canConvert<Variable*>())
+    {
+        Variable* var = val.value<Variable*>();
+        return var->name();
+    }
+    else
+    {
+        return val.toString();
+    }
+}
+
 #include "variable.moc"

@@ -38,6 +38,7 @@ public:
     bool object;
     Type* keyType;
     Type* valueType;
+    int standardType;
 };
 
 }

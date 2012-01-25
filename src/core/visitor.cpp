@@ -17,30 +17,9 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef WOBBLE_IDENTIFIER_P_H
-#define WOBBLE_IDENTIFIER_P_H
+#include "visitor.h"
 
-#include <QString>
-#include <QList>
+using namespace Wobble;
 
-#include "global.h"
 
-namespace Wobble {
-    
-W_FORWARD(Identifier)
 
-class IdentifierPrivate
-{
-
-public:
-    IdentifierPrivate(const QString& name);
-    virtual ~IdentifierPrivate();
-    
-    QString name;
-    QString documentation;
-    int accessType;
-};
-
-}
-
-#endif // WOBBLE_IDENTIFIER_P_H

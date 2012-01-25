@@ -34,4 +34,7 @@ class Name : public Super {
     
 #define W_DECLARE_PRIVATE(Name)                                 \
 protected: Name(Name##Private& dd, QObject* parent = 0);        \
-private: Q_DECLARE_PRIVATE(Name)                                
+private: Q_DECLARE_PRIVATE(Name)
+
+#define W_ACCEPT_VISITOR                                        \
+virtual void accept(Visitor* visitor) { visitor->visit(this); }

@@ -44,6 +44,7 @@ class WOBBLE_EXPORT Project : public Identifier
     Q_ENUMS(ProjectType)
  //   Q_PROPERTY(Compoents components READ components WRITE setComponents)
     Q_PROPERTY(ProjectType projectType READ projectType WRITE setProjectType)
+    Q_PROPERTY(QString license READ license WRITE setLicense)
 
 public:
     enum Component
@@ -71,12 +72,22 @@ public:
      * @brief The type of this project
      * 
      * @sa ProjectType
-     *
-     * @return :Project::ProjectType
+     * 
      **/
     ProjectType projectType() const;
     void setProjectType(ProjectType type);
-    
+
+    /**
+     * @property license
+     *
+     * The terms this project is licensed under.
+     * Usually, this text will appear in the headers of all source files
+     * 
+     **/
+    QString license() const;
+    void setLicense(const QString& license);
+
+    W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Project)
 };
 

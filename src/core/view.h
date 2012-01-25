@@ -100,7 +100,8 @@ public:
      **/
     View* listItem() const;
     void setListItem(View* listItem);
-    
+
+    W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(View)
 };
 
