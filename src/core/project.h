@@ -76,7 +76,8 @@ public:
      **/
     ProjectType projectType() const;
     void setProjectType(ProjectType type);
-    
+
+    W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Project)
 };
 

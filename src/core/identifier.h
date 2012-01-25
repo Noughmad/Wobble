@@ -25,6 +25,7 @@
 #include <QtCore/QString>
 
 #include "global.h"
+#include "visitor.h"
 
 #include <QDebug>
 
@@ -157,6 +158,8 @@ public:
     T* findOrCreateMember(const QString& name);
         
 //    virtual QVariantMap serialize() const;
+
+    W_ACCEPT_VISITOR
         
 protected:
     IdentifierPrivate* const d_ptr;

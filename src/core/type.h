@@ -158,7 +158,8 @@ public:
      **/
     Type* keyType() const;
     void setKeyType(Type* keyType);
-    
+
+    W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Type)
 };
 

@@ -1,4 +1,4 @@
-set(Wobble_SRCS common.cpp
+set(Wobble_SRCS visitor.cpp common.cpp
     type.cpp 
     identifier.cpp
     class.cpp

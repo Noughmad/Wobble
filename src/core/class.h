@@ -78,7 +78,8 @@ public:
     void setFeatures(Features features);
     
     VariableList properties() const;
-    
+
+    W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Class)
 };
 

@@ -41,7 +41,8 @@ public:
      **/
     bool isConstant() const;
     void setConstant(bool constant);
-    
+
+    W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Variable)
 };
 

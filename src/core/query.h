@@ -141,7 +141,8 @@ public:
     QList<Filter> filters() const;
     void setFilters(const QList<Filter> filters);
     void addFilter(const Filter& filter);
-    
+
+    W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Query)
 };
 
