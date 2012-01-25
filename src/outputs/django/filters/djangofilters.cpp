@@ -30,7 +30,23 @@ QVariant QuerySetFilter::doFilter(const QVariant& input, const QVariant& argumen
     Query* query = input.value<Query*>();
     Q_CHECK_PTR(query);
     
-    QString queryString = query->type()->name();
+    QString queryString = query->type()->name() + ".objects";
+    if (query->filters().isEmpty())
+    {
+        queryString += ".all()";
+    }
+    else
+    {
+        foreach(const Query::Filter& filter, query->filters())
+        {
+            queryString += ".filter(" + filter.var->name();
+            if (filter.operation != Query::Equals)
+            {
+                // TODO: add marks like __gt or __iexact
+            }
+            queryString += " = " + filter.value;
+        }
+    }
     
     return queryString;
 }

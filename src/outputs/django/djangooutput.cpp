@@ -37,7 +37,7 @@ const char* TemplateDir = "/home/miha/Build/share/templates/django/";
 
 bool DjangoOutput::write(const Project* project, QVariantMap options)
 { 
-    const QString outDir = options["outputDirectory"].toString();
+    QString outDir = options["outputDirectory"].toString();
     if (outDir.isEmpty())
     {
         return false;
@@ -89,6 +89,9 @@ bool DjangoOutput::write(const Project* project, QVariantMap options)
     {
         return false;
     }
+
+    dir.cd(project->name().toLower());
+    outDir = dir.absolutePath() + '/';
     
     Templates::engine()->loadLibrary("grantlee_djangofilters");
      
