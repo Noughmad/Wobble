@@ -17,24 +17,32 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef WOBBLE_PARSER_H
-#define WOBBLE_PARSER_H
+#ifndef WOBBLE_DEFAULTPARSER_H
+#define WOBBLE_DEFAULTPARSER_H
 
-#include <QVariant>
-#include "src/core/type.h"
+#include "parser.h"
+#include <QSharedDataPointer>
+
 
 namespace Wobble {
 
-class Parser
+class DefaultParserData;
+
+class DefaultParser : public Wobble::Parser
 {
 
 public:
-    virtual ~Parser();
+    DefaultParser();
+    DefaultParser(const DefaultParser& other);
+    virtual ~DefaultParser();
+    
+    virtual Wobble::Type* parseType(const QString& string, Identifier* parent);
+    virtual QVariant parseValue(const QString& string, Type* type, Identifier* parent);
 
-    virtual QVariant parseValue(const QString& string, Type* type, Identifier* parent) = 0;
-    virtual Type* parseType(const QString& string, Identifier* parent) = 0;
+private:
+    QSharedDataPointer<DefaultParserData> d;
 };
 
 }
 
-#endif // WOBBLE_PARSER_H
+#endif // WOBBLE_DEFAULTPARSER_H

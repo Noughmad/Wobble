@@ -1,4 +1,5 @@
 set(Wobble_utils_SRCS
+    defaultparser.cpp
     templates.cpp 
 )
 
