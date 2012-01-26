@@ -144,6 +144,9 @@ public:
      * i.e. all identifiers with this as their namespace. 
      **/
     IdentifierList members() const;
+
+    template < class T >
+    QList<T> findMembers(const QString& name = QString());
     
     /**
      * Tries to find a member of type @p T with name @p name. 
@@ -177,6 +180,21 @@ T* Identifier::findOrCreateMember(const QString& name)
     
     return new T(name, this);
 }
+
+template < class T >
+QList< T > Identifier::findMembers(const QString& name)
+{
+    QList<T> ret;
+    foreach (Identifier* id, members())
+    {
+        if (T t = qobject_cast<T>(id))
+        {
+            ret << t;
+        }
+    }
+    return ret;
+}
+
 
 W_DECLARE_POINTER(Identifier)
 

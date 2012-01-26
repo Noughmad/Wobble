@@ -32,6 +32,7 @@ class WOBBLE_EXPORT View : public Identifier
     Q_PROPERTY(QueryList queries READ queries)
     Q_PROPERTY(ViewList subViews READ subViews)
     Q_PROPERTY(View* listItem READ listItem WRITE setListItem)
+    Q_PROPERTY(Type* model READ model WRITE setModel)
 
 public:
     /**
@@ -100,6 +101,32 @@ public:
      **/
     View* listItem() const;
     void setListItem(View* listItem);
+
+    /**
+     * @property model
+     *
+     * If this view has a direct mapping to a single class type,
+     * this class type is saved here. Otherwise, this property is 0.
+     *
+     * If model is a list type, this view will show a list as well. 
+     *
+     **/
+    Type* model() const;
+    void setModel(Type* model);
+
+    /**
+     * @brief Creates a view with a direct mapping to a type.
+     *
+     * If @p type is a basic type, a single widget will be show.
+     * If it is a class with properties, a widget will be created for each property.
+     * If @p type is a list type, the returned view will show a list as well.
+     *
+     * @sa model()
+     *
+     * @param type The type that should be displayed or edited by this view.  
+     * @return :View*
+     **/
+    static View* fromType(Type* type);
 
     W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(View)

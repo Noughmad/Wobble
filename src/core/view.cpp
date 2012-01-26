@@ -1,5 +1,8 @@
 #include "view.h"
 #include "view_p.h"
+#include "type.h"
+#include "class.h"
+#include "variable.h"
 
 using namespace Wobble;
 
@@ -87,5 +90,37 @@ void View::setListItem(View* listItem)
     Q_D(View);
     d->listItem = listItem;
 }
+
+Type* View::model() const
+{
+    Q_D(const View);
+    return d->model;
+}
+
+void View::setModel(Type* model)
+{
+    Q_D(View);
+    d->model = model;
+}
+
+View* View::fromType(Type* type)
+{
+    View* v = new View(type->name() + "-view", type->space());
+    if (type->standardType() != Type::Custom)
+    {
+        // TODO: Use a mapping from standard types to standard views
+        // Or maybe even just store the StandardType and rely on outputs to create the proper view
+        
+    }
+    else if (Class* c = qobject_cast<Class*>(type))
+    {
+        foreach (Variable* var, c->findMembers<Variable*>())
+        {
+            v->addSubView(fromType(var->type()));
+        }
+    }
+    return v;
+}
+
 
 #include "view.moc"

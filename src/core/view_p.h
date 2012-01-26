@@ -20,6 +20,7 @@ public:
     bool editable;
     int viewType;
     View* listItem;
+    Type* model;
 };
 
 }
