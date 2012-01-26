@@ -196,10 +196,11 @@ void YamlInput::readClasses(const YAML::Node& node)
                 QString name = readString(pi->FindValue("name"));
                 QString type = readString(pi->FindValue("type"));
                 QString value = readString(pi->FindValue("value"));
-                Variable* property = new Variable(name, Type::findByName(type), c);
+                Type* parsedType = mParser.parseType(type, mProject);
+                Variable* property = new Variable(name, parsedType, c);
                 if (!value.isEmpty())
                 {
-                    property->setDefaultValue(value);
+                    property->setDefaultValue(mParser.parseValue(value, parsedType, c));
                 }
             }
         }

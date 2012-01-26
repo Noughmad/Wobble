@@ -21,6 +21,7 @@
 #define YAMLINPUT_H
 
 #include "src/core/input.h"
+#include "src/utils/defaultparser.h"
 
 #include <QtPlugin>
 
@@ -49,6 +50,7 @@ private:
     void readQuery(const YAML::Node& node);
     void readView(const YAML::Node& node);
     Wobble::Project* mProject;
+    Wobble::DefaultParser mParser;
 };
 
 #endif // YAMLINPUT_H
