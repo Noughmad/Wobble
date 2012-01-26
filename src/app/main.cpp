@@ -26,13 +26,15 @@
 #include "src/core/output.h"
 #include <QDir>
 
+#include "src/core/config.h"
+
 using namespace Wobble;
 
 int main(int argc, char** argv)
 {
     QCoreApplication app(argc, argv);
     
-    QPluginLoader loader("/home/miha/Programiranje/Wobble/build/src/inputs/yaml/libWobbleYamlInput.so");
+    QPluginLoader loader(QString(PluginDir) + "/libWobbleYamlInput.so");
     Input* input = qobject_cast<Input*>(loader.instance());
     if (!input)
     {
@@ -47,7 +49,7 @@ int main(int argc, char** argv)
     
     QVariantMap options;
     options["outputDirectory"] = "/home/miha/Build/test/";
-    foreach (const QFileInfo& plugin, QDir("/home/miha/Build/lib/wobble").entryInfoList(QDir::Files))
+    foreach (const QFileInfo& plugin, QDir(PluginDir).entryInfoList(QDir::Files))
     {
         QPluginLoader l(plugin.absoluteFilePath());
         Output* output = qobject_cast< Output* >(l.instance());
