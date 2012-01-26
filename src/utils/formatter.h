@@ -29,7 +29,7 @@ class Formatter
 {
 
 public:
-    virtual ~Formatter();
+    virtual ~Formatter() {}
 
     virtual QString formatValue(const QVariant& value) = 0;
     virtual QString formatStandardType(Type::StandardType standardType) = 0;

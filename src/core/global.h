@@ -1,6 +1,6 @@
 #include <QtCore/QtGlobal>
 
-#if defined(MAKE_WOBBLE_LIBRARY)
+#if defined(MAKE_WOBBLE_CORE_LIBRARY)
 #  define WOBBLE_EXPORT Q_DECL_EXPORT
 #else
 #  define WOBBLE_EXPORT Q_DECL_IMPORT

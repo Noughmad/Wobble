@@ -70,6 +70,10 @@ DefaultParser::DefaultParser(const Wobble::DefaultParser& other)
 
 }
 
+DefaultParser::~DefaultParser()
+{
+
+}
 
 Wobble::Type* DefaultParser::parseType(const QString& string, Identifier* parent)
 {
