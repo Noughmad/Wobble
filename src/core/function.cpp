@@ -20,6 +20,8 @@
 #include "function.h"
 #include "function_p.h"
 
+#include "variable.h"
+
 using namespace Wobble;
 
 FunctionPrivate::FunctionPrivate(const QString& name, Type* type) : IdentifierPrivate(name)
@@ -74,7 +76,7 @@ void Function::setArguments(const Wobble::VariableList& arguments)
 void Function::addArgument(Variable* argument)
 {
     Q_D(Function);
-    d->arguments << argument
+    d->arguments << argument;
 }
 
 void Function::addArgument(QString name, Type* type)
