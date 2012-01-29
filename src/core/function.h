@@ -61,11 +61,20 @@ public:
     void setArguments(const VariableList& arguments);
 
     /**
-     * @brief Adds an argument to this function
+     * @brief Add an argument to this function
      *
      * @param argument The new argument
      **/
     void addArgument(Variable* argument);
+    
+    /**
+     * Add an argument with name @p name and type @p type. 
+     *
+     * @param name the name of the new argument
+     * @param type the type of the new argument
+     * @return void
+     **/
+    void addArgument(QString name, Type* type);
 
     W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Function)

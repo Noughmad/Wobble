@@ -28,6 +28,7 @@
 #include "yaml-cpp/node.h"
 #include <QStringList>
 #include "src/core/view.h"
+#include "src/core/function.h"
 
 using namespace Wobble;
 using namespace YAML;
@@ -201,6 +202,22 @@ void YamlInput::readClasses(const YAML::Node& node)
                 if (!value.isEmpty())
                 {
                     property->setDefaultValue(mParser.parseValue(value, parsedType, c));
+                }
+            }
+        }
+        if (const Node* methods= it->FindValue("functions"))
+        {
+            for (Iterator pi = methods->begin(); pi != methods->end(); ++pi)
+            {
+                QString name = readString(pi->FindValue("name"));
+                QString type = readString(pi->FindValue("type"));
+                Function* f = new Function(name, mParser.parseType(type, mProject));
+                if (const Node* args = pi->FindValue("arguments"))
+                {
+                    for (Iterator arg = args->begin(); arg != args->end(); ++arg)
+                    {
+                        f->addArgument(readString(arg->FindValue("name")), mParser.parseType(readString(arg->FindValue("type")), mProject));
+                    }
                 }
             }
         }

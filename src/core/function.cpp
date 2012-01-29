@@ -24,7 +24,7 @@ using namespace Wobble;
 
 FunctionPrivate::FunctionPrivate(const QString& name, Type* type) : IdentifierPrivate(name)
 {
-    this->type = type;
+    this->returnType = type;
 }
 
 Wobble::FunctionPrivate::~FunctionPrivate()
@@ -77,6 +77,9 @@ void Function::addArgument(Variable* argument)
     d->arguments << argument
 }
 
-
+void Function::addArgument(QString name, Type* type)
+{
+    addArgument(new Variable(name, type, this));
+}
 
 #include "function.moc"
