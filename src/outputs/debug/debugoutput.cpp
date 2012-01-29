@@ -25,6 +25,7 @@
 #include "src/core/type.h"
 #include "src/core/query.h"
 #include "src/core/view.h"
+#include "src/core/function.h"
 
 using namespace Wobble;
 
@@ -38,9 +39,13 @@ bool DebugOutput::write(const Project* project, QVariantMap options)
         {
             qDebug() << " - Superclasses:" << c->superclasses();
         }
-        foreach (Wobble::Variable* property, c->findChildren<Wobble::Variable*>())
+        foreach (Wobble::Variable* property, c->findMembers<Wobble::Variable*>())
         {
             qDebug() << " - Property:" << property->type()->name() << property->name();
+        }
+        foreach (Wobble::Function* method, c->findMembers<Wobble::Function*>())
+        {
+            qDebug() << " - Function:" << method->returnType()->name() << method->name() << method->arguments();
         }
     }
     foreach (Wobble::View* v, project->findChildren<Wobble::View*>())

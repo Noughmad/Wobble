@@ -11,6 +11,14 @@ classes:
     value: 4
   - name: size
     type: float
+  functions:
+  - name: eat
+    type: bool
+    arguments:
+    - name: prey
+      type: Animal
+  - name: sleep
+    type: void
 
 - name: Bird
   super: Animal

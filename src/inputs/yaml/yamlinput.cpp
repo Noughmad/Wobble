@@ -211,7 +211,7 @@ void YamlInput::readClasses(const YAML::Node& node)
             {
                 QString name = readString(pi->FindValue("name"));
                 QString type = readString(pi->FindValue("type"));
-                Function* f = new Function(name, mParser.parseType(type, mProject));
+                Function* f = new Function(name, mParser.parseType(type, mProject), c);
                 if (const Node* args = pi->FindValue("arguments"))
                 {
                     for (Iterator arg = args->begin(); arg != args->end(); ++arg)
