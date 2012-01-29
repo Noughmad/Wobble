@@ -26,6 +26,7 @@
 #include "../core/project.h"
 #include "../core/view.h"
 #include "../core/common.h"
+#include "../core/function.h"
 
 #include "../core/config.h"
 
@@ -56,7 +57,11 @@ TemplatesPrivate::TemplatesPrivate()
     engine->setSmartTrimEnabled(true);
     
     Grantlee::FileSystemTemplateLoader::Ptr loader = Grantlee::FileSystemTemplateLoader::Ptr( new Grantlee::FileSystemTemplateLoader() );
-    loader->setTemplateDirs( QStringList() << TemplateDir );
+    QStringList templateDirs;
+    QString base = TemplateDir;
+    templateDirs << base + "/cpp";
+    templateDirs << base + "/django";
+    loader->setTemplateDirs( templateDirs );
     engine->addTemplateLoader( loader );
     
     Common::registerTypes();
@@ -66,6 +71,7 @@ TemplatesPrivate::TemplatesPrivate()
     Grantlee::registerMetaType<Class*>();
     Grantlee::registerMetaType<View*>();
     Grantlee::registerMetaType<Query*>();
+    Grantlee::registerMetaType<Function*>();
 }
 
 TemplatesPrivate::~TemplatesPrivate()

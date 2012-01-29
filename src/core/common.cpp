@@ -26,6 +26,7 @@
 #include "view.h"
 
 #include <QMetaType>
+#include "function.h"
 
 using namespace Wobble;
 
@@ -55,6 +56,8 @@ void Common::registerTypes()
     qRegisterMetaType<VariableList>("VariableList");
     qRegisterMetaType<Query*>("Query*");
     qRegisterMetaType<QueryList>("QueryList");
+    qRegisterMetaType<Function*>("Function*");
+    qRegisterMetaType<FunctionList>("FunctionList");
 }
 
 View* Common::classView(Class* c, bool editable)

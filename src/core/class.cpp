@@ -21,6 +21,7 @@
 #include "class_p.h"
 
 #include "variable.h"
+#include "function.h"
 
 #include <QDebug>
 
@@ -82,10 +83,12 @@ Class* Class::find(const QString& name)
 
 VariableList Class::properties() const
 {
-    return findChildren<Variable*>();
+    return findMembers<Variable*>();
 }
 
-
-
+FunctionList Class::methods() const
+{
+    return findMembers<Function*>();
+}
 
 #include "class.moc"

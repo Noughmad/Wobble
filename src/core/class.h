@@ -46,11 +46,7 @@ namespace Wobble {
     Q_PROPERTY(ClassList superclasses READ superclasses WRITE setSuperclasses)
     Q_PROPERTY(Features features READ features WRITE setFeatures)
     Q_PROPERTY(VariableList properties READ properties)
-
-    /*
-    Q_PROPERTY(QList<Variable*> members READ members STORED false)
-    Q_PROPERTY(QList<Function*> methods READ methods STORED false)
-    */
+    Q_PROPERTY(FunctionList methods READ methods)
     
     W_DECLARE_POINTER(Class)
     
@@ -76,8 +72,9 @@ public:
     
     Features features() const;
     void setFeatures(Features features);
-    
+
     VariableList properties() const;
+    FunctionList methods() const;
 
     W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Class)

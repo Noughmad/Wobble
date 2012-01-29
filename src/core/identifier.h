@@ -146,7 +146,7 @@ public:
     IdentifierList members() const;
 
     template < class T >
-    QList<T> findMembers(const QString& name = QString());
+    QList<T> findMembers(const QString& name = QString()) const;
     
     /**
      * Tries to find a member of type @p T with name @p name. 
@@ -182,7 +182,7 @@ T* Identifier::findOrCreateMember(const QString& name)
 }
 
 template < class T >
-QList< T > Identifier::findMembers(const QString& name)
+QList< T > Identifier::findMembers(const QString& name) const
 {
     QList<T> ret;
     foreach (Identifier* id, members())
