@@ -1,0 +1,68 @@
+project: nTasks
+website: http://ntasks.com
+author: Miha Čančula
+license: GPL
+
+models:
+- name: Task
+  parent: User
+  properties:
+    name: string
+    supertask:
+    type: Task
+    default: null
+    description: text
+    required: bool, true
+    completed: bool, false
+    category: string
+    popular task: PopularTask, None
+  functions:
+    time spent:
+    return: int
+    arguments:
+      since: datetime
+- name: Resource
+  parent: Task
+  properties:
+    start time: datetime
+    end time: datetime
+    active: bool
+    comment: text
+  functions:
+    duration: int
+- name: PopularTask
+  properties:
+    name: string
+    category: string
+    count: int
+- name: Note
+  parent: Task
+  properties:
+    content: text
+
+queries:
+- name: top level tasks
+  type: Task
+  filters:
+  - parent == current user
+  - supertask == null
+  return: many
+- name: subtasks
+  type: Task
+  arguments:
+    task: Task
+  filters:
+  - supertask == %task
+  return: many
+
+views:
+- name: Welcome
+- name: TopLevelTasks:
+  type: list-of-Task
+  queries:
+  - top level tasks
+- name: NoteList
+  type: list-of-Note
+- name: TaskDetail:
+  editable: true
+  type: Task
