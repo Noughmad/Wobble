@@ -72,6 +72,7 @@ public:
         File, /**< A file */
         List, /**< A list of values. Must have valueType set */
         Map, /**< A map or dictionary of keys and values. Must have valueType and keyType set */
+        ObjectId, /**< Database unqiue identifier. Maps to integer or string in most cases, but some environments like AppEngine have a special Key type */
         Custom /**< None of the above, a non-standard type */
     };
     

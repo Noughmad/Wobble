@@ -8,9 +8,7 @@ models:
   parent: User
   properties:
     name: string
-    supertask:
-    type: Task
-    default: null
+    supertask: Task, null
     description: text
     required: bool, true
     completed: bool, false
@@ -18,9 +16,9 @@ models:
     popular task: PopularTask, None
   functions:
     time spent:
-    return: int
-    arguments:
-      since: datetime
+      type: int
+      arguments:
+        since: datetime
 - name: Resource
   parent: Task
   properties:
@@ -57,12 +55,12 @@ queries:
 
 views:
 - name: Welcome
-- name: TopLevelTasks:
+- name: TopLevelTasks
   type: list-of-Task
   queries:
   - top level tasks
 - name: NoteList
   type: list-of-Note
-- name: TaskDetail:
+- name: TaskDetail
   editable: true
   type: Task

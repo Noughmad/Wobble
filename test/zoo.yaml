@@ -13,7 +13,6 @@ classes:
       arguments:
         prey: Animal
     sleep: void
-
 - name: Bird
   super: Animal
   properties:

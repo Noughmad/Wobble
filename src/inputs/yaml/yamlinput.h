@@ -30,6 +30,10 @@ namespace YAML
     class Node;
 }
 
+namespace Wobble
+{
+    class Identifier;
+}
 
 class YamlInput : public Wobble::Input
 {
@@ -46,9 +50,10 @@ public:
     QString readString(const YAML::Node* node);
     
 private:
-    void readClasses(const YAML::Node& node);
+    void readClass(const YAML::Node& node);
     void readQuery(const YAML::Node& node);
     void readView(const YAML::Node& node);
+    void readVariables(const YAML::Node& node, Wobble::Identifier* parent);
     Wobble::Project* mProject;
     Wobble::DefaultParser mParser;
 };

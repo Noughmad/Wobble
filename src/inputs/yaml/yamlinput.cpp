@@ -52,7 +52,7 @@ QString YamlInput::name()
 bool YamlInput::read(Wobble::Project* project, QVariantMap options)
 {
     mProject = project;
-    ifstream stream("/home/miha/Programiranje/Wobble/test/zoo.yaml");
+    ifstream stream("/home/miha/Programiranje/Wobble/test/ntasks.yaml");
     YAML::Parser parser(stream);
     
     YAML::Node node;
@@ -71,9 +71,12 @@ bool YamlInput::read(Wobble::Project* project, QVariantMap options)
         {
             project->setName(readString(it.second()));
         }
-        else if (key == "classes")
+        else if (key == "classes" || key == "models")
         {
-            readClasses(it.second());
+            for(YAML::Iterator ci = it.second().begin(); ci != it.second().end(); ++ci)
+            {
+                readClass(*ci);
+            }
         }
         else if (key == "queries")
         {
@@ -166,59 +169,57 @@ void YamlInput::readQuery(const Node& node)
     }
 }
 
-void YamlInput::readClasses(const YAML::Node& node)
+void YamlInput::readClass(const YAML::Node& node)
 {
-    Class* c;
-    for(YAML::Iterator it=node.begin();it!=node.end();++it) {
-        const QString name = readString((*it)["name"]);
-        qDebug() << "Reading class " << name;
-        c = new Class(name, mProject);
-        if (const Node* super = it->FindValue("super"))
+    const QString name = readString(node["name"]);
+    qDebug() << "Reading class " << name;
+    Class* c = new Class(name, mProject);
+    if (const Node* super = node.FindValue("super"))
+    {
+        ClassList superClasses;
+        if (super->Type() == NodeType::Scalar)
         {
-            ClassList superClasses;
-            if (super->Type() == NodeType::Scalar)
-            {
-                superClasses << mProject->findChild<Class*>(readString(*super));
-            }
-            else if (super->Type() == NodeType::Sequence)
-            {
-                for (Iterator si = super->begin(); si != super->end(); ++si)
-                {
-                    superClasses << mProject->findChild<Class*>(readString(*si));
-                }
-            }
-            c->setSuperclasses(superClasses);
+            superClasses << mProject->findChild<Class*>(readString(*super));
         }
-        qDebug() << "Superclasses done, now reading properties";
-        if (const Node* properties = it->FindValue("properties"))
+        else if (super->Type() == NodeType::Sequence)
         {
-            for (Iterator pi = properties->begin(); pi != properties->end(); ++pi)
+            for (Iterator si = super->begin(); si != super->end(); ++si)
             {
-                QString name = readString(pi->FindValue("name"));
-                QString type = readString(pi->FindValue("type"));
-                QString value = readString(pi->FindValue("value"));
-                Type* parsedType = mParser.parseType(type, mProject);
-                Variable* property = new Variable(name, parsedType, c);
-                if (!value.isEmpty())
-                {
-                    property->setDefaultValue(mParser.parseValue(value, parsedType, c));
-                }
+                superClasses << mProject->findChild<Class*>(readString(*si));
             }
         }
-        if (const Node* methods= it->FindValue("functions"))
+        c->setSuperclasses(superClasses);
+    }
+    qDebug() << "Superclasses done, now reading properties";
+    if (const Node* properties = node.FindValue("properties"))
+    {
+        readVariables(*properties, c);
+    }
+    const Node* methods;
+    if ( (methods = node.FindValue("functions")) || (methods = node.FindValue("methods")) )
+    {
+        for (Iterator pi = methods->begin(); pi != methods->end(); ++pi)
         {
-            for (Iterator pi = methods->begin(); pi != methods->end(); ++pi)
+            QString name = readString(pi.first());
+            qDebug() << "Read function" << name;
+            QString type;
+            bool expandedForm = false;
+            if (pi.second().Type() == NodeType::Scalar)
             {
-                QString name = readString(pi->FindValue("name"));
-                QString type = readString(pi->FindValue("type"));
-                Function* f = new Function(name, mParser.parseType(type, mProject), c);
-                if (const Node* args = pi->FindValue("arguments"))
-                {
-                    for (Iterator arg = args->begin(); arg != args->end(); ++arg)
-                    {
-                        f->addArgument(readString(arg->FindValue("name")), mParser.parseType(readString(arg->FindValue("type")), mProject));
-                    }
-                }
+                qDebug() << "Reading type";
+                type = readString(pi.second());
+                qDebug() << "Read" << type;
+            }
+            else
+            {
+                expandedForm = true;
+                type = readString(pi.second()["type"]);
+            }
+            Function* f = new Function(name, mParser.parseType(type, mProject), c);
+            const Node* args;
+            if (expandedForm && (args = pi.second().FindValue("arguments")) )
+            {
+                readVariables(*args, f);
             }
         }
     }
@@ -228,16 +229,23 @@ void YamlInput::readView(const YAML::Node& node)
 {
     QString name = readString(node["name"]);
     View* v = new View(name, mProject);
-    QString type = readString(node["type"]);
-    if (type == "list")
+    if (const Node* typeNode = node.FindValue("type"))
     {
-        v->setViewType(View::ListView);
-        v->setListItem(mProject->findChild<View*>(readString(node["item"])));
+        QString type = readString(typeNode);
+        if (type == "list")
+        {
+            v->setViewType(View::ListView);
+            v->setListItem(mProject->findChild<View*>(readString(node["item"])));
+        }
+        else
+        {
+            // TODO: Expand the switch to other standard types
+            v->setViewType(View::LineView);
+        }
     }
     else
     {
-        // TODO: Expand the switch to other standard types
-        v->setViewType(View::LineView);
+        v->setViewType(View::Custom);
     }
     if (const YAML::Node* queries = node.FindValue("queries"))
     {
@@ -257,6 +265,31 @@ void YamlInput::readView(const YAML::Node& node)
         }
     }
 }
+
+void YamlInput::readVariables(const YAML::Node& node, Identifier* parent)
+{
+    for (Iterator pi = node.begin(); pi != node.end(); ++pi)
+    {
+        QString name = readString(pi.first());
+        QString type;
+        QString value;
+        QStringList list = readString(pi.second()).split(", ", QString::SkipEmptyParts);
+        qDebug() << name << list;
+        type = list.takeFirst();
+        if (!list.isEmpty())
+        {
+            value = list.first();
+        }
+        Type* parsedType = mParser.parseType(type, mProject);
+        Variable* property = new Variable(name, parsedType, parent);
+        if (!value.isEmpty())
+        {
+            property->setDefaultValue(mParser.parseValue(value, parsedType, parent));
+        }
+    }
+    qDebug() << "Done reading variables of" << parent->name();
+}
+
 
 Q_EXPORT_PLUGIN2(WobbleYamlInput, YamlInput)
 
