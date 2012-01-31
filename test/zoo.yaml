@@ -4,30 +4,21 @@ license: This project is licensed under the terms of GPL
 classes:
 - name: Animal
   properties:
-  - name: species
-    type: string
-  - name: legs
-    type: int
-    value: 4
-  - name: size
-    type: float
+    species: string
+    legs: int, 4
+    size: float
   functions:
-  - name: eat
-    type: bool
-    arguments:
-    - name: prey
-      type: Animal
-  - name: sleep
-    type: void
+    eat:
+      type: bool
+      arguments:
+        prey: Animal
+    sleep: void
 
 - name: Bird
   super: Animal
   properties:
-  - name: wings
-    type: bool
-    value: true
-  - name: flying
-    type: bool
+    wings: bool, true
+    flying: bool
 
 - name: Mammal
   super: Animal
