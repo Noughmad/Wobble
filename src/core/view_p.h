@@ -37,7 +37,6 @@ public:
     ViewList subViews;
     QueryList queries;
     bool editable;
-    int viewType;
     View* listItem;
     Type* model;
 };

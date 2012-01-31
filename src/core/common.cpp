@@ -79,7 +79,7 @@ View* Common::variableView(Variable* var, bool editable)
 {
     // TODO: Discover the appropriate StandardView from the variable's type
     View* v = new View(var->name() + "VariableView", var->topLevel());
-    v->setViewType(View::LineView);
+    v->setModel(var->type());
     return v;
 }
 

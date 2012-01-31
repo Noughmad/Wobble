@@ -47,25 +47,12 @@ class WOBBLE_EXPORT View : public Identifier
 {
     Q_OBJECT
     Q_PROPERTY(bool editable READ isEditable WRITE setEditable)
-    Q_PROPERTY(StandardView viewType READ viewType WRITE setViewType)
     Q_PROPERTY(QueryList queries READ queries)
     Q_PROPERTY(ViewList subViews READ subViews)
     Q_PROPERTY(View* listItem READ listItem WRITE setListItem)
     Q_PROPERTY(Type* model READ model WRITE setModel)
 
 public:
-    /**
-     * Enumeration of standard view types
-     **/
-    enum StandardView
-    {
-        LineView, /**< A single line of text */
-        TextView, /**< A multi-line text view */
-        ImageView, /**< A view showing a sigle image */
-        ClockView, /**< A clock, either analog or digital */
-        ListView, /**< A list view */
-        Custom /**< None of the above, to be defined in per-platform application code */
-    };
     View(const QString& name, Identifier* parent = 0);
     virtual ~View();
     
@@ -77,16 +64,6 @@ public:
      **/
     bool isEditable() const;
     void setEditable(bool editable);
-    
-    /**
-     * @property viewType
-     *
-     * The type of this view
-     * @sa StandardView
-     * 
-     **/
-    StandardView viewType() const;
-    void setViewType(StandardView viewType);
     
     /**
      * @property queries

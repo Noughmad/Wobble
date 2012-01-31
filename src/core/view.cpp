@@ -62,18 +62,6 @@ void View::setEditable(bool editable)
     d->editable = editable;
 }
 
-View::StandardView View::viewType() const
-{
-    Q_D(const View);
-    return (StandardView)d->viewType;
-}
-
-void View::setViewType(View::StandardView viewType)
-{
-    Q_D(View);
-    d->viewType = viewType;
-}
-
 QueryList View::queries() const
 {
     Q_D(const View);

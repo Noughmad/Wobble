@@ -234,20 +234,7 @@ void YamlInput::readView(const YAML::Node& node)
     if (const Node* typeNode = node.FindValue("type"))
     {
         QString type = readString(typeNode);
-        if (type == "list")
-        {
-            v->setViewType(View::ListView);
-            v->setListItem(mProject->findChild<View*>(readString(node["item"])));
-        }
-        else
-        {
-            // TODO: Expand the switch to other standard types
-            v->setViewType(View::LineView);
-        }
-    }
-    else
-    {
-        v->setViewType(View::Custom);
+        v->setModel(mParser.parseType(type, mProject));
     }
     if (const YAML::Node* queries = node.FindValue("queries"))
     {
