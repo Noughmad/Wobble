@@ -52,6 +52,8 @@ QString YamlInput::name()
 bool YamlInput::read(Wobble::Project* project, QVariantMap options)
 {
     mProject = project;
+    mProject->setProjectType(Project::Application);
+    
     ifstream stream("/home/miha/Programiranje/Wobble/test/ntasks.yaml");
     YAML::Parser parser(stream);
     

@@ -49,6 +49,7 @@ int main(int argc, char** argv)
     
     QVariantMap options;
     options["outputDirectory"] = "/home/miha/Build/test/";
+    options["pythonExecutable"] = "python2";
     foreach (const QFileInfo& plugin, QDir(PluginDir).entryInfoList(QDir::Files))
     {
         QPluginLoader l(plugin.absoluteFilePath());
