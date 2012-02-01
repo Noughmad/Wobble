@@ -12,6 +12,7 @@ set(Wobble_SRCS
     input.cpp
     output.cpp
     function.cpp
+    command.cpp
 )
 
 add_definitions(-DMAKE_WOBBLE_LIBRARY)

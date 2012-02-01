@@ -20,7 +20,7 @@
 #ifndef WOBBLE_FUNCTION_H
 #define WOBBLE_FUNCTION_H
 
-#include "identifier.h"
+#include "command.h"
 
 namespace Wobble {
     
@@ -29,52 +29,30 @@ class FunctionPrivate;
 W_FORWARD(Type)
 W_FORWARD(Variable)
 
-class WOBBLE_EXPORT Function : public Identifier
+class WOBBLE_EXPORT Function : public Command
 {
     Q_OBJECT
-    Q_PROPERTY(VariableList arguments READ arguments WRITE setArguments)
-    Q_PROPERTY(Type* returnType READ returnType WRITE setReturnType)
+    Q_PROPERTY(CommandList commands READ commands WRITE setCommands)
     
 public:
     Function(const QString& name, Type* type, Identifier* parent = 0);
     virtual ~Function();
     
     /**
-     * @property type
-     * 
-     * The return type of this function. 
+     * @property commands
      *
-     * Not all languages require a function to have a predetermined type, 
-     * but Wobble does. 
+     * The list of commands that form the body of this function
      * 
      **/
-    Type* returnType() const;
-    void setReturnType(Type* type);
+    CommandList commands() const;
+    void setCommands(const CommandList& commands);
 
     /**
-     * @property arguments
+     * @brief Add a command to this function's body
      *
-     * The list of arguments to this function. 
-     * 
+     * @param command The new command
      **/
-    VariableList arguments() const;
-    void setArguments(const VariableList& arguments);
-
-    /**
-     * @brief Add an argument to this function
-     *
-     * @param argument The new argument
-     **/
-    void addArgument(Variable* argument);
-    
-    /**
-     * Add an argument with name @p name and type @p type. 
-     *
-     * @param name the name of the new argument
-     * @param type the type of the new argument
-     * @return void
-     **/
-    void addArgument(QString name, Type* type);
+    void addCommand(Command* command);
 
     W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Function)

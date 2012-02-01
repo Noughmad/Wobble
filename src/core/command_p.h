@@ -17,26 +17,30 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef WOBBLE_FUNCTION_P_H
-#define WOBBLE_FUNCTION_P_H
+#ifndef WOBBLE_COMMAND_P_H
+#define WOBBLE_COMMAND_P_H
+
+#include "identifier_p.h"
 
 #include "global.h"
-#include "command_p.h"
 
 namespace Wobble {
     
-W_FORWARD(Command)
+class Command;
+W_FORWARD(Type)
+W_FORWARD(Variable)
 
-class FunctionPrivate : public CommandPrivate
+class CommandPrivate : public IdentifierPrivate
 {
 
 public:
-    FunctionPrivate(const QString& name, Type* type);
-    virtual ~FunctionPrivate();
-
-    CommandList commands;
+    CommandPrivate(const QString& name, Type* type);
+    virtual ~CommandPrivate();
+    
+    Type* returnType;
+    VariableList arguments;
 };
 
 }
 
-#endif // WOBBLE_FUNCTION_P_H
+#endif // WOBBLE_COMMAND_P_H

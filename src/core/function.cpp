@@ -24,9 +24,9 @@
 
 using namespace Wobble;
 
-FunctionPrivate::FunctionPrivate(const QString& name, Type* type) : IdentifierPrivate(name)
+FunctionPrivate::FunctionPrivate(const QString& name, Type* type) : CommandPrivate(name, type)
 {
-    this->returnType = type;
+  
 }
 
 Wobble::FunctionPrivate::~FunctionPrivate()
@@ -34,12 +34,12 @@ Wobble::FunctionPrivate::~FunctionPrivate()
 
 }
 
-Function::Function(const QString& name, Type* type, Identifier* parent): Identifier(*new FunctionPrivate(name, type), parent)
+Function::Function(const QString& name, Type* type, Identifier* parent): Command(*new FunctionPrivate(name, type), parent)
 {
     
 }
 
-Function::Function(FunctionPrivate& dd, QObject* parent): Identifier(dd, parent)
+Function::Function(FunctionPrivate& dd, QObject* parent): Command(dd, parent)
 {
 
 }
@@ -49,39 +49,22 @@ Function::~Function()
 
 }
 
-Type* Function::returnType() const
+CommandList Function::commands() const
 {
     Q_D(const Function);
-    return d->returnType;
+    return d->commands;
 }
 
-void Function::setReturnType(Type* type)
+void Function::setCommands(const CommandList& commands)
 {
     Q_D(Function);
-    d->returnType = type;
+    d->commands = commands;
 }
 
-VariableList Function::arguments() const
-{
-    Q_D(const Function);
-    return d->arguments;
-}
-
-void Function::setArguments(const Wobble::VariableList& arguments)
+void Function::addCommand(Command* command)
 {
     Q_D(Function);
-    d->arguments = arguments;
-}
-
-void Function::addArgument(Variable* argument)
-{
-    Q_D(Function);
-    d->arguments << argument;
-}
-
-void Function::addArgument(QString name, Type* type)
-{
-    addArgument(new Variable(name, type, this));
+    d->commands << command;
 }
 
 #include "function.moc"
