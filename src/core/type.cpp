@@ -176,6 +176,23 @@ void Type::setStandardType(Type::StandardType type)
     d->standardType = (int)type;
 }
 
+Type* Type::list(Type* values)
+{
+    Type* t = new Type("list-of-" + values->name(), values->topLevel());
+    t->setStandardType(Type::List);
+    t->setValueType(values);
+    return t;
+}
+
+Type* Type::map(Type* keys, Type* values)
+{
+    Type* t = new Type(QString("map-of-%1-%2").arg(keys->name()).arg(values->name()), keys->topLevel());
+    t->setStandardType(Type::Map);
+    t->setKeyType(keys);
+    t->setValueType(values);
+    return t;
+}
+
 
 
 #include "type.moc"
