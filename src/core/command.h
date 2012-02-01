@@ -32,19 +32,22 @@ W_FORWARD(Variable)
 class WOBBLE_EXPORT Command : public Identifier
 {
     Q_OBJECT
+    Q_ENUMS(StandardCommand)
     Q_PROPERTY(VariableList arguments READ arguments WRITE setArguments)
     Q_PROPERTY(Type* returnType READ returnType WRITE setReturnType)
+    Q_PROPERTY(StandardCommand standardCommand READ standardCommand)
     
 public:
 
-  /**
-   * @brief A set of standard commands
-   *
-   * These commands should be available on every platform, so it's preferred
-   * to use them over custom functions. 
-   * 
-   **/
-  enum StandardCommand {
+    /**
+    * @brief A set of standard commands
+    *
+    * These commands should be available on every platform, so it's preferred
+    * to use them over custom functions.
+    *
+    **/
+    enum StandardCommand {
+        Custom,
         New,
         Open,
         Save,
@@ -65,6 +68,7 @@ public:
     };
   
     Command(const QString& name, Type* type, Identifier* parent = 0);
+    Command(StandardCommand standardCommand, VariableList arguments, Identifier* parent = 0);
     virtual ~Command();
     
     /**
@@ -103,6 +107,15 @@ public:
      * @return void
      **/
     void addArgument(QString name, Type* type);
+
+
+    /**
+     * @property standardCommand
+     *
+     * Holds the standard command type of this command.
+     * For custom commands, the values is Custom. 
+     */
+    StandardCommand standardCommand() const;
 
     W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Command)

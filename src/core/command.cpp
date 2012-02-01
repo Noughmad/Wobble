@@ -24,17 +24,45 @@
 
 using namespace Wobble;
 
-CommandPrivate::CommandPrivate(const QString& name, Type* type) : IdentifierPrivate(name)
+QString standardName(int standardCommand)
 {
-    this->returnType = type;
+    // TODO: Implement
+    return QString();
 }
 
-Wobble::CommandPrivate::~CommandPrivate()
+Type* standardType(int standardCommand)
+{
+    // TODO: Implement
+    return 0;
+}
+
+CommandPrivate::CommandPrivate(const QString& name, Type* type) : IdentifierPrivate(name)
+, returnType(type)
+, standardCommand(Command::Custom)
+{
+  
+}
+
+CommandPrivate::CommandPrivate(int standardCommand, Wobble::VariableList& arguments)
+: IdentifierPrivate(standardName(standardCommand))
+, returnType(standardType(standardCommand))
+, arguments(arguments)
+, standardCommand(standardCommand)
+{
+  
+}
+
+CommandPrivate::~CommandPrivate()
 {
 
 }
 
 Command::Command(const QString& name, Type* type, Identifier* parent): Identifier(*new CommandPrivate(name, type), parent)
+{
+    
+}
+
+Command::Command(Command::StandardCommand standardCommand, VariableList arguments, Wobble::Identifier* parent): Identifier(*new CommandPrivate(standardCommand, arguments), parent)
 {
     
 }
@@ -83,5 +111,12 @@ void Command::addArgument(QString name, Type* type)
 {
     addArgument(new Variable(name, type, this));
 }
+
+Command::StandardCommand Command::standardCommand() const
+{
+    Q_D(const Command);
+    return (StandardCommand)d->standardCommand;
+}
+
 
 #include "command.moc"

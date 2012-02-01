@@ -35,10 +35,12 @@ class CommandPrivate : public IdentifierPrivate
 
 public:
     CommandPrivate(const QString& name, Type* type);
+    CommandPrivate(int standardCommand, VariableList& arguments);
     virtual ~CommandPrivate();
     
     Type* returnType;
     VariableList arguments;
+    int standardCommand;
 };
 
 }
