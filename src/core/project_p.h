@@ -23,6 +23,9 @@
 #include "identifier_p.h"
 
 namespace Wobble {
+
+class Resource;
+
     
 class Project;
 
@@ -35,6 +38,9 @@ public:
     
     int type;
     QString license;
+    QString description;
+    Resource* icon;
+    bool notifier;
 };
 
 }

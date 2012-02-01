@@ -24,6 +24,7 @@
 
 namespace Wobble {
 
+class Resource;
 class ProjectPrivate;
 
 /**
@@ -45,6 +46,9 @@ class WOBBLE_EXPORT Project : public Identifier
  //   Q_PROPERTY(Compoents components READ components WRITE setComponents)
     Q_PROPERTY(ProjectType projectType READ projectType WRITE setProjectType)
     Q_PROPERTY(QString license READ license WRITE setLicense)
+    Q_PROPERTY(QString description READ description WRITE setDescription)
+    Q_PROPERTY(Resource* icon READ icon WRITE setIcon)
+    Q_PROPERTY(bool notifier READ hasNotifier WRITE setNotifier)
 
 public:
     enum Component
@@ -82,10 +86,45 @@ public:
      *
      * The terms this project is licensed under.
      * Usually, this text will appear in the headers of all source files
-     * 
+     *
      **/
     QString license() const;
     void setLicense(const QString& license);
+
+    /**
+     * @property description
+     *
+     * A short description of the project
+     *
+     **/
+    QString description() const;
+    void setDescription(const QString& description);
+    
+    /**
+     * @property icon
+     *
+     * The application icon, not required for libraries.
+     *
+     **/
+    Resource* icon() const;
+    void setIcon(Resource* icon);
+
+    /**
+     * @property notifier
+     *
+     * If true, the application will permanently show an icon in the
+     * status area.
+     *
+     * Programs that have a notifier can still hide or show it at any time
+     * using the Command::ShowNotifier and Command::HideNotifier command.
+     *
+     **/
+    bool hasNotifier() const;
+    void setNotifier(bool notifier);
+
+    
+
+    
 
     W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Project)

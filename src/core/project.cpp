@@ -72,4 +72,45 @@ void Project::setLicense(const QString& license)
     d->license = license;
 }
 
+QString Project::description() const
+{
+    Q_D(const Project);
+    return d->description;
+}
+
+void Project::setDescription(const QString& description)
+{
+    Q_D(Project);
+    d->description = description;
+}
+
+Resource* Project::icon() const
+{
+    Q_D(const Project);
+    return d->icon;
+}
+
+void Project::setIcon(Resource* icon)
+{
+    Q_D(Project);
+    d->icon = icon;
+}
+
+bool Project::hasNotifier() const
+{
+    Q_D(const Project);
+    return d->notifier;
+}
+
+void Project::setNotifier(bool notifier)
+{
+    Q_D(Project);
+    d->notifier = notifier;
+}
+
+
+
+
+
+
 #include "project.moc"
