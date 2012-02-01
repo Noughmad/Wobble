@@ -36,6 +36,34 @@ class WOBBLE_EXPORT Command : public Identifier
     Q_PROPERTY(Type* returnType READ returnType WRITE setReturnType)
     
 public:
+
+  /**
+   * @brief A set of standard commands
+   *
+   * These commands should be available on every platform, so it's preferred
+   * to use them over custom functions. 
+   * 
+   **/
+  enum StandardCommand {
+        New,
+        Open,
+        Save,
+        SaveAs,
+        
+        ShowNotifier,
+        HideNotifier,
+        ShowNotification,
+        ShowDialog,
+        PlaySound,
+        OpenExternalProgram,
+
+        CreateObject,
+        DestroyObject,
+        RunQuery,
+        
+        Quit
+    };
+  
     Command(const QString& name, Type* type, Identifier* parent = 0);
     virtual ~Command();
     
