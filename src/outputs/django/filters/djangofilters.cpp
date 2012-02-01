@@ -101,7 +101,7 @@ QVariant FieldDeclarationFilter::doFilter(const QVariant& input, const QVariant&
         line.chop(2);
     }
 
-    return line + ')';
+    return Grantlee::SafeString(line + ')', Grantlee::SafeString::IsSafe);
 }
 
 Q_EXPORT_PLUGIN2(WobbleDjangoFilters, DjangoFilters)
