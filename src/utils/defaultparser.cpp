@@ -103,20 +103,8 @@ Wobble::Type* DefaultParser::parseType(const QString& string, Identifier* parent
 
 QVariant DefaultParser::parseValue(const QString& string, Type* type, Identifier* parent)
 {
-    if (type->standardType() == Type::Custom)
     switch (type->standardType())
     {
-        case Type::Custom:
-        {
-            Variable* var;
-            if (!(var = parent->findChild<Variable*>(string)))
-            {
-                var = new Variable(string, type, parent);
-            }
-            return QVariant::fromValue<Variable*>(var);
-        }
-        break;
-
         case Type::Integer:
             return string.toInt();
 
@@ -152,6 +140,18 @@ QVariant DefaultParser::parseValue(const QString& string, Type* type, Identifier
         case Type::String:
         case Type::File:
             return string;
+
+        case Type::Custom:
+        default:
+        {
+            Variable* var;
+            if (!(var = parent->findChild<Variable*>(string)))
+            {
+                var = new Variable(string, type, parent);
+            }
+            return QVariant::fromValue<Variable*>(var);
+        }
+        break;
     }
 
     return string;
