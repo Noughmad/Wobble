@@ -29,6 +29,7 @@
 #include <QStringList>
 #include "src/core/view.h"
 #include "src/core/function.h"
+#include "src/core/resource.h"
 
 using namespace Wobble;
 using namespace YAML;
@@ -97,6 +98,16 @@ bool YamlInput::read(Wobble::Project* project, QVariantMap options)
         else if (key == "license")
         {
             project->setLicense(readString(it.second()));
+        }
+        else if (key == "icon")
+        {
+            Resource* res = new Resource("MainIcon", mProject);
+            res->setFilename(readString(it.second()));
+            mProject->setIcon(res);
+        }
+        else if (key == "options")
+        {
+            readOptions(it.second());
         }
     }
     
@@ -278,6 +289,29 @@ void YamlInput::readVariables(const YAML::Node& node, Identifier* parent)
     }
     qDebug() << "Done reading variables of" << parent->name();
 }
+
+void YamlInput::readOptions(const YAML::Node& node)
+{
+    for (Iterator i = node.begin(); i != node.end(); ++i)
+    {
+        std::string key;
+        i.first() >> key;
+
+        if (key == "notifier")
+        {
+            mProject->setNotifier(mParser.parseValue(readString(i.second()), mParser.parseType("bool", mProject), 0).toBool());
+        }
+        else if (key == "description")
+        {
+            mProject->setDescription(readString(i.second()));
+        }
+        else
+        {
+            qDebug() << "Unknown project option" << key.c_str();
+        }
+    }
+}
+
 
 
 Q_EXPORT_PLUGIN2(WobbleYamlInput, YamlInput)

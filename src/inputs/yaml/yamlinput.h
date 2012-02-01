@@ -54,6 +54,8 @@ private:
     void readQuery(const YAML::Node& node);
     void readView(const YAML::Node& node);
     void readVariables(const YAML::Node& node, Wobble::Identifier* parent);
+    void readOptions(const YAML::Node& node);
+    
     Wobble::Project* mProject;
     Wobble::DefaultParser mParser;
 };

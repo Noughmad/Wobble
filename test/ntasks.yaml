@@ -3,6 +3,10 @@ website: http://ntasks.com
 author: Miha Čančula
 license: GPL
 
+options:
+  notifier: true
+  icon: ntasks.png
+
 models:
 - name: Task
   parent: User
