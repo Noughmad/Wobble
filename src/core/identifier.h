@@ -57,7 +57,7 @@ class WOBBLE_EXPORT Identifier : public QObject
     Q_PROPERTY(QString documentation READ documentation WRITE setDocumentation)
     Q_PROPERTY(AccessType accessType READ accessType WRITE setAccessType)
     Q_PROPERTY(IdentifierList members READ members)
-    Q_PROPERTY(bool local READ isLocal WRITE setLocal DEFAULT true)
+    Q_PROPERTY(bool local READ isLocal WRITE setLocal)
     
 public:
     /**

@@ -74,6 +74,25 @@ QString passArgType(Type* t)
     }
 }
 
+QVariant IncludeLineFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const
+{
+    Identifier* id = input.value<Identifier*>();
+    Q_CHECK_PTR(id);
+
+    QString include = "#include ";
+    if (id->isLocal())
+    {
+        include += '\"' + id->name().toLower() + ".h\"";
+    }
+    else
+    {
+        // We assume this will mostly be used for Qt or KDE includes which use the CamelCase headers
+        include += '<' + id->name() + '>';
+    }
+    include += '\n';
+    return include;
+}
+
 QVariant GetterNameFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const
 {
     Variable* property = input.value<Variable*>();

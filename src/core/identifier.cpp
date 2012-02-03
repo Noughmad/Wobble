@@ -26,7 +26,7 @@ using namespace Wobble;
 
 IdentifierPrivate::IdentifierPrivate(const QString& name) : name(name)
 {
-    
+    local = true;
 }
 
 IdentifierPrivate::~IdentifierPrivate()

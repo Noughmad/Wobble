@@ -26,6 +26,11 @@
 #include <QtPlugin>
 #include <QtDebug>
 
+class IncludeLineFilter : public Grantlee::Filter
+{
+    virtual QVariant doFilter(const QVariant& input, const QVariant& argument = QVariant(), bool autoescape = false) const;
+};
+
 class PropertyDeclarationFilter : public Grantlee::Filter
 {
     virtual QVariant doFilter(const QVariant& input, const QVariant& argument = QVariant(), bool autoescape = false) const;
@@ -79,6 +84,7 @@ public:
         filters["getter_name"] = new GetterNameFilter();
         filters["return_arg"] = new ReturnArgFilter();
         filters["pass_arg"] = new PassArgFilter();
+        filters["include_line"] = new IncludeLineFilter();
         
         return filters;
     }
