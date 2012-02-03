@@ -120,7 +120,16 @@ void Project::setMainWindow(View* window)
     d->mainWindow = window;
 }
 
+QString Project::version() const
+{
+    Q_D(const Project);
+    return d->version;
+}
 
-
+void Project::setVersion(const QString& version)
+{
+    Q_D(Project);
+    d->version = version;
+}
 
 #include "project.moc"

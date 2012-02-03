@@ -14,8 +14,8 @@ int main(int argc, char** argv)
 {
     {{ appClass }} app(argc, argv);
     
-    app.setApplicationName(QLatin1String("{{ name }}"));
-    app.setApplicationVersion(QLatin1String("{{ version }}"));
+    app.setApplicationName(QLatin1String("{{ project.name }}"));
+    app.setApplicationVersion(QLatin1String("{{ project.version }}"));
     
     /*
      * TODO: Define application name, version

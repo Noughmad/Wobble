@@ -45,6 +45,7 @@ class WOBBLE_EXPORT Project : public Identifier
     Q_ENUMS(ProjectType)
  //   Q_PROPERTY(Compoents components READ components WRITE setComponents)
     Q_PROPERTY(ProjectType projectType READ projectType WRITE setProjectType)
+    Q_PROPERTY(QString version READ version WRITE setVersion)
     Q_PROPERTY(QString license READ license WRITE setLicense)
     Q_PROPERTY(QString description READ description WRITE setDescription)
     Q_PROPERTY(Resource* icon READ icon WRITE setIcon)
@@ -131,13 +132,22 @@ public:
      * In desktop/mobile applications, this window is shown at program startup.
      * If the project has a notifier icon, Wobble initializes it in this class.
      *
-     * In web application, this view is displayed as the home page. 
+     * In web application, this view is displayed as the home page.
      **/
 
     View* mainWindow() const;
     void setMainWindow(View* window);
 
-    
+    /**
+     * @property version
+     *
+     * The version number of the project.
+     * It can be an arbitrary string, not necessarily a number. 
+     * 
+     **/
+
+    QString version() const;
+    void setVersion(const QString& version);
 
     W_ACCEPT_VISITOR
     W_DECLARE_PRIVATE(Project)
