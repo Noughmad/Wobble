@@ -41,6 +41,7 @@ public:
     QString description;
     Resource* icon;
     bool notifier;
+    Wobble::View* mainWindow;
 };
 
 }

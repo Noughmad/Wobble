@@ -108,7 +108,17 @@ void Project::setNotifier(bool notifier)
     d->notifier = notifier;
 }
 
+View* Project::mainWindow() const
+{
+    Q_D(const Project);
+    return d->mainWindow;
+}
 
+void Project::setMainWindow(View* window)
+{
+    Q_D(Project);
+    d->mainWindow = window;
+}
 
 
 

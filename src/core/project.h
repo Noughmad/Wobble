@@ -49,6 +49,7 @@ class WOBBLE_EXPORT Project : public Identifier
     Q_PROPERTY(QString description READ description WRITE setDescription)
     Q_PROPERTY(Resource* icon READ icon WRITE setIcon)
     Q_PROPERTY(bool notifier READ hasNotifier WRITE setNotifier)
+    Q_PROPERTY(View* mainWindow READ mainWindow WRITE setMainWindow)
 
 public:
     enum Component
@@ -122,7 +123,19 @@ public:
     bool hasNotifier() const;
     void setNotifier(bool notifier);
 
-    
+    /**
+     * @property mainWindow
+     *
+     * The main application window (if one exists).
+     *
+     * In desktop/mobile applications, this window is shown at program startup.
+     * If the project has a notifier icon, Wobble initializes it in this class.
+     *
+     * In web application, this view is displayed as the home page. 
+     **/
+
+    View* mainWindow() const;
+    void setMainWindow(View* window);
 
     
 
