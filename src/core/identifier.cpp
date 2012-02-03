@@ -135,6 +135,18 @@ Identifier* Identifier::topLevel()
     }
 }
 
+bool Identifier::isLocal() const
+{
+    Q_D(const Identifier);
+    return d->local;
+}
+
+void Identifier::setLocal(bool local)
+{
+    Q_D(Identifier);
+    d->local = local;
+}
+
 QDebug& operator<<(QDebug& stream, Wobble::Identifier* id) {
     stream << id->metaObject()->className() << " " << id->fullName("/");
     return stream.maybeSpace();

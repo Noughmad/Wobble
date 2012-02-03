@@ -57,6 +57,7 @@ class WOBBLE_EXPORT Identifier : public QObject
     Q_PROPERTY(QString documentation READ documentation WRITE setDocumentation)
     Q_PROPERTY(AccessType accessType READ accessType WRITE setAccessType)
     Q_PROPERTY(IdentifierList members READ members)
+    Q_PROPERTY(bool local READ isLocal WRITE setLocal DEFAULT true)
     
 public:
     /**
@@ -144,6 +145,17 @@ public:
      * i.e. all identifiers with this as their namespace. 
      **/
     IdentifierList members() const;
+
+    /**
+     * @property local
+     *
+     * Specifies whether this identifier comes from the current project.
+     *
+     * Default is true. 
+     * 
+     **/
+    bool isLocal() const;
+    void setLocal(bool local);
 
     template < class T >
     QList<T> findMembers(const QString& name = QString()) const;

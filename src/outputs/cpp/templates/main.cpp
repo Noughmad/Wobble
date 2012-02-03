@@ -1,12 +1,8 @@
 {{ license }}
 
-#include <{{ appClass }}>
 #include <QString>
-
-{% for i in localIncludes %}
-#include "{{ i }}"
-{% endfor %}
-
+{{ appClass|include_line }}
+{{ project.mainWindow|include_line }}
 
 using namespace Wobble;
 
@@ -23,6 +19,7 @@ int main(int argc, char** argv)
     
     {% if project.mainWindow %}
     {{ project.mainWindow.name }}* m = new {{ project.mainWindow.name }};
+    m->show();
     {% else %}
     /*
      * TODO: Initialize the program here

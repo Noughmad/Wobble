@@ -39,6 +39,7 @@ public:
     QString name;
     QString documentation;
     int accessType;
+    bool local;
 };
 
 }
