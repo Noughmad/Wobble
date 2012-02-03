@@ -20,6 +20,7 @@
 #include "cpplibrary.h"
 
 #include "src/core/variable.h"
+#include "src/core/class.h"
 #include "src/core/type.h"
 
 #include <QDebug>
@@ -76,9 +77,12 @@ QString passArgType(Type* t)
 
 QVariant IncludeLineFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const
 {
-    Identifier* id = input.value<Identifier*>();
-    Q_CHECK_PTR(id);
-
+    Identifier* id = input.value<Class*>();
+    if (!id)
+    {
+        return QVariant();
+    }
+    
     QString include = "#include ";
     if (id->isLocal())
     {
@@ -90,7 +94,7 @@ QVariant IncludeLineFilter::doFilter(const QVariant& input, const QVariant& argu
         include += '<' + id->name() + '>';
     }
     include += '\n';
-    return include;
+    return Grantlee::SafeString(include);
 }
 
 QVariant GetterNameFilter::doFilter(const QVariant& input, const QVariant& argument, bool autoescape) const

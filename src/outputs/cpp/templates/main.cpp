@@ -1,7 +1,10 @@
+{% load grantlee_cppfilters %}
 {{ license }}
 
 #include <QString>
+
 {{ appClass|include_line }}
+
 {{ project.mainWindow|include_line }}
 
 using namespace Wobble;

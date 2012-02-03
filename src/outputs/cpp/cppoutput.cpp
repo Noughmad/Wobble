@@ -56,13 +56,16 @@ bool CppOutput::write(const Project* project, QVariantMap options)
     {
         createDPointers = (project->projectType() != Project::Application);
     }
+
+    Class* appClass = new Class("QApplication", 0);
+    appClass->setLocal(false);
     
     Templates::engine()->loadByName("grantlee_cppfilters");
     
     // First, create the top-level CMakeLists.txt file
     Context* c = new Context();
     c->insert("project", project);
-    c->insert("name", QVariant(project->name()));
+    c->insert("appClass", QVariant::fromValue(appClass));
         
     Template topLevelCmlTemplate = Templates::getTemplate("CMakeLists.top");
     QFile topLevelCml(outDir + "CMakeLists.txt");
