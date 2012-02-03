@@ -21,8 +21,8 @@ int main(int argc, char** argv)
      * TODO: Define application name, version
      */
     
-    {% if mainWindow %}
-    {{ mainWindow }}* m = new {{ mainWindow }};
+    {% if project.mainWindow %}
+    {{ project.mainWindow.name }}* m = new {{ project.mainWindow.name }};
     {% else %}
     /*
      * TODO: Initialize the program here
