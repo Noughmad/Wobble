@@ -36,7 +36,9 @@ int main(int argc, char** argv)
 
     Project* project = new Project();
     project->setProjectType(Project::Application);
-    input->read(project, QVariantMap());
+    QVariantMap inputOptions;
+    inputOptions["filename"] = "/home/miha/Programiranje/Wobble/test/ntasks.yaml";
+    input->read(project, inputOptions);
     
     QVariantMap options;
     options["outputDirectory"] = "/home/miha/Build/test/";
