@@ -197,9 +197,11 @@ template < class T >
 QList< T > Identifier::findMembers(const QString& name) const
 {
     QList<T> ret;
+    T t;
+    bool ignoreName = name.isEmpty();
     foreach (Identifier* id, members())
     {
-        if (T t = qobject_cast<T>(id))
+        if ((ignoreName || id->name() == name) && (t = qobject_cast<T>(id)))
         {
             ret << t;
         }
