@@ -19,6 +19,8 @@ option (BUILD_DJANGO_OUTPUT "Build the Python/Django output plugin" TRUE)
 option (BUILD_DEBUG_OUTPUT "Build the debug output plugin" TRUE)
 option (BUILD_EXE "Build the Wobble executable" TRUE)
 
+enable_testing()
+
 if (BUILD_YAML_INPUT)
     find_package(YAML)
 endif()
