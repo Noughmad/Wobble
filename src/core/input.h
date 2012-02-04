@@ -36,7 +36,7 @@ public:
     explicit Input(QObject* parent = 0);
     virtual ~Input();
     
-    virtual QString name() = 0;
+    virtual QByteArray name() = 0;
     virtual bool read(Project* project, QVariantMap options) = 0;
 };
 

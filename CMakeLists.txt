@@ -16,7 +16,7 @@ option (BUILD_UTILS "Build the Wobble utilities library" TRUE)
 option (BUILD_YAML_INPUT "Build the YAML input plugin" TRUE)
 option (BUILD_CPP_OUTPUT "Build the C++/Qt output plugin" TRUE)
 option (BUILD_DJANGO_OUTPUT "Build the Python/Django output plugin" TRUE)
-option (BUILD_DEBUG_OUTPUT "Build the debug output plugin" FALSE)
+option (BUILD_DEBUG_OUTPUT "Build the debug output plugin" TRUE)
 option (BUILD_EXE "Build the Wobble executable" TRUE)
 
 if (BUILD_YAML_INPUT)

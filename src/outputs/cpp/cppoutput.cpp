@@ -143,7 +143,7 @@ bool CppOutput::write(const Project* project, QVariantMap options)
     return true;
 }
 
-QString CppOutput::name()
+QByteArray CppOutput::name()
 {
     return "C++";
 }

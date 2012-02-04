@@ -32,7 +32,7 @@ class DjangoOutput : public Wobble::Output
     
 public:
     virtual bool write(const Wobble::Project* project, QVariantMap options);
-    virtual QString name();
+    virtual QByteArray name();
     explicit DjangoOutput(QObject* parent = 0);
     virtual ~DjangoOutput();
 };

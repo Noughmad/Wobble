@@ -48,7 +48,7 @@ public:
     explicit Output(QObject* parent = 0);
     virtual ~Output();
     
-    virtual QString name() = 0;
+    virtual QByteArray name() = 0;
     /**
      * @brief Write out the @p project
      * 

@@ -44,7 +44,7 @@ public:
     virtual ~YamlInput();
 
     virtual bool read(Wobble::Project* project, QVariantMap options);
-    virtual QString name();
+    virtual QByteArray name();
     
     QString readString(const YAML::Node& node);
     QString readString(const YAML::Node* node);

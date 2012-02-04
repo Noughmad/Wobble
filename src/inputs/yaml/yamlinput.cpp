@@ -45,7 +45,7 @@ YamlInput::~YamlInput()
 
 }
 
-QString YamlInput::name()
+QByteArray YamlInput::name()
 {
     return "YAML";
 }

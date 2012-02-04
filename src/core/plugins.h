@@ -17,24 +17,28 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef CPPOUTPUT_H
-#define CPPOUTPUT_H
+#ifndef WOBBLE_PLUGINS_H
+#define WOBBLE_PLUGINS_H
 
-#include "src/core/output.h"
+#include "global.h"
 
-#include <QtPlugin>
+#include <QList>
+#include <QByteArray>
 
+namespace Wobble {
 
-class CppOutput : public Wobble::Output
+class Input;
+class Output;
+
+namespace Plugins
 {
-    Q_OBJECT
-    Q_INTERFACES(Wobble::Output)
-    
-public:
-    virtual bool write(const Wobble::Project* project, QVariantMap options);
-    virtual QByteArray name();
-    explicit CppOutput(QObject* parent = 0);
-    virtual ~CppOutput();
-};
+    WOBBLE_EXPORT QList<QByteArray> availableInputs();
+    WOBBLE_EXPORT QList<QByteArray> availableOutputs();
 
-#endif // CPPOUTPUT_H
+    WOBBLE_EXPORT Input* loadInput(const QByteArray& name);
+    WOBBLE_EXPORT Output* loadOutput(const QByteArray& name);
+}
+
+}
+
+#endif // WOBBLE_PLUGINS_H

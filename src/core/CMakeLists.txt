@@ -1,4 +1,4 @@
-set(Wobble_SRCS
+set(Wobble_SRCS plugins.cpp
     visitor.cpp
     common.cpp
     type.cpp 

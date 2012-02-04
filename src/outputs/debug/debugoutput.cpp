@@ -52,7 +52,7 @@ bool DebugOutput::write(const Project* project, QVariantMap options)
     {
         qDebug() << "View" << v->name();
         qDebug() << " - Editable" << v->isEditable();
-        if (v->viewType() == View::ListView)
+        if (v->listItem())
         {
             qDebug() << " - List item" << v->listItem()->name();
         }
@@ -70,7 +70,7 @@ bool DebugOutput::write(const Project* project, QVariantMap options)
     return true;
 }
 
-QString DebugOutput::name()
+QByteArray DebugOutput::name()
 {
     return "Debug";
 }

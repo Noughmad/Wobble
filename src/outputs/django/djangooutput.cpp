@@ -128,7 +128,7 @@ bool DjangoOutput::write(const Project* project, QVariantMap options)
     return true;
 }
 
-QString DjangoOutput::name()
+QByteArray DjangoOutput::name()
 {
     return "Django";
 }
