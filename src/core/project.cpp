@@ -24,7 +24,7 @@ using namespace Wobble;
 
 ProjectPrivate::ProjectPrivate() : IdentifierPrivate(QString())
 {
-    
+    icon = 0;
 }
 
 ProjectPrivate::~ProjectPrivate()

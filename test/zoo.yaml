@@ -1,6 +1,10 @@
 project: zoo
 license: This project is licensed under the terms of GPL
 
+options:
+  notifier: false
+  icon: zoo.png
+
 classes:
 - name: Animal
   properties:
@@ -13,6 +17,7 @@ classes:
       arguments:
         prey: Animal
     sleep: void
+
 - name: Bird
   super: Animal
   properties:

@@ -34,11 +34,13 @@ class Project;
 class YamlTest : public QObject
 {
   Q_OBJECT
+  
 private slots:
   void initTestCase();
-
   void testParsing();
-  
+  void testOptions();
+  void testClasses();
+  void testInheritance();
   void cleanupTestCase();
 private:
   Wobble::Project* project;

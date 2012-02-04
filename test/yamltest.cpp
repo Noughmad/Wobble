@@ -21,6 +21,8 @@
 #include <src/core/project.h>
 #include <src/core/input.h>
 #include <src/core/plugins.h>
+#include <src/core/resource.h>
+#include <src/core/class.h>
 
 using namespace Wobble;
 
@@ -38,10 +40,28 @@ void YamlTest::testParsing()
   QVERIFY(in->read(project, options));
 }
 
+void YamlTest::testOptions()
+{
+  QCOMPARE(project->hasNotifier(), false);
+  QVERIFY(project->icon());  
+  QCOMPARE(project->icon()->filename(), QString("zoo.png"));
+}
+
+void YamlTest::testClasses()
+{
+  QCOMPARE(project->findMembers<Class*>().size(), 4);
+}
+
+void YamlTest::testInheritance()
+{
+  QCOMPARE(project->findMembers<Class*>("Bird").first()->superclasses().size(), 1);
+  QCOMPARE(project->findMembers<Class*>("Mouse").first()->superclasses().size(), 1);
+  QCOMPARE(project->findMembers<Class*>("Mouse").first()->superclasses().first()->name(), QString("Mammal"));
+}
 
 void YamlTest::cleanupTestCase()
 {
-
+  delete project;
 }
 
 
