@@ -57,6 +57,12 @@ macro(wobble_add_library _target_NAME)
     add_library(${_target_NAME} SHARED ${ARGN} )
 endmacro(wobble_add_library)
 
+macro(wobble_add_test _target_NAME)
+    wobble_add_executable(${_target_NAME}test ${ARGN})
+    target_link_libraries(${_target_NAME}test WobbleCore ${QT_QTCORE_LIBRARY} ${QT_QTTEST_LIBRARY})
+    add_test(${_target_NAME} ${_target_NAME}test)
+endmacro(wobble_add_test)
+
 set(BIN_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/bin")
 set(LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib")
 
