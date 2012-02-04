@@ -18,15 +18,13 @@
 */
 
 #include <QCoreApplication>
-#include <QPluginLoader>
 #include <QDebug>
 
 #include "src/core/input.h"
 #include "src/core/project.h"
 #include "src/core/output.h"
-#include <QDir>
 
-#include "src/core/config.h"
+#include "src/core/plugins.h"
 
 using namespace Wobble;
 
@@ -34,15 +32,8 @@ int main(int argc, char** argv)
 {
     QCoreApplication app(argc, argv);
     
-    QPluginLoader loader(QString(PluginDir) + "/libWobbleYamlInput.so");
-    Input* input = qobject_cast<Input*>(loader.instance());
-    if (!input)
-    {
-        qDebug() << "Unable to load input plugin";
-        qDebug() << loader.errorString();
-        return 0;
-    }
-    
+    Input* input = Plugins::loadInput("YAML");
+
     Project* project = new Project();
     project->setProjectType(Project::Application);
     input->read(project, QVariantMap());
@@ -50,14 +41,13 @@ int main(int argc, char** argv)
     QVariantMap options;
     options["outputDirectory"] = "/home/miha/Build/test/";
     options["pythonExecutable"] = "python2";
-    foreach (const QFileInfo& plugin, QDir(PluginDir).entryInfoList(QDir::Files))
+    foreach (const QByteArray& name, Plugins::availableOutputs())
     {
-        QPluginLoader l(plugin.absoluteFilePath());
-        Output* output = qobject_cast< Output* >(l.instance());
+        Output* output = Plugins::loadOutput(name);
         
         if (output)
         {
-            qDebug() << "Loaded output " << plugin.absoluteFilePath();
+            qDebug() << "Loaded output " << name;
             output->write(project, options);
         }
     }
