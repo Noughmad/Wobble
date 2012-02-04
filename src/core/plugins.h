@@ -30,13 +30,79 @@ namespace Wobble {
 class Input;
 class Output;
 
+/**
+ * @brief Functions for querying and loading plugins
+ * 
+ * Both input and output plugins can be loaded directly,
+ * when their name is known. 
+ *
+ * @code
+ * Input* input = Plugins::loadInput("YAML");
+ * @endcode
+ *
+ * Alternatively, a list of all available plugins can be retrieved from Wobble.
+ * @code
+ * foreach (const QByteArray& name, Plugins::availableOutputs())
+ * {
+ *      // Check if you want to use this plugin
+ *      bool useful = ...
+ *      if (!useful)
+ *      {
+ *          continue;
+ *      }
+ *      Output* output = Plugins::loadOutput(name);
+ *      // Use the output
+ *      output->write(project, options);
+ * }
+ * @endcode
+ *
+ * All plugins are loaded the first time any of the functions in this namespace are used, so
+ * any calling it multiple times doesn't bring any significant performance penalty.
+ * 
+ **/
 namespace Plugins
 {
-    WOBBLE_EXPORT QList<QByteArray> availableInputs();
-    WOBBLE_EXPORT QList<QByteArray> availableOutputs();
+  /**
+   * @brief Returns the list of available input plugins
+   *
+   * This function queries all available and loadable inputs
+   * and returns their names.
+   *
+   * @sa Input::name()
+   *
+   * @return The list of available input names. 
+   **/
+  WOBBLE_EXPORT QList<QByteArray> availableInputs();
 
-    WOBBLE_EXPORT Input* loadInput(const QByteArray& name);
-    WOBBLE_EXPORT Output* loadOutput(const QByteArray& name);
+  /**
+   * @brief Returns the list of available output plugins
+   *
+   * This function queries all available and loadable outputs
+   * and returns their names.
+   *
+   * @sa Output::name()
+   *
+   * @return The list of available output names. 
+   **/
+  WOBBLE_EXPORT QList<QByteArray> availableOutputs();
+
+  /**
+   * Returns the input with name @p name.
+   * If no such input is found, 0 is returned.
+   *
+   * @param name the name of the loaded input. 
+   * @return The loaded input, or 0 if none is found. 
+   **/
+  WOBBLE_EXPORT Input* loadInput(const QByteArray& name);
+
+  /**
+   * Returns the output with name @p name.
+   * If no such output is found, 0 is returned.
+   *
+   * @param name the name of the loaded output.
+   * @return The loaded output, or 0 if none is found. 
+   **/
+  WOBBLE_EXPORT Output* loadOutput(const QByteArray& name);
 }
 
 }
