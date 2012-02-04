@@ -305,6 +305,12 @@ void YamlInput::readOptions(const YAML::Node& node)
         {
             mProject->setDescription(readString(i.second()));
         }
+        else if (key == "icon")
+        {
+            Resource* res = new Resource("icon", mProject);
+            res->setFilename(readString(i.second()));
+            mProject->setIcon(res);
+        }
         else
         {
             qDebug() << "Unknown project option" << key.c_str();

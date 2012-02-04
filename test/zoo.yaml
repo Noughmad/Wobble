@@ -4,6 +4,7 @@ license: This project is licensed under the terms of GPL
 options:
   notifier: false
   icon: zoo.png
+  description: Example definition file for testing. 
 
 classes:
 - name: Animal
