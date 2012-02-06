@@ -42,6 +42,8 @@ private slots:
   void testOptions();
   void testClasses();
   void testInheritance();
+  void testQueryNames();
+  void testQueryFilters();
 
   void cleanupTestCase();
 private:

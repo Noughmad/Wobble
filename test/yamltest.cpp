@@ -23,6 +23,8 @@
 #include <src/core/plugins.h>
 #include <src/core/resource.h>
 #include <src/core/class.h>
+#include <src/core/query.h>
+#include <src/core/variable.h>
 
 using namespace Wobble;
 
@@ -58,6 +60,37 @@ void YamlTest::testInheritance()
   QCOMPARE(project->findMembers<Class*>("Mouse").first()->superclasses().size(), 1);
   QCOMPARE(project->findMembers<Class*>("Mouse").first()->superclasses().first()->name(), QString("Mammal"));
 }
+
+void YamlTest::testQueryNames()
+{
+  QList<QString> names, expected;
+  foreach (Query* query, project->findMembers<Query*>())
+  {
+    names << query->name();
+  }
+
+  expected << "allAnimals" << "flyingBirds" << "smallAnimals" << "getOneAnimal";
+
+  QCOMPARE(names.size(), expected.size());
+  QCOMPARE(names, expected);
+}
+
+void YamlTest::testQueryFilters()
+{
+  QVERIFY(project->findMember<Query*>("allAnimals")->filters().isEmpty());
+  
+  QList<Query::Filter> smallFilters = project->findMember<Query*>("smallAnimals")->filters();
+  QCOMPARE(smallFilters.size(), 1);
+
+  Query::Filter smallFilter = smallFilters.first();
+  QVERIFY(project->findMember<Class*>("Animal")->properties().contains(smallFilter.var));
+  QCOMPARE(smallFilter.var->name(), QString("size"));
+  QCOMPARE(smallFilter.operation, Query::LessThan);
+
+  double filterValue = smallFilter.value.toFloat();
+  QCOMPARE(filterValue, 10.0);
+}
+
 
 void YamlTest::cleanupTestCase()
 {
