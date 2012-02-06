@@ -29,15 +29,15 @@ using namespace Wobble;
 void YamlTest::initTestCase()
 {
     project = new Project();
+    Input* in = Plugins::loadInput("YAML");
+    QVariantMap options;
+    options["filename"] = "/home/miha/Programiranje/Wobble/test/zoo.yaml";
+    m_parsed = in->read(project, options);
 }
 
 void YamlTest::testParsing()
 {
-  Input* in = Plugins::loadInput("YAML");
-  QVERIFY(in);
-  QVariantMap options;
-  options["filename"] = "/home/miha/Programiranje/Wobble/test/zoo.yaml";
-  QVERIFY(in->read(project, options));
+  QVERIFY(m_parsed);
 }
 
 void YamlTest::testOptions()

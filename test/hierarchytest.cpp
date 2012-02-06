@@ -39,9 +39,9 @@ void HierarchyTest::testName()
 void HierarchyTest::testClasses()
 {
   ClassList classes;
-  classes << new Class("A", project);
-  classes << new Class("B", project);
-  classes << new Class("C", project);
+  classes << new Class("Aligator", project);
+  classes << new Class("Beaver", project);
+  classes << new Class("Crocodile", project);
   mClass = classes.first();
 
   QCOMPARE(project->findMembers<Class*>().size(), 3);
@@ -50,20 +50,24 @@ void HierarchyTest::testClasses()
 
 void HierarchyTest::testFinding()
 {
-  Class* a = project->findOrCreateMember<Class>("A");
-  QCOMPARE(a, mClass);
-  QCOMPARE(project->findMembers<Class*>().size(), 3);
+  Class* created = new Class("Dragon", project);
+  Class* found = project->findOrCreateMember<Class>("Dragon");
+  QCOMPARE(found, created);
+  QCOMPARE(project->findMembers<Class*>("Dragon").size(), 1);
 }
 
 void HierarchyTest::testProperties()
 {
-  VariableList properties;
-  properties << new Variable("name", Type::fromStandardType(Type::String), mClass);
-  properties << new Variable("age", Type::fromStandardType(Type::Integer), mClass);
-  properties << new Variable("birthday", Type::fromStandardType(Type::DateTime), mClass);
 
-  QCOMPARE(mClass->properties(), properties);
-  QCOMPARE(mClass->findMembers<Variable*>("age").first(), properties[1]);
+  Class* person = new Class("Human", project);
+  
+  VariableList properties;
+  properties << new Variable("name", Type::fromStandardType(Type::String), person);
+  properties << new Variable("age", Type::fromStandardType(Type::Integer), person);
+  properties << new Variable("birthday", Type::fromStandardType(Type::DateTime), person);
+
+  QCOMPARE(person->properties(), properties);
+  QCOMPARE(person->findMembers<Variable*>("age").first(), properties[1]);
   QVERIFY(mClass->findMembers<Variable*>("nonexistent").isEmpty());
 }
 

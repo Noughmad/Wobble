@@ -37,13 +37,16 @@ class YamlTest : public QObject
   
 private slots:
   void initTestCase();
+
   void testParsing();
   void testOptions();
   void testClasses();
   void testInheritance();
+
   void cleanupTestCase();
 private:
   Wobble::Project* project;
+  bool m_parsed;
 };
 
 #endif // YAMLTEST_H
