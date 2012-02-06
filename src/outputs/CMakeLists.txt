@@ -7,6 +7,10 @@ if (BUILD_DJANGO_OUTPUT)
     add_subdirectory(django)
 endif()
 
+if (BUILD_ANDROID_OUTPUT)
+    add_subdirectory(android)
+endif()
+
 if (BUILD_DEBUG_OUTPUT)
     add_subdirectory(debug)
 endif()
