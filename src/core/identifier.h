@@ -159,6 +159,18 @@ public:
 
     template < class T >
     QList<T> findMembers(const QString& name = QString()) const;
+
+    /**
+     * Tries to find a member of type @p T with name @p name.
+     * If no such member is found, this function returns 0.
+     * 
+     * @param T The type of the member to look for,
+     * should inherit Identifier
+     * @param name The member name
+     * @return T*
+     */
+    template < class T >
+    T findMember(const QString& name = QString()) const;
     
     /**
      * Tries to find a member of type @p T with name @p name. 
@@ -192,6 +204,22 @@ T* Identifier::findOrCreateMember(const QString& name)
     
     return new T(name, this);
 }
+
+template < class T >
+T Identifier::findMember(const QString& name) const
+{
+  T t;
+  bool ignoreName = name.isEmpty();
+  foreach (Identifier* child, members())
+  {
+    if ((ignoreName || child->name() == name) && (t = qobject_cast<T>(child)))
+    {
+      return t;
+    }
+  }
+  return 0;
+}
+
 
 template < class T >
 QList< T > Identifier::findMembers(const QString& name) const
