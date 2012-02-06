@@ -42,7 +42,6 @@ void HierarchyTest::testClasses()
   classes << new Class("Aligator", project);
   classes << new Class("Beaver", project);
   classes << new Class("Crocodile", project);
-  mClass = classes.first();
 
   QCOMPARE(project->findMembers<Class*>().size(), 3);
   QCOMPARE(project->findMembers<Class*>().toSet(), classes.toSet());
@@ -68,7 +67,7 @@ void HierarchyTest::testProperties()
 
   QCOMPARE(person->properties(), properties);
   QCOMPARE(person->findMembers<Variable*>("age").first(), properties[1]);
-  QVERIFY(mClass->findMembers<Variable*>("nonexistent").isEmpty());
+  QVERIFY(person->findMembers<Variable*>("nonexistent").isEmpty());
 }
 
 void HierarchyTest::testRecursiveness()

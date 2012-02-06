@@ -49,7 +49,6 @@ private slots:
 
 private:
   Wobble::Project* project;
-  Wobble::Class* mClass;
 };
 
 #endif // HIERARCHYTEST_H
