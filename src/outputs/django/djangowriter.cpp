@@ -175,5 +175,6 @@ void DjangoWriter::writeView(View* view)
     writeLine("# TODO: Implement the view");
     writeLine("def get(self):");
     addBlock(QStringList() << "pass");
+    unindent();
   }
 }
