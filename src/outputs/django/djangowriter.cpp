@@ -87,32 +87,32 @@ QString DjangoWriter::fieldDeclaration(Wobble::Variable* var)
     QString type = var->type()->name();
     if (type == Type::standardTypeName(Type::Integer))
     {
-        line = "IntegerProperty(";
+        line = "IntegerField(";
     }
     else if (type == Type::standardTypeName(Type::Boolean))
     {
-        line = "BooleanProperty(";
+        line = "BooleanField(";
     }
     else if (type == Type::standardTypeName(Type::Float))
     {
-        line = "FloatProperty(";
+        line = "FloatField(";
     }
     else if (type == Type::standardTypeName(Type::String))
     {
-        line = "TextProperty(";
+        line = "TextField(";
     }
     else if (type == Type::standardTypeName(Type::DateTime))
     {
-        line = "DateTimeProperty(";
+        line = "DateTimeField(";
     }
     // TODO: Check for other types
     else if (type == var->space()->name())
     {
-        line = "ForeignKeyProperty('self', blank=True, null=True,";
+        line = "ForeignKey('self', blank=True, null=True,";
     }
     else
     {
-        line = "ForeignKeyProperty(" + type;
+        line = "ForeignKey(" + type;
     }
 
     if (var->defaultValue().isValid())
