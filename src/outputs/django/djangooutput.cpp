@@ -22,15 +22,14 @@
 #include "src/core/project.h"
 #include "src/core/class.h"
 #include "src/core/view.h"
-
-#include <grantlee/engine.h>
+#include "src/core/variable.h"
 
 #include <QtCore/QDir>
 #include <QProcess>
 
-#include "src/utils/templates.h"
+#include <src/core/function.h>
+#include "djangowriter.h"
 
-using namespace Grantlee;
 using namespace Wobble;
 
 const char* TemplateDir = "/home/miha/Build/share/templates/django/";
@@ -93,38 +92,32 @@ bool DjangoOutput::write(const Project* project, QVariantMap options)
     dir.cd(project->name().toLower());
     outDir = dir.absolutePath() + '/';
     
-    Templates::engine()->loadLibrary("grantlee_djangofilters");
-     
-    Context* context = new Context();
-    context->insert("project", project);
-    context->insert("name", project->name());
-    context->insert("license", project->license());
     
-    ClassList classes;
-    foreach (Class* c, project->findChildren<Class*>())
+    QFile modelsFile(outDir + "models.py");
+    modelsFile.open(QIODevice::WriteOnly);
+    DjangoWriter writer(&modelsFile);
+    
+    writer.writeLine("'''");
+    writer.addBlock(project->license().split('\n'));
+    writer.writeLine("'''");
+    
+    foreach (Class* c, project->findMembers<Class*>())
     {
         if (c->features() & Class::Persistent)
         {
-            classes << c;
+	    writer.writeModel(c);
         }
     }
-    context->insert("classes", QVariant::fromValue<ClassList>(classes));
         
-    Template modelsTemplate = Templates::getTemplate("models.py");
-    QFile modelsFile(outDir + "models.py");
-    modelsFile.open(QIODevice::WriteOnly);
-    modelsFile.write(modelsTemplate->render(context).toLatin1());
     modelsFile.close();
     
-    ViewList views = project->findChildren<View*>();
-    context->insert("views", QVariant::fromValue(views));
-    
-    Template viewsTemplate = Templates::getTemplate("views.py");
     QFile viewsFile(outDir + "views.py");
     viewsFile.open(QIODevice::WriteOnly);
-    viewsFile.write(viewsTemplate->render(context).toLatin1());
-    viewsFile.close();
+    writer.setDevice(&viewsFile);
     
+    writer.writeLine("'''");
+    writer.addBlock(project->license().split('\n'));
+    writer.writeLine("'''");    
     return true;
 }
 

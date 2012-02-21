@@ -1,6 +1,6 @@
 /*
-    This file is part of Wobble, a code generation framework
-    Copyright (C) 2012  Miha Čančula miha@noughmad.eu
+    <one line to give the library's name and an idea of what it does.>
+    Copyright (C) 2012  Miha Čančula <miha.cancula@gmail.com>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -17,28 +17,32 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef DJANGOOUTPUT_H
-#define DJANGOOUTPUT_H
 
-#include "src/core/output.h"
+#ifndef DJANGOWRITER_H
+#define DJANGOWRITER_H
 
-#include <QtPlugin>
+#include <src/utils/codewriter.h>
 
 namespace Wobble {
+class Class;
+class Function;
 class Variable;
 }
 
 
-class DjangoOutput : public Wobble::Output
+class DjangoWriter : public Wobble::CodeWriter
 {
-    Q_OBJECT
-    Q_INTERFACES(Wobble::Output)
-    
+
 public:
-    virtual bool write(const Wobble::Project* project, QVariantMap options);
-    virtual QByteArray name();
-    explicit DjangoOutput(QObject* parent = 0);
-    virtual ~DjangoOutput();
+    DjangoWriter(QIODevice* device);
+    virtual ~DjangoWriter();
+    
+    void writeLicense(const QString& license);
+    void writeModel(Wobble::Class* model);
+    void writeFunction(Wobble::Function* function);
+    
+    QString fieldDeclaration(Wobble::Variable* var);
+
 };
 
-#endif // DJANGOOUTPUT_H
+#endif // DJANGOWRITER_H

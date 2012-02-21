@@ -36,6 +36,8 @@ public:
     CodeWriter(QIODevice* device);
     virtual ~CodeWriter();
     
+    void setDevice(QIODevice* device);
+    
     int indentation() const;
     void setIndentation(int indentation);
     void indent();

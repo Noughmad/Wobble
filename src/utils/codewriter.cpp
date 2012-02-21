@@ -39,7 +39,7 @@ CodeWriter::CodeWriter(QIODevice* device) : d_ptr(new CodeWriterPrivate)
   Q_D(CodeWriter);
   d->width = 4;
   d->indentation = 0;
-  d->stream.setDevice(device);
+  setDevice(device);
 }
 
 
@@ -47,6 +47,13 @@ CodeWriter::~CodeWriter()
 {
   delete d_ptr;
 }
+
+void CodeWriter::setDevice(QIODevice* device)
+{
+  Q_D(CodeWriter);
+  d->stream.setDevice(device);
+}
+
 
 int CodeWriter::indentation() const
 {
