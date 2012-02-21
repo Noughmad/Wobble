@@ -1,4 +1,5 @@
-set(Wobble_utils_SRCS
+set(Wobble_utils_SRCS 
+    codewriter.cpp
     defaultparser.cpp
     templates.cpp 
 )
