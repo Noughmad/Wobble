@@ -98,7 +98,13 @@ void CodeWriter::writeLine(const QString& line)
   Q_D(CodeWriter);
   QString indent;
   indent.fill(' ', d->width * d->indentation);
-  d->stream << indent << line;
+  d->stream << indent << line << endl;
+}
+
+void CodeWriter::newLine()
+{
+  Q_D(CodeWriter);
+  d->stream << endl;
 }
 
 void CodeWriter::addBlock(const QStringList& lines)

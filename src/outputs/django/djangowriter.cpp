@@ -23,6 +23,7 @@
 #include <src/core/variable.h>
 #include <QStringList>
 #include <src/core/class.h>
+#include <src/core/view.h>
 
 using namespace Wobble;
 
@@ -68,6 +69,7 @@ void DjangoWriter::writeFunction(Function* function)
 void DjangoWriter::writeModel(Class* model)
 {
   writeLine("");
+  writeLine("class " + model->name() + ':');
   indent();
   foreach (Variable* var, model->properties())
   {
@@ -128,4 +130,50 @@ QString DjangoWriter::fieldDeclaration(Wobble::Variable* var)
     }
 
     return line + ')';
+}
+
+void DjangoWriter::writeView(View* view)
+{
+  if (view->model() && view->model()->isObject())
+  {
+    writeLine("class " + view->name() + "(DetailView):");
+    indent();
+    Class* c = qobject_cast<Class*>(view->model());
+    if (c && c->features() & Class::Persistent)
+    {
+      // TODO: Check for queries
+      writeLine("model = " + view->model()->name());
+    }
+    else
+    {
+      writeLine("# TODO: Get the object");
+      writeLine("pass");
+    }
+    unindent();
+  }
+  else if (view->model() && view->model()->standardType() == Type::List)
+  {
+    writeLine("class " + view->name() + "(ListView):");
+    indent();
+    Class* c = qobject_cast<Class*>(view->model()->valueType());
+    if (c && c->features() & Class::Persistent)
+    {
+      // TODO: Check for queries
+      writeLine("model = " + view->model()->valueType()->name());
+    }
+    else
+    {
+      writeLine("# TODO: Get the objects");
+      writeLine("pass");
+    }
+    unindent();
+  }
+  else
+  {
+    writeLine("class " + view->name() + "(View):");
+    indent();
+    writeLine("# TODO: Implement the view");
+    writeLine("def get(self):");
+    addBlock(QStringList() << "pass");
+  }
 }

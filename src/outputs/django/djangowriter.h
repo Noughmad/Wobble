@@ -27,6 +27,7 @@ namespace Wobble {
 class Class;
 class Function;
 class Variable;
+class View;
 }
 
 
@@ -40,6 +41,8 @@ public:
     void writeLicense(const QString& license);
     void writeModel(Wobble::Class* model);
     void writeFunction(Wobble::Function* function);
+    
+    void writeView(Wobble::View* view);
     
     QString fieldDeclaration(Wobble::Variable* var);
 

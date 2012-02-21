@@ -97,9 +97,7 @@ bool DjangoOutput::write(const Project* project, QVariantMap options)
     modelsFile.open(QIODevice::WriteOnly);
     DjangoWriter writer(&modelsFile);
     
-    writer.writeLine("'''");
-    writer.addBlock(project->license().split('\n'));
-    writer.writeLine("'''");
+    writer.writeLicense(project->license());
     
     foreach (Class* c, project->findMembers<Class*>())
     {
@@ -114,10 +112,12 @@ bool DjangoOutput::write(const Project* project, QVariantMap options)
     QFile viewsFile(outDir + "views.py");
     viewsFile.open(QIODevice::WriteOnly);
     writer.setDevice(&viewsFile);
+    writer.writeLicense(project->license());
     
-    writer.writeLine("'''");
-    writer.addBlock(project->license().split('\n'));
-    writer.writeLine("'''");    
+    foreach (View* view, project->findMembers<View*>())
+    {
+	writer.writeView(view);
+    }
     return true;
 }
 

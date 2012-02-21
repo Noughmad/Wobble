@@ -47,6 +47,7 @@ public:
     int indentationWidth() const;
     
     void writeLine(const QString& line);
+    void newLine();
     void addBlock(const QStringList& lines);    
     
 private:
