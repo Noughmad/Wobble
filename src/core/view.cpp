@@ -27,7 +27,8 @@ using namespace Wobble;
 
 ViewPrivate::ViewPrivate(const QString& name) : IdentifierPrivate(name)
 {
-
+  listItem = 0;
+  model = 0;
 }
 
 ViewPrivate::~ViewPrivate()
