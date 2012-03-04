@@ -37,7 +37,18 @@ using namespace std;
 
 YamlInput::YamlInput(QObject* parent): Input(parent)
 {
+   filterTypes["="] = Query::Equals;
+   filterTypes["=="] = Query::Equals;
+   filterTypes["!="] = Query::NotEquals;
+   filterTypes[">"] = Query::GreaterThan;
+   filterTypes[">="] = Query::GreaterOrEquals;
+   filterTypes["<"] = Query::LessThan;
+   filterTypes["<="] = Query::LessOrEquals;
    
+   filterTypes["contains"] = Query::Contains;
+   filterTypes["ends"] = Query::EndsWith;
+   filterTypes["starts"] = Query::StartsWith;
+   filterTypes["in"] = Query::IsIn;
 }
 
 YamlInput::~YamlInput()
@@ -173,10 +184,7 @@ void YamlInput::readQuery(const Node& node)
             Query::Filter f;
             f.var = var;
             f.value = list.last();
-            
-            // TODO: Map from operation symbols to Query::FilterType enum
-            f.operation = Query::Equals;
-            
+	    f.operation = filterTypes.value(list.at(1), Query::Equals);         
             query->addFilter(f);
         }
     }

@@ -21,6 +21,7 @@
 #define YAMLINPUT_H
 
 #include "src/core/input.h"
+#include "src/core/query.h"
 #include "src/utils/defaultparser.h"
 
 #include <QtPlugin>
@@ -58,6 +59,8 @@ private:
     
     Wobble::Project* mProject;
     Wobble::DefaultParser mParser;
+    
+    QHash<QString, Wobble::Query::FilterType> filterTypes;
 };
 
 #endif // YAMLINPUT_H
