@@ -51,6 +51,7 @@ class WOBBLE_EXPORT View : public Identifier
     Q_PROPERTY(ViewList subViews READ subViews)
     Q_PROPERTY(View* listItem READ listItem WRITE setListItem)
     Q_PROPERTY(Type* model READ model WRITE setModel)
+    Q_PROPERTY(bool loginRequired READ isLoginRequired WRITE setLoginRequired)
 
 public:
     View(const QString& name, Identifier* parent = 0);
@@ -109,6 +110,16 @@ public:
      **/
     Type* model() const;
     void setModel(Type* model);
+    
+    /**
+     * @property loginRequired
+     * 
+     * Holds whether this view is only available to logged-in users. 
+     * 
+     * This property only makes sense in multi-user environments, such as web applications. 
+     **/
+    bool isLoginRequired() const;
+    void setLoginRequired(bool loginRequired);
 
     /**
      * @brief Creates a view with a direct mapping to a type.

@@ -39,6 +39,7 @@ public:
     bool editable;
     View* listItem;
     Type* model;
+    bool loginRequired;
 };
 
 }

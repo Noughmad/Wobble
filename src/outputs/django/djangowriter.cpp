@@ -139,15 +139,42 @@ void DjangoWriter::writeView(View* view)
     writeLine("class " + view->name() + "(DetailView):");
     indent();
     Class* c = qobject_cast<Class*>(view->model());
-    if (c && c->features() & Class::Persistent)
+    if (c && c->features() & Class::Persistent && view->queries().size() < 2)
     {
       // TODO: Check for queries
-      writeLine("model = " + view->model()->name());
+      if (view->queries().isEmpty() || (view->queries().size() == 1 && view->queries().first()->filters().isEmpty()) )
+      {
+	  writeLine("model = " + view->model()->name());
+      }
+      else
+      {
+	  Query* query = view->queries().first();
+	  QString queryString = "queryset = " + view->model()->name();
+	  foreach (const Query::Filter& filter, query->filters())
+	  {
+	      if (filter.operation == Query::NotEquals)
+	      {
+		queryString += QString(".exclude(%1 = %2)").arg(filter.var->name()).arg(filter.value);
+	      }
+	      else if (filter.operation == Query::Equals)
+	      {
+		queryString += QString(".filter(%1 = %2)").arg(filter.var->name()).arg(filter.value);
+	      }
+	      else
+	      {
+		queryString += QString(".filter(%1__%2 = %3)").arg(filter.var->name()).arg(filterOperation(filter.operation)).arg(filter.value);
+	      }
+	  }
+	  writeLine(queryString);
+      }
     }
     else
     {
-      writeLine("# TODO: Get the object");
+      writeLine("def get_queryset(self):");
+      indent();
+      writeLine("#TODO: Get the wanted objects here");
       writeLine("pass");
+      unindent();
     }
     unindent();
   }
@@ -177,4 +204,49 @@ void DjangoWriter::writeView(View* view)
     addBlock(QStringList() << "pass");
     unindent();
   }
+  
+  if (view->isLoginRequired())
+  {
+    indent();
+    writeLine("@method_decorator(login_required)");
+    writeLine("def dispatch(self, *args, **kwargs):");
+    indent();
+    writeLine("super(" + view->name() + ", self).dispatch(*args, **kwargs)");
+    unindent();
+    unindent();
+  }
+
 }
+
+QString DjangoWriter::filterOperation(Query::FilterType type)
+{
+  // A list of all supported filters operations is available at
+  // https://docs.djangoproject.com/en/dev/ref/models/querysets/#id4
+  switch (type)
+  {
+    case Query::Equals:
+      return "exact";
+    case Query::Contains:
+      return "contains";
+    case Query::IsIn:
+      return "in";
+    case Query::GreaterThan:
+      return "gt";
+    case Query::GreaterOrEquals:
+      return "gte";
+    case Query::LessThan:
+      return "lt";
+    case Query::LessOrEquals:
+      return "lte";
+    case Query::StartsWith:
+      return "startswith";
+    case Query::EndsWith:
+      return "endswith";
+      
+    default:
+      return "exact";
+  }
+  
+  return "exact";
+}
+

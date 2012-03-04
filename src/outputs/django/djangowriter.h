@@ -22,6 +22,7 @@
 #define DJANGOWRITER_H
 
 #include <src/utils/codewriter.h>
+#include <src/core/query.h>
 
 namespace Wobble {
 class Class;
@@ -45,6 +46,7 @@ public:
     void writeView(Wobble::View* view);
     
     QString fieldDeclaration(Wobble::Variable* var);
+    QString filterOperation(Wobble::Query::FilterType type);
 
 };
 

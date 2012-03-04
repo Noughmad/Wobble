@@ -44,7 +44,7 @@ if (NOT YAML_FOUND)
     set(BUILD_YAML_INPUT FALSE)
 endif()
 
-include_directories(${QT_INCLUDES} ${Grantlee_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} )
+include_directories(${QT_INCLUDES} ${Grantlee_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/src )
 
 macro(wobble_add_executable _target_NAME)
     include_directories(${CMAKE_CURRENT_BINARY_DIR})

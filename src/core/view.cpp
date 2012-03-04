@@ -130,5 +130,19 @@ View* View::fromType(Type* type)
     return v;
 }
 
+bool View::isLoginRequired() const
+{
+    Q_D(const View);
+    return d->loginRequired;
+}
+
+void View::setLoginRequired(bool loginRequired)
+{
+    Q_D(View);
+    d->loginRequired = loginRequired;
+}
+
+
+
 
 #include "view.moc"
